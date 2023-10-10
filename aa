@@ -1,0 +1,33 @@
+SHELL:=/usr/bin/env bash -O globstar
+
+# environment dependencies
+load-env:
+	$(eval include .env)
+	$(eval export $(shell sed 's/=.*//' .env))
+
+# CI/CD
+clean:
+	rm -rf .next
+
+fix: load-env
+	yarn run next-fix
+	yarn run prettier-fix
+
+lint: load-env
+	yarn run next-lint
+	yarn run prettier-lint
+
+
+fix-lint: fix lint
+
+test: load-env clean
+	echo "TODO"
+
+start: load-env clean
+	yarn run dev
+
+build-prod: load-env clean
+	yarn run build
+
+start-prod: load-env
+	yarn run start

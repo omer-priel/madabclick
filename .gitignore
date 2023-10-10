@@ -1,0 +1,7 @@
+# JavaScript
+node_modules
+yarn.lock
+.next
+
+frontend/out
+frontend/build

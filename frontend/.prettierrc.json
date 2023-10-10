@@ -1,0 +1,20 @@
+{
+  "trailingComma": "es5",
+  "semi": true,
+  "tabWidth": 2,
+  "useTabs": false,
+  "printWidth": 140,
+  "singleQuote": true,
+  "jsxSingleQuote": true,
+  "importOrder": [
+    "^(react|next)$",
+    "<THIRD_PARTY_MODULES>",
+    "^@/components/.*(?<!\\.css|\\.scss)$",
+    "^@/.*(?<!\\.css|\\.scss)$",
+    "^\\./.*(?<!\\.css|\\.scss)$",
+    "(\\.css|\\.scss)$"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "plugins": ["prettier-plugin-tailwindcss", "@trivago/prettier-plugin-sort-imports"]
+}

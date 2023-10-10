@@ -1,0 +1,45 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "next-fix": "next lint --fix",
+    "next-lint": "next lint",
+    "prettier-fix": "prettier --write .",
+    "prettier-lint": "prettier --check .",
+    "dev": "next dev --hostname ${FRONTEND_HOST} --port ${FRONTEND_PORT}",
+    "build": "next build",
+    "start": "next start --hostname ${FRONTEND_HOST} --port ${FRONTEND_PORT}"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@types/node": "^20.5.0",
+    "@types/react": "^18.2.20",
+    "@types/react-dom": "18.2.7",
+    "autoprefixer": "^10.4.15",
+    "next": "13.4.16",
+    "postcss": "^8.4.28",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "sass": "^1.66.1",
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.1.6"
+  },
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.2.0",
+    "@typescript-eslint/eslint-plugin": "^6.4.1",
+    "@typescript-eslint/parser": "^6.4.1",
+    "eslint": "^8.47.0",
+    "eslint-config-airbnb-typescript": "^17.1.0",
+    "eslint-config-next": "^13.4.19",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "prettier": "^3.0.2",
+    "prettier-plugin-tailwindcss": "0.4.0"
+  }
+}
