@@ -2,8 +2,7 @@
 
 import { Fragment, useState } from 'react';
 
-import { Content } from '@/lib/db/schemas'
-import { Content } from '@/lib/db/schemas'
+import { Content } from '@/lib/db/schemas';
 
 type ContentType = 'youtube' | 'other';
 
@@ -31,13 +30,17 @@ function ContentCard({ content }: ContentCardProp) {
 
   return (
     <div className='bg-white border rounded-lg shadow-md p-4'>
-      <h2 className='text-xl font-semibold'>{content.name}</h2>
-      <p className='text-gray-600'>{content.domain}</p>
-      <p className='text-gray-600'>{content.ageLevel}</p>
+      <h2 className='text-xl text-center font-semibold'>{content.name}</h2>
+      <p className='text-gray-600 text-center'>{content.domain}</p>
+      <p className='text-gray-600 text-center'>
+        {content.ageLevel} - {content.language}
+      </p>
       <p>{content.description}</p>
-      <a href={content.link} target='_blank' rel='noopener noreferrer' className='text-blue-500'>
-        לאתר
-      </a>
+      <div className='flex items-center justify-center'>
+        <a href={content.link} target='_blank' rel='noopener noreferrer' className='text-blue-500'>
+          קישור לאתר
+        </a>
+      </div>
       <div className='relative h-48'>
         {contentType == 'youtube' && (
           <iframe title={content.name} src={iframeSrc} className='absolute inset-0 w-full h-full' allowFullScreen></iframe>
@@ -52,8 +55,13 @@ interface Props {
 }
 
 export default function ContentList({ contents }: Props) {
+  const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
   const [selectedDomain, setSelectedDomain] = useState<string | null>(null);
   const [selectedAgeLevel, setSelectedAgeLevel] = useState<string | null>(null);
+
+  const handleLanguageChange = (language: string) => {
+    setSelectedLanguage(language === 'הכל' ? null : language);
+  };
 
   const handleDomainChange = (domain: string) => {
     setSelectedDomain(domain === 'הכל' ? null : domain);
@@ -64,13 +72,16 @@ export default function ContentList({ contents }: Props) {
   };
 
   const filteredContents = contents.filter((content) => {
-    return (!selectedDomain || content.domain === selectedDomain) && (!selectedAgeLevel || content.ageLevel === selectedAgeLevel);
+    return (
+      (!selectedLanguage || content.language === selectedLanguage) &&
+      (!selectedDomain || content.domain === selectedDomain) &&
+      (!selectedAgeLevel || content.ageLevel === selectedAgeLevel)
+    );
   });
 
+  const languages = Array.from(new Set(contents.map((content) => content.language))).sort();
   const domains = Array.from(new Set(contents.map((content) => content.domain))).sort();
   const ageLevels = Array.from(new Set(contents.map((content) => content.ageLevel))).sort();
-
-  console.log({ domains, ageLevels });
 
   return (
     <div className='p-4' style={{ direction: 'rtl', textAlign: 'right' }}>
@@ -96,6 +107,17 @@ export default function ContentList({ contents }: Props) {
               {ageLevels.map((ageLevel) => (
                 <option key={ageLevel} value={ageLevel}>
                   {ageLevel}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label>שפה:</label>
+            <select onChange={(e) => handleLanguageChange(e.target.value)} className='px-2 py-1 border rounded-md'>
+              <option value='הכל'>הכל</option>
+              {languages.map((language) => (
+                <option key={language} value={language}>
+                  {language}
                 </option>
               ))}
             </select>
