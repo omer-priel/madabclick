@@ -1,6 +1,13 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+
+import { getContents } from '@/lib/db/requests';
+import { Content } from '@/lib/db/schemas';
+
 import ContentList from '@/components/blocks/ContentList';
 
-const contents = [
+const contentsFake = [
   {
     domain: 'AAA',
     ageLevel: 'a-b',
@@ -47,6 +54,12 @@ const contents = [
 ];
 
 export default function Page() {
+  const [contents, setContents] = useState<Content[]>(contentsFake);
+
+  useEffect(() => {
+    setContents(getContents);
+  }, [setContents])
+
   return (
     <div className='App'>
       <ContentList contents={contents} />

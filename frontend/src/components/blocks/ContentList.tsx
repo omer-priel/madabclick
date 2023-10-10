@@ -2,13 +2,8 @@
 
 import { Fragment, useState } from 'react';
 
-interface Content {
-  name: string;
-  domain: string;
-  ageLevel: string;
-  description: string;
-  link: string;
-}
+import { Content } from '@/lib/db/schemas'
+import { Content } from '@/lib/db/schemas'
 
 type ContentType = 'youtube' | 'other';
 
