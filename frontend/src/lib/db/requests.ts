@@ -4,7 +4,7 @@ import { config } from '@/config';
 import { Content, ContentType } from '@/lib/db/schemas';
 
 function getContentType(link: string): ContentType {
-  if (link.startsWith('"https://www.youtube.com/watch?')) {
+  if (link.startsWith('https://www.youtube.com/watch?')) {
     return 'youtube';
   }
 
