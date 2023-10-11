@@ -2,7 +2,10 @@
 
 Quality content for children website
 
-* Website: <https://main.d2agpnuowxjy03.amplifyapp.com/>
+* Website: <https://main.d2agpnuowxjy03.amplifyapp.com>
+* Website Hebrew: <https://main.d2agpnuowxjy03.amplifyapp.com/he>
+* Website English: <https://main.d2agpnuowxjy03.amplifyapp.com/en>
+* Website Arabic: <https://main.d2agpnuowxjy03.amplifyapp.com/ar>
 * GitHub: <https://github.com/omer-priel/quality-content-for-children>
 * Google Drive: <https://drive.google.com/drive/folders/1Jg3n8xkLEtAfkz5vPlV0N0s7QNT2TxU0>
 
