@@ -37,10 +37,10 @@ export default function ContentList({ data }: Props) {
       (!selectedLanguage || content.language === selectedLanguage) &&
       (!selectedDomain || content.domain === selectedDomain) &&
       (!selectedAgeLevel || content.ageLevel === selectedAgeLevel) &&
-      (!searchValue || content.domain.includes(searchValue) ||
-      content.name.includes(searchValue) ||
-      content.description.includes(searchValue)
-      )
+      (!searchValue ||
+        content.domain.includes(searchValue) ||
+        content.name.includes(searchValue) ||
+        content.description.includes(searchValue))
     );
   });
 
@@ -81,7 +81,7 @@ export default function ContentList({ data }: Props) {
               ))}
             </select>
           </div>
-        <div className='mx-3 my-1'>
+          <div className='mx-3 my-1'>
             <label className='mx-2'>חפש:</label>
             <input type='text' onChange={(e) => setSearchText(e.target.value)} className='px-2 py-1 border rounded-md' />
           </div>

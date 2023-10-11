@@ -15,9 +15,10 @@ export default function ContentCard({ content }: Props) {
   return (
     <div className='bg-white border rounded-lg shadow-md p-4'>
       <h2 className='text-xl text-center font-semibold'>
-      <a href={content.link} target='_blank' rel='noopener noreferrer' className='text-gray-900'>
-        {content.name ? content.name : <br />}
-      </a></h2>
+        <a href={content.link} target='_blank' rel='noopener noreferrer' className='text-gray-900'>
+          {content.name ? content.name : <br />}
+        </a>
+      </h2>
       <p className='text-gray-600 text-center'>{content.domain ? content.domain : <br />}</p>
       <p className='text-gray-600 text-center'>
         {content.ageLevel} - {content.language}
