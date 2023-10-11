@@ -1,7 +1,15 @@
 import { google } from 'googleapis';
 
 import { config } from '@/config';
-import { Content } from '@/lib/db/schemas';
+import { Content, ContentType } from '@/lib/db/schemas';
+
+function getContentType(link: string): ContentType {
+  if (link.startsWith('"https://www.youtube.com/watch?')) {
+    return 'youtube';
+  }
+
+  return 'other';
+}
 
 export async function getContents() {
   const sheets = google.sheets('v4');
@@ -28,6 +36,7 @@ export async function getContents() {
           ageLevel: ageLevel ? ageLevel : '',
           description: description ? description : '',
           link: link ? link : '',
+          contentType: getContentType(link ? link : ''),
         };
 
         if (name.length !== '') {
@@ -36,7 +45,7 @@ export async function getContents() {
       }
     }
   } catch (err) {
-    console.error('The API returned an error:', err);
+    console.error('Google Sheets API error:', err);
   }
 
   return contents;

@@ -1,6 +1,4 @@
 export interface ClientConfig {
-  FRONTEND_PORT: number;
-  FRONTEND_HOST: string;
   FRONTEND_URL: string;
 
   APP_REVALIDATE: number;
@@ -10,8 +8,6 @@ export interface ClientConfig {
 }
 
 export const config: ClientConfig = {
-  FRONTEND_PORT: process.env.FRONTEND_PORT ? parseInt(process.env.FRONTEND_PORT) : 8000,
-  FRONTEND_HOST: process.env.FRONTEND_HOST || '',
   FRONTEND_URL: process.env.FRONTEND_URL || '',
 
   APP_REVALIDATE: process.env.APP_REVALIDATE ? parseInt(process.env.APP_REVALIDATE) : 7200,

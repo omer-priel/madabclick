@@ -1,4 +1,4 @@
-import ContentList from '@/components/blocks/ContentList';
+import MainPage from '@/components/pages/MainPage';
 
 import { config } from '@/config';
 import { getContents } from '@/lib/db/requests';
@@ -10,7 +10,7 @@ export default async function Page() {
 
   return (
     <div className='App'>
-      <ContentList contents={contents} />
+      <MainPage contents={contents} />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+export type ContentType = 'youtube' | 'other';
+
 export interface Content {
   language: string;
   domain: string;
@@ -5,4 +7,6 @@ export interface Content {
   name: string;
   description: string;
   link: string;
+
+  contentType: ContentType;
 }

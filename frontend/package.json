@@ -7,9 +7,9 @@
     "next-lint": "next lint",
     "prettier-fix": "prettier --write .",
     "prettier-lint": "prettier --check .",
-    "dev": "next dev --hostname ${FRONTEND_HOST} --port ${FRONTEND_PORT}",
+    "dev": "next dev",
     "build": "next build",
-    "start": "next start --hostname ${FRONTEND_HOST} --port ${FRONTEND_PORT}"
+    "start": "next start"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",

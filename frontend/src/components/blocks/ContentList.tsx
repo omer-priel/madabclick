@@ -2,53 +2,9 @@
 
 import { Fragment, useState } from 'react';
 
+import ContentCard from '@/components/blocks/ContentCard';
+
 import { Content } from '@/lib/db/schemas';
-
-type ContentType = 'youtube' | 'other';
-
-function getContentType(content: Content): ContentType {
-  if (content.link.startsWith('https://www.youtube.com')) {
-    return 'youtube';
-  }
-
-  return 'other';
-}
-
-interface ContentCardProp {
-  content: Content;
-}
-
-function ContentCard({ content }: ContentCardProp) {
-  let iframeSrc = content.link;
-
-  const contentType = getContentType(content);
-
-  if (contentType == 'youtube') {
-    const videoID = content.link.match(/(?<=v=|\/embed\/|youtu.be\/|\/v\/|\/e\/|watch\?v=)([^#\&\?]+)/)?.[0];
-    iframeSrc = 'https://www.youtube.com/embed/' + videoID;
-  }
-
-  return (
-    <div className='bg-white border rounded-lg shadow-md p-4'>
-      <h2 className='text-xl text-center font-semibold'>{content.name}</h2>
-      <p className='text-gray-600 text-center'>{content.domain}</p>
-      <p className='text-gray-600 text-center'>
-        {content.ageLevel} - {content.language}
-      </p>
-      <p>{content.description}</p>
-      <div className='flex items-center justify-center'>
-        <a href={content.link} target='_blank' rel='noopener noreferrer' className='text-blue-500'>
-          קישור לאתר
-        </a>
-      </div>
-      <div className='relative h-48'>
-        {contentType == 'youtube' && (
-          <iframe title={content.name} src={iframeSrc} className='absolute inset-0 w-full h-full' allowFullScreen></iframe>
-        )}
-      </div>
-    </div>
-  );
-}
 
 interface Props {
   contents: Content[];
@@ -84,9 +40,7 @@ export default function ContentList({ contents }: Props) {
   const ageLevels = Array.from(new Set(contents.map((content) => content.ageLevel))).sort();
 
   return (
-    <div className='p-4' style={{ direction: 'rtl', textAlign: 'right' }}>
-      <h1 className='text-2xl font-bold'>תוכן איכותי לילדים</h1>
-      <p className='text-gray-600'>כותרת שנייה</p>
+    <>
       <div className='my-4'>
         <div className='flex space-x-4'>
           <div>
@@ -132,6 +86,6 @@ export default function ContentList({ contents }: Props) {
           </Fragment>
         ))}
       </div>
-    </div>
+    </>
   );
 }
