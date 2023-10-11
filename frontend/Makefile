@@ -1,29 +1,24 @@
 SHELL:=/usr/bin/env bash -O globstar
 
-# environment dependencies
-load-env:
-	$(eval include .env.development)
-	$(eval export $(shell sed 's/=.*//' .env.development))
-
 # CI/CD
 clean:
 	rm -rf .next
 
-fix: load-env
+fix:
 	yarn run next-fix
 	yarn run prettier-fix
 
-lint: load-env
+lint:
 	yarn run next-lint
 	yarn run prettier-lint
 
 fix-lint: fix lint
 
-start: load-env clean
+start: clean
 	yarn run dev
 
-build-prod: load-env clean
+build-prod: clean
 	yarn run build
 
-start-prod: load-env
+start-prod:
 	yarn run start
