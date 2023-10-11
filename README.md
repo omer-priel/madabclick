@@ -17,7 +17,6 @@ Quality content for children website
 
 | Name                           | Description                             |
 |--------------------------------|-----------------------------------------|
-| FRONTEND_URL                   | URL of the Application                  |
 | APP_REVALIDATE                 | Time in seconds of rebuild the App Page |
 | GOOGLE_API_KEY                 | Google API Key for Google Sheets API    |
 | GOOGLE_SPREADSHEET_ID_CONTENTS | Google Spreadsheet ID of contents sheet |

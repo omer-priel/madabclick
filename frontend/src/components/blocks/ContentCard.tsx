@@ -1,3 +1,5 @@
+import { useTranslations } from 'next-intl';
+
 import { Content } from '@/lib/db/schemas';
 
 interface Props {
@@ -5,18 +7,20 @@ interface Props {
 }
 
 export default function ContentCard({ content }: Props) {
+  const t = useTranslations();
+
   const links: string[][] = [];
 
   if (content.contentType == 'youtube') {
     if (content.videoID) {
-      links.push(['קישור לסירטון', content.link]);
+      links.push([t('link-to-youtube-video'), content.link]);
     }
 
     if (content.playlistID) {
-      links.push(['קישור לרשימה', `https://www.youtube.com/playlist?list=${content.playlistID}`]);
+      links.push([t('link-to-youtube-playlist'), `https://www.youtube.com/playlist?list=${content.playlistID}`]);
     }
   } else if (content.contentType == 'other') {
-    links.push(['קישור לאתר', content.link]);
+    links.push([t('link-to-website'), content.link]);
   }
 
   return (

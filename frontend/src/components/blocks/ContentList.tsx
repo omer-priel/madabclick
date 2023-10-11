@@ -2,6 +2,8 @@
 
 import { Fragment, useState } from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import ContentCard from '@/components/blocks/ContentCard';
 
 import { ContentsSchema } from '@/lib/db/schemas';
@@ -13,21 +15,23 @@ interface Props {
 export default function ContentList({ data }: Props) {
   const { contents, languages, domains, ageLevels } = data;
 
+  const t = useTranslations();
+
   const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
   const [selectedDomain, setSelectedDomain] = useState<string | null>(null);
   const [selectedAgeLevel, setSelectedAgeLevel] = useState<string | null>(null);
   const [searchText, setSearchText] = useState<string>('');
 
   const handleLanguageChange = (language: string) => {
-    setSelectedLanguage(language === 'הכל' ? null : language);
+    setSelectedLanguage(language === 'ALL' ? null : language);
   };
 
   const handleDomainChange = (domain: string) => {
-    setSelectedDomain(domain === 'הכל' ? null : domain);
+    setSelectedDomain(domain === 'ALL' ? null : domain);
   };
 
   const handleAgeLevelChange = (ageLevel: string) => {
-    setSelectedAgeLevel(ageLevel === 'הכל' ? null : ageLevel);
+    setSelectedAgeLevel(ageLevel === 'ALL' ? null : ageLevel);
   };
 
   const searchValue = searchText.trim().length > 2 ? searchText.trim() : '';
@@ -49,9 +53,9 @@ export default function ContentList({ data }: Props) {
       <div className='my-4'>
         <div className='flex flex-wrap items-center justify-center'>
           <div className='mx-3 my-1'>
-            <label className='mx-2'>תחום:</label>
+            <label className='mx-2'>{t('domain')}:</label>
             <select onChange={(e) => handleDomainChange(e.target.value)} className='px-2 py-1 border rounded-md'>
-              <option value='הכל'>הכל</option>
+              <option value='ALL'>{t('all')}</option>
               {domains.map((domain) => (
                 <option key={domain} value={domain}>
                   {domain}
@@ -60,9 +64,9 @@ export default function ContentList({ data }: Props) {
             </select>
           </div>
           <div className='mx-3 my-1'>
-            <label className='mx-2'>גיל:</label>
+            <label className='mx-2'>{t('age-level')}:</label>
             <select onChange={(e) => handleAgeLevelChange(e.target.value)} className='px-2 py-1 border rounded-md'>
-              <option value='הכל'>הכל</option>
+              <option value='ALL'>{t('all')}</option>
               {ageLevels.map((ageLevel) => (
                 <option key={ageLevel} value={ageLevel}>
                   {ageLevel}
@@ -71,9 +75,9 @@ export default function ContentList({ data }: Props) {
             </select>
           </div>
           <div className='mx-3 my-1'>
-            <label className='mx-2'>שפה:</label>
+            <label className='mx-2'>{t('language')}:</label>
             <select onChange={(e) => handleLanguageChange(e.target.value)} className='px-2 py-1 border rounded-md'>
-              <option value='הכל'>הכל</option>
+              <option value='הכל'>{t('all')}</option>
               {languages.map((language) => (
                 <option key={language} value={language}>
                   {language}
@@ -82,7 +86,7 @@ export default function ContentList({ data }: Props) {
             </select>
           </div>
           <div className='mx-3 my-1'>
-            <label className='mx-2'>חפש:</label>
+            <label className='mx-2'>{t('search')}:</label>
             <input type='text' onChange={(e) => setSearchText(e.target.value)} className='px-2 py-1 border rounded-md' />
           </div>
         </div>
