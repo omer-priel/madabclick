@@ -2,8 +2,8 @@ SHELL:=/usr/bin/env bash -O globstar
 
 # environment dependencies
 load-env:
-	$(eval include .env)
-	$(eval export $(shell sed 's/=.*//' .env))
+	$(eval include .env.development)
+	$(eval export $(shell sed 's/=.*//' .env.development))
 
 # CI/CD
 clean:
