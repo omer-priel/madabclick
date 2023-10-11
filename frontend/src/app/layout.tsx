@@ -4,8 +4,8 @@ import { ReactNode } from 'react';
 import '@/styles/globals.css';
 
 export const metadata: Metadata = {
-  title: 'Openlog Admin',
-  description: 'Web interface for Openlog',
+  title: 'תוכן איכותי לילדים',
+  description: 'תוכן איכותי לילדים',
 };
 
 interface Props {

@@ -1,22 +1,12 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-
 import ContentList from '@/components/blocks/ContentList';
 
-import { Content } from '@/lib/db/schemas';
+import { config } from '@/config';
+import { getContents } from '@/lib/db/requests';
 
-export default function Page() {
-  const [contents, setContents] = useState<Content[]>([]);
+export const revalidate = config.APP_REVALIDATE;
 
-  useEffect(() => {
-    fetch('/api/get-contents  ', {
-      cache: 'no-cache',
-    }).then(async (res) => {
-      const value = await res.json();
-      setContents(value);
-    });
-  }, [setContents]);
+export default async function Page() {
+  const contents = await getContents();
 
   return (
     <div className='App'>
