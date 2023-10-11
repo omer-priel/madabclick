@@ -1,7 +1,7 @@
 import { google } from 'googleapis';
 
 import { config } from '@/config';
-import { Content, ContentType } from '@/lib/db/schemas';
+import { Content, ContentType, ContentsSchema } from '@/lib/db/schemas';
 
 function getContentType(link: string): ContentType {
   if (link.startsWith('https://www.youtube.com/watch?')) {
@@ -11,7 +11,7 @@ function getContentType(link: string): ContentType {
   return 'other';
 }
 
-export async function getContents() {
+export async function getContentsInfo(): Promise<ContentsSchema> {
   const sheets = google.sheets('v4');
 
   const contents: Content[] = [];
@@ -48,5 +48,14 @@ export async function getContents() {
     console.error('Google Sheets API error:', err);
   }
 
-  return contents;
+  const languages = Array.from(new Set(contents.map((content) => content.language))).sort();
+  const domains = Array.from(new Set(contents.map((content) => content.domain))).sort();
+  const ageLevels = Array.from(new Set(contents.map((content) => content.ageLevel))).sort();
+
+  return {
+    languages,
+    domains,
+    ageLevels,
+    contents,
+  };
 }

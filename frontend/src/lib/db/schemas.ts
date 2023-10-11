@@ -10,3 +10,11 @@ export interface Content {
 
   contentType: ContentType;
 }
+
+export interface ContentsSchema {
+  languages: string[];
+  domains: string[];
+  ageLevels: string[];
+
+  contents: Content[];
+}

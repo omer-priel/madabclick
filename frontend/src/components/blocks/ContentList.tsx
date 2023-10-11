@@ -4,13 +4,15 @@ import { Fragment, useState } from 'react';
 
 import ContentCard from '@/components/blocks/ContentCard';
 
-import { Content } from '@/lib/db/schemas';
+import { ContentsSchema } from '@/lib/db/schemas';
 
 interface Props {
-  contents: Content[];
+  data: ContentsSchema;
 }
 
-export default function ContentList({ contents }: Props) {
+export default function ContentList({ data }: Props) {
+  const { contents, languages, domains, ageLevels } = data;
+
   const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
   const [selectedDomain, setSelectedDomain] = useState<string | null>(null);
   const [selectedAgeLevel, setSelectedAgeLevel] = useState<string | null>(null);
@@ -34,10 +36,6 @@ export default function ContentList({ contents }: Props) {
       (!selectedAgeLevel || content.ageLevel === selectedAgeLevel)
     );
   });
-
-  const languages = Array.from(new Set(contents.map((content) => content.language))).sort();
-  const domains = Array.from(new Set(contents.map((content) => content.domain))).sort();
-  const ageLevels = Array.from(new Set(contents.map((content) => content.ageLevel))).sort();
 
   return (
     <>
