@@ -1,10 +1,9 @@
-# openlog
+# quality-content-for-children
 
-A Open Source Logger Service Based FastAPI
+Quality content for children website
 
 ## Requirements
 
-* conda
 * nvm
 
 ## Install
