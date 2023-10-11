@@ -1,15 +1,7 @@
 import { google } from 'googleapis';
 
 import { config } from '@/config';
-import { Content, ContentType, ContentsSchema } from '@/lib/db/schemas';
-
-function getContentType(link: string): ContentType {
-  if (link.startsWith('https://www.youtube.com/watch?')) {
-    return 'youtube';
-  }
-
-  return 'other';
-}
+import { Content, ContentsSchema, getContent } from '@/lib/db/schemas';
 
 export async function getContentsInfo(): Promise<ContentsSchema> {
   const sheets = google.sheets('v4');
@@ -29,18 +21,8 @@ export async function getContentsInfo(): Promise<ContentsSchema> {
       for (let index = 1; index < values.length; index++) {
         const [language, domain, ageLevel, name, description, link] = values[index];
 
-        const content = {
-          language: language ? language : '',
-          name: name ? name : '',
-          domain: domain ? domain : '',
-          ageLevel: ageLevel ? ageLevel : '',
-          description: description ? description : '',
-          link: link ? link : '',
-          contentType: getContentType(link ? link : ''),
-        };
-
-        if (name.length !== '') {
-          contents.push(content);
+        if (name && name.trim().length !== '') {
+          contents.push(getContent(language, domain, ageLevel, name, description, link));
         }
       }
     }

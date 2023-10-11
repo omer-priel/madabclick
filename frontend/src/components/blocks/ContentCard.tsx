@@ -5,11 +5,18 @@ interface Props {
 }
 
 export default function ContentCard({ content }: Props) {
-  let iframeSrc = content.link;
+  const links: string[][] = [];
 
   if (content.contentType == 'youtube') {
-    const videoID = content.link.match(/(?<=v=|\/embed\/|youtu.be\/|\/v\/|\/e\/|watch\?v=)([^#\&\?]+)/)?.[0];
-    iframeSrc = 'https://www.youtube.com/embed/' + videoID;
+    if (content.videoID) {
+      links.push(['קישור לסירטון', content.link]);
+    }
+
+    if (content.playlistID) {
+      links.push(['קישור לרשימה', `https://www.youtube.com/playlist?list=${content.playlistID}`]);
+    }
+  } else if (content.contentType == 'other') {
+    links.push(['קישור לאתר', content.link]);
   }
 
   return (
@@ -25,13 +32,29 @@ export default function ContentCard({ content }: Props) {
       </p>
       <p>{content.description ? content.description : <br />}</p>
       <div className='flex items-center justify-center'>
-        <a href={content.link} target='_blank' rel='noopener noreferrer' className='text-blue-500'>
-          {content.contentType == 'youtube' ? 'קישור לסירטון' : 'קישור לאתר'}
-        </a>
+        {links.map((link) => (
+          <a key={link[1]} href={link[1]} target='_blank' rel='noopener noreferrer' className='text-blue-500 mx-3'>
+            {link[0]}
+          </a>
+        ))}
       </div>
       <div className='relative h-48'>
-        {content.contentType == 'youtube' && (
-          <iframe title={content.name} src={iframeSrc} className='absolute inset-0 w-full h-full' allowFullScreen></iframe>
+        {content.contentType == 'youtube' && content.videoID && (
+          <iframe
+            title={content.name}
+            src={`https://www.youtube.com/embed/${content.videoID}`}
+            className='absolute inset-0 w-full h-full'
+            allowFullScreen
+          ></iframe>
+        )}
+        {content.contentType == 'youtube' && !content.videoID && content.playlistID && (
+          <iframe
+            title={content.name}
+            src={`https://www.youtube.com/embed/videoseries?amp;list=${content.playlistID}`}
+            className='absolute inset-0 w-full h-full'
+            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+            allowFullScreen
+          ></iframe>
         )}
       </div>
     </div>
