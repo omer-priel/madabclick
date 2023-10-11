@@ -19,21 +19,21 @@ export async function getContents() {
 
     if (values) {
       for (let index = 1; index < values.length; index++) {
-          const [language, domain, ageLevel, name, description, link] = values[index];
+        const [language, domain, ageLevel, name, description, link] = values[index];
 
-          const content = {
-            language: language ? language : '',
-            name: name ? name : '',
-            domain: domain ? domain : '',
-            ageLevel: ageLevel ? ageLevel : '',
-            description: description ? description : '',
-            link: link ? link : '',
-          };
+        const content = {
+          language: language ? language : '',
+          name: name ? name : '',
+          domain: domain ? domain : '',
+          ageLevel: ageLevel ? ageLevel : '',
+          description: description ? description : '',
+          link: link ? link : '',
+        };
 
-          if (name.length !== '') {
-            contents.push(content);
-          }
+        if (name.length !== '') {
+          contents.push(content);
         }
+      }
     }
   } catch (err) {
     console.error('The API returned an error:', err);
