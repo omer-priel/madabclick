@@ -6,6 +6,7 @@ interface Language {
 }
 
 interface ContentBase {
+  index: number;
   domain: string;
   ageLevel: string;
   language: Language;
@@ -60,8 +61,17 @@ export function mapLabelToLanguage(label: string): Language {
   return found[0];
 }
 
-export function getContent(language: string, domain: string, ageLevel: string, name: string, description: string, link: string): Content {
+export function getContent(
+  index: number,
+  language: string,
+  domain: string,
+  ageLevel: string,
+  name: string,
+  description: string,
+  link: string
+): Content {
   const content = {
+    index: index,
     domain: domain ? domain : '',
     ageLevel: ageLevel ? ageLevel : '',
     language: mapLabelToLanguage(language),

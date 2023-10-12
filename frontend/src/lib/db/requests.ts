@@ -18,11 +18,11 @@ export async function getContentsInfo(): Promise<ContentsSchema> {
     const values = response.data.values;
 
     if (values) {
-      for (let index = 1; index < values.length; index++) {
-        const [language, domain, ageLevel, name, description, link] = values[index];
+      for (let rowIndex = 1; rowIndex < values.length; rowIndex++) {
+        const [language, domain, ageLevel, name, description, link] = values[rowIndex];
 
         if (name && name.trim().length !== '') {
-          contents.push(getContent(language, domain, ageLevel, name, description, link));
+          contents.push(getContent(contents.length, language, domain, ageLevel, name, description, link));
         }
       }
     }

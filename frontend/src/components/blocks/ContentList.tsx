@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 
 import ContentCard from '@/components/blocks/ContentCard';
 
-import { ContentsSchema } from '@/lib/db/schemas';
+import { Content, ContentsSchema } from '@/lib/db/schemas';
 
 interface Props {
   data: ContentsSchema;
@@ -37,7 +37,7 @@ export default function ContentList({ data, locale }: Props) {
 
   const searchValue = searchText.trim().length > 2 ? searchText.trim() : '';
 
-  const filteredContents = contents.filter((content) => {
+  const showContentCard = (content: Content) => {
     return (
       (!selectedDomain || content.domain === selectedDomain) &&
       (!selectedAgeLevel || content.ageLevel === selectedAgeLevel) &&
@@ -47,7 +47,7 @@ export default function ContentList({ data, locale }: Props) {
         content.name.includes(searchValue) ||
         content.description.includes(searchValue))
     );
-  });
+  };
 
   return (
     <>
@@ -94,9 +94,9 @@ export default function ContentList({ data, locale }: Props) {
       </div>
 
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
-        {filteredContents.map((content, index) => (
-          <Fragment key={index}>
-            <ContentCard content={content} />
+        {contents.map((content) => (
+          <Fragment key={content.index}>
+            <ContentCard content={content} hidden={!showContentCard(content)} />
           </Fragment>
         ))}
       </div>
