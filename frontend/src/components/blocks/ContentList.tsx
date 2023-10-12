@@ -77,10 +77,7 @@ export default function ContentList({ data, locale }: Props) {
           </div>
           <div className='mx-3 my-1'>
             <label className='mx-2'>{t('language')}:</label>
-            <select
-            className='px-2 py-1 border rounded-md'
-            onChange={(e) => handleLanguageChange(e.target.value)}
-            defaultValue={locale}>
+            <select className='px-2 py-1 border rounded-md' onChange={(e) => handleLanguageChange(e.target.value)} defaultValue={locale}>
               <option value='ALL'>{t('all')}</option>
               {languages.map((language) => (
                 <option key={language.id} value={language.id}>

@@ -1,6 +1,6 @@
 import { google } from 'googleapis';
 
-import { config, LANGUAGES } from '@/config';
+import { LANGUAGES, config } from '@/config';
 import { Content, ContentsSchema, getContent } from '@/lib/db/schemas';
 
 export async function getContentsInfo(): Promise<ContentsSchema> {

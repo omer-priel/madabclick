@@ -1,4 +1,4 @@
-import { LANGUAGES } from '@/config'
+import { LANGUAGES } from '@/config';
 
 interface Language {
   id: string;
@@ -41,7 +41,7 @@ export function mapIDToLanguage(id: string): Language {
     return {
       id: 'he',
       label: 'עברית',
-    }
+    };
   }
 
   return found[0];
@@ -54,7 +54,7 @@ export function mapLabelToLanguage(label: string): Language {
     return {
       id: 'he',
       label: 'עברית',
-    }
+    };
   }
 
   return found[0];
