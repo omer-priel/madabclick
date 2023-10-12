@@ -1,6 +1,7 @@
 # quality-content-for-children
 
-Quality content for children website
+Science In A Click \
+Quality content for children \
 
 * Website: <https://main.d2agpnuowxjy03.amplifyapp.com>
 * GitHub: <https://github.com/omer-priel/quality-content-for-children>
