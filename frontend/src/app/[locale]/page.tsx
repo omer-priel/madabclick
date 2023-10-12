@@ -5,12 +5,16 @@ import { getContentsInfo } from '@/lib/db/requests';
 
 export const revalidate = config.APP_REVALIDATE;
 
-export default async function Page() {
+interface PageProps {
+  params: { locale: string };
+}
+
+export default async function Page({ params }: PageProps) {
   const data = await getContentsInfo();
 
   return (
     <div className='App'>
-      <MainPage data={data} />
+      <MainPage data={data} locale={params.locale} />
     </div>
   );
 }

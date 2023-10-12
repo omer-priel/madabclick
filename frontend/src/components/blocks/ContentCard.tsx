@@ -32,7 +32,7 @@ export default function ContentCard({ content }: Props) {
       </h2>
       <p className='text-gray-600 text-center'>{content.domain ? content.domain : <br />}</p>
       <p className='text-gray-600 text-center'>
-        {content.ageLevel} - {content.language}
+        {content.ageLevel} - {content.language.label}
       </p>
       <p>{content.description ? content.description : <br />}</p>
       <div className='flex items-center justify-center'>

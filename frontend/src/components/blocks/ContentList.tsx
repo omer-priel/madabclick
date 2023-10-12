@@ -10,21 +10,18 @@ import { ContentsSchema } from '@/lib/db/schemas';
 
 interface Props {
   data: ContentsSchema;
+  locale: string;
 }
 
-export default function ContentList({ data }: Props) {
-  const { contents, languages, domains, ageLevels } = data;
+export default function ContentList({ data, locale }: Props) {
+  const { contents, domains, ageLevels, languages } = data;
 
   const t = useTranslations();
 
-  const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
   const [selectedDomain, setSelectedDomain] = useState<string | null>(null);
   const [selectedAgeLevel, setSelectedAgeLevel] = useState<string | null>(null);
+  const [selectedLanguage, setSelectedLanguage] = useState<string | null>(locale);
   const [searchText, setSearchText] = useState<string>('');
-
-  const handleLanguageChange = (language: string) => {
-    setSelectedLanguage(language === 'ALL' ? null : language);
-  };
 
   const handleDomainChange = (domain: string) => {
     setSelectedDomain(domain === 'ALL' ? null : domain);
@@ -34,13 +31,17 @@ export default function ContentList({ data }: Props) {
     setSelectedAgeLevel(ageLevel === 'ALL' ? null : ageLevel);
   };
 
+  const handleLanguageChange = (language: string) => {
+    setSelectedLanguage(language === 'ALL' ? null : language);
+  };
+
   const searchValue = searchText.trim().length > 2 ? searchText.trim() : '';
 
   const filteredContents = contents.filter((content) => {
     return (
-      (!selectedLanguage || content.language === selectedLanguage) &&
       (!selectedDomain || content.domain === selectedDomain) &&
       (!selectedAgeLevel || content.ageLevel === selectedAgeLevel) &&
+      (!selectedLanguage || content.language.id === selectedLanguage) &&
       (!searchValue ||
         content.domain.includes(searchValue) ||
         content.name.includes(searchValue) ||
@@ -76,11 +77,14 @@ export default function ContentList({ data }: Props) {
           </div>
           <div className='mx-3 my-1'>
             <label className='mx-2'>{t('language')}:</label>
-            <select onChange={(e) => handleLanguageChange(e.target.value)} className='px-2 py-1 border rounded-md'>
-              <option value='הכל'>{t('all')}</option>
+            <select
+            className='px-2 py-1 border rounded-md'
+            onChange={(e) => handleLanguageChange(e.target.value)}
+            defaultValue={locale}>
+              <option value='ALL'>{t('all')}</option>
               {languages.map((language) => (
-                <option key={language} value={language}>
-                  {language}
+                <option key={language.id} value={language.id}>
+                  {language.label}
                 </option>
               ))}
             </select>

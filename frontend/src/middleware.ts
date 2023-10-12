@@ -1,9 +1,9 @@
 import createMiddleware from 'next-intl/middleware';
 
-import { LOCALES } from '@/config';
+import { LANGUAGES } from '@/config';
 
 export default createMiddleware({
-  locales: LOCALES,
+  locales: LANGUAGES.map((language) => language.id),
   defaultLocale: 'he',
 });
 

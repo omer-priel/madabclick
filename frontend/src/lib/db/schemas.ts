@@ -1,7 +1,14 @@
+import { LANGUAGES } from '@/config'
+
+interface Language {
+  id: string;
+  label: string;
+}
+
 interface ContentBase {
-  language: string;
   domain: string;
   ageLevel: string;
+  language: Language;
   name: string;
   description: string;
   link: string;
@@ -20,19 +27,45 @@ interface ContentYouTube extends ContentBase {
 export type Content = ContentOther | ContentYouTube;
 
 export interface ContentsSchema {
-  languages: string[];
   domains: string[];
   ageLevels: string[];
+  languages: Language[];
 
   contents: Content[];
 }
 
+export function mapIDToLanguage(id: string): Language {
+  const found = LANGUAGES.filter((language) => language.id === id);
+
+  if (found.length == 0) {
+    return {
+      id: 'he',
+      label: 'עברית',
+    }
+  }
+
+  return found[0];
+}
+
+export function mapLabelToLanguage(label: string): Language {
+  const found = LANGUAGES.filter((language) => language.label === label);
+
+  if (found.length == 0) {
+    return {
+      id: 'he',
+      label: 'עברית',
+    }
+  }
+
+  return found[0];
+}
+
 export function getContent(language: string, domain: string, ageLevel: string, name: string, description: string, link: string): Content {
   const content = {
-    language: language ? language : '',
-    name: name ? name : '',
     domain: domain ? domain : '',
     ageLevel: ageLevel ? ageLevel : '',
+    language: mapLabelToLanguage(language),
+    name: name ? name : '',
     description: description ? description : '',
     link: link ? link : '',
   };

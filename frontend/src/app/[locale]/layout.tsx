@@ -3,12 +3,13 @@ import { ReactNode } from 'react';
 import { NextIntlClientProvider } from 'next-intl';
 import { notFound } from 'next/navigation';
 
-import { LOCALES } from '@/config';
+import { LANGUAGES } from '@/config';
+import { mapIDToLanguage } from '@/lib/db/schemas';
 import { getTranslation, setLocale } from '@/translation';
 
 import '@/styles/globals.css';
 
-interface PageProps {
+export interface PageProps {
   params: { locale: string };
 }
 
@@ -29,15 +30,15 @@ export async function generateMetadata({ params }: PageProps) {
 
 export function generateStaticParams() {
   return Array.from(
-    LOCALES.map((locale) => {
-      return { locale: locale };
+    LANGUAGES.map((language) => {
+      return { locale: language.id };
     })
   );
 }
 
 export default async function RootLayout({ children, params }: Props) {
   // setup next-tran
-  if (!LOCALES.includes(params.locale)) {
+  if (mapIDToLanguage(params.locale).id !== params.locale) {
     notFound();
   }
 

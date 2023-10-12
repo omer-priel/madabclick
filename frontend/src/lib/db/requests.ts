@@ -1,6 +1,6 @@
 import { google } from 'googleapis';
 
-import { config } from '@/config';
+import { config, LANGUAGES } from '@/config';
 import { Content, ContentsSchema, getContent } from '@/lib/db/schemas';
 
 export async function getContentsInfo(): Promise<ContentsSchema> {
@@ -30,12 +30,11 @@ export async function getContentsInfo(): Promise<ContentsSchema> {
     console.error('Google Sheets API error:', err);
   }
 
-  const languages = Array.from(new Set(contents.map((content) => content.language))).sort();
   const domains = Array.from(new Set(contents.map((content) => content.domain))).sort();
   const ageLevels = Array.from(new Set(contents.map((content) => content.ageLevel))).sort();
 
   return {
-    languages,
+    languages: LANGUAGES,
     domains,
     ageLevels,
     contents,
