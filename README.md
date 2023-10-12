@@ -3,9 +3,6 @@
 Quality content for children website
 
 * Website: <https://main.d2agpnuowxjy03.amplifyapp.com>
-* Website Hebrew: <https://main.d2agpnuowxjy03.amplifyapp.com/he>
-* Website English: <https://main.d2agpnuowxjy03.amplifyapp.com/en>
-* Website Arabic: <https://main.d2agpnuowxjy03.amplifyapp.com/ar>
 * GitHub: <https://github.com/omer-priel/quality-content-for-children>
 * Google Drive: <https://drive.google.com/drive/folders/1Jg3n8xkLEtAfkz5vPlV0N0s7QNT2TxU0>
 
@@ -28,7 +25,6 @@ In local developemt. Create '.env' file in frontent that will contain the Enviro
 For install this project run the following commands in the terminal:
 
 ```bash
-nvm use
 npm install --global yarn
 
 cd frontend
@@ -40,9 +36,7 @@ yarn install
 Run the following commands in the terminal:
 
 ```bash
-nvm use
-
-make start
+bash scripts/start.sh
 ```
 
 The website will open on <http://localhost:3000/>
@@ -52,10 +46,7 @@ The website will open on <http://localhost:3000/>
 Run the following commands in the terminal for run the formatters and linters:
 
 ```bash
-nvm use
-
-make fix
-make lint
+bash scripts/fix-lint.sh
 ```
 
 ## Production
