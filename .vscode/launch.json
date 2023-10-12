@@ -1,0 +1,37 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+      {
+          "name": "frontend: debug server-side",
+          "type": "node-terminal",
+          "request": "launch",
+          "cwd": "${workspaceFolder}/frontend",
+          "command": "yarn run dev"
+      },
+      {
+          "name": "frontend: debug client-side",
+          "type": "chrome",
+          "request": "launch",
+          "cwd": "${workspaceFolder}/frontend",
+          "url": "http://localhost:3000"
+      },
+      {
+          "name": "frontend: debug full stack",
+          "type": "node",
+          "request": "launch",
+          "cwd": "${workspaceFolder}/frontend",
+          "program": "${workspaceFolder}/frontend/node_modules/next/dist/bin/next",
+          "skipFiles": [
+              "${workspaceFolder}/frontend/<node_internals>/**",
+              "${workspaceFolder}/frontend/node_modules/**",
+              "${workspaceFolder}/frontend/dist/**",
+              "*/webpack-internal://*"
+          ],
+          "serverReadyAction": {
+              "pattern": "started server on .+, url: (https?://.+)",
+              "uriFormat": "%s",
+              "action": "debugWithChrome"
+          }
+      }
+  ]
+}
