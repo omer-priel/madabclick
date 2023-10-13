@@ -4,7 +4,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { notFound } from 'next/navigation';
 
 import { LANGUAGES } from '@/config';
-import { mapIDToLanguage } from '@/lib/db/schemas';
+import { mapIDToLanguage } from '@/lib/db/requests';
 import { getTranslation, setLocale } from '@/translation';
 
 import '@/styles/globals.css';

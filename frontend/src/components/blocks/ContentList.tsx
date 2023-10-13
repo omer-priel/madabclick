@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 
 import ContentCard from '@/components/blocks/ContentCard';
 
-import { Content, ContentsSchema } from '@/lib/db/schemas';
+import { Content, ContentsSchema, getTranslatedTextByKey } from '@/lib/db/schemas';
 
 interface Props {
   data: ContentsSchema;
@@ -44,14 +44,11 @@ export default function ContentList({ data, locale }: Props) {
 
   const showContentCard = (content: Content) => {
     return (
-      (!selectedDomain || content.domain === selectedDomain) &&
-      (!selectedAgeLevel || content.ageLevel === selectedAgeLevel) &&
-      (!selectedDuration || content.duration === selectedDuration) &&
+      (!selectedDomain || content.domain.key === selectedDomain) &&
+      (!selectedAgeLevel || content.ageLevel.key === selectedAgeLevel) &&
+      (!selectedDuration || content.duration.key === selectedDuration) &&
       (!selectedLanguage || content.language.id === selectedLanguage) &&
-      (!searchValue ||
-        content.domain.includes(searchValue) ||
-        content.name.includes(searchValue) ||
-        content.description.includes(searchValue))
+      (!searchValue || getTranslatedTextByKey(content.domain, locale).includes(searchValue) || content.name.includes(searchValue))
     );
   };
 
@@ -63,33 +60,39 @@ export default function ContentList({ data, locale }: Props) {
             <label className='mx-2'>{t('domain')}:</label>
             <select onChange={(e) => handleDomainChange(e.target.value)} className='px-2 py-1 border rounded-md'>
               <option value='ALL'>{t('all')}</option>
-              {domains.map((domain) => (
-                <option key={domain} value={domain}>
-                  {domain}
-                </option>
-              ))}
+              {Object.keys(domains)
+                .sort((domainKeyA, domainKeyB) => domains[domainKeyB].orderIndex - domains[domainKeyA].orderIndex)
+                .map((domainKey) => (
+                  <option key={domainKey} value={domainKey}>
+                    {getTranslatedTextByKey(domains[domainKey], locale)}
+                  </option>
+                ))}
             </select>
           </div>
           <div className='mx-3 my-1'>
             <label className='mx-2'>{t('age-level')}:</label>
             <select onChange={(e) => handleAgeLevelChange(e.target.value)} className='px-2 py-1 border rounded-md'>
               <option value='ALL'>{t('all')}</option>
-              {ageLevels.map((ageLevel) => (
-                <option key={ageLevel} value={ageLevel}>
-                  {ageLevel}
-                </option>
-              ))}
+              {Object.keys(ageLevels)
+                .sort((ageLevelKeyA, ageLevelKeyB) => ageLevels[ageLevelKeyB].orderIndex - ageLevels[ageLevelKeyA].orderIndex)
+                .map((ageLevelKey) => (
+                  <option key={ageLevelKey} value={ageLevelKey}>
+                    {getTranslatedTextByKey(ageLevels[ageLevelKey], locale)}
+                  </option>
+                ))}
             </select>
           </div>
           <div className='mx-3 my-1'>
             <label className='mx-2'>{t('duration')}:</label>
             <select onChange={(e) => handleDurationChange(e.target.value)} className='px-2 py-1 border rounded-md'>
               <option value='ALL'>{t('all')}</option>
-              {durations.map((duration) => (
-                <option key={duration} value={duration}>
-                  {duration}
-                </option>
-              ))}
+              {Object.keys(durations)
+                .sort((durationKeyA, durationKeyB) => durations[durationKeyB].orderIndex - durations[durationKeyA].orderIndex)
+                .map((durationKey) => (
+                  <option key={durationKey} value={durationKey}>
+                    {getTranslatedTextByKey(durations[durationKey], locale)}
+                  </option>
+                ))}
             </select>
           </div>
           <div className='mx-3 my-1'>
@@ -113,7 +116,7 @@ export default function ContentList({ data, locale }: Props) {
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
         {contents.map((content) => (
           <Fragment key={content.index}>
-            <ContentCard content={content} hidden={!showContentCard(content)} />
+            <ContentCard content={content} locale={locale} hidden={!showContentCard(content)} />
           </Fragment>
         ))}
       </div>

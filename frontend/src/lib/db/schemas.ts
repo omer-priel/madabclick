@@ -1,18 +1,23 @@
-import { LANGUAGES } from '@/config';
-
-interface Language {
+export interface Language {
   id: string;
   label: string;
+}
+
+export interface TranslatedText {
+  key: string;
+  orderIndex: number;
+  he: string;
+  en: string;
+  ar: string;
 }
 
 interface ContentBase {
   index: number;
   language: Language;
-  domain: string;
-  ageLevel: string;
-  duration: string;
+  domain: TranslatedText;
+  ageLevel: TranslatedText;
+  duration: TranslatedText;
   name: string;
-  description: string;
   link: string;
 }
 
@@ -28,90 +33,26 @@ interface ContentYouTube extends ContentBase {
 
 export type Content = ContentOther | ContentYouTube;
 
-export interface ContentsSchema {
+export interface ContentsMetadata {
   languages: Language[];
-  domains: string[];
-  ageLevels: string[];
-  durations: string[];
+  domains: { [key: string]: TranslatedText };
+  ageLevels: { [key: string]: TranslatedText };
+  durations: { [key: string]: TranslatedText };
+}
 
+export interface ContentsSchema extends ContentsMetadata {
   contents: Content[];
 }
 
-export function mapIDToLanguage(id: string): Language {
-  const found = LANGUAGES.filter((language) => language.id === id);
-
-  if (found.length == 0) {
-    return {
-      id: 'he',
-      label: 'עברית',
-    };
+export function getTranslatedTextByKey(text: TranslatedText, key: string) {
+  switch (key) {
+    case 'he':
+      return text.he;
+    case 'en':
+      return text.en;
+    case 'ar':
+      return text.ar;
+    default:
+      return text.he;
   }
-
-  return found[0];
-}
-
-export function mapLabelToLanguage(label: string): Language {
-  const found = LANGUAGES.filter((language) => language.label === label);
-
-  if (found.length == 0) {
-    return {
-      id: 'he',
-      label: 'עברית',
-    };
-  }
-
-  return found[0];
-}
-
-export function getContent(
-  index: number,
-  language: string,
-  domain: string,
-  ageLevel: string,
-  name: string,
-  description: string,
-  link: string,
-  duration: string
-): Content {
-  const content = {
-    index,
-    language: mapLabelToLanguage(language),
-    domain,
-    ageLevel,
-    duration,
-    name,
-    description,
-    link,
-  };
-
-  if (link.startsWith('https://www.youtube.com/')) {
-    let videoID = null;
-    let playlistID = null;
-
-    if (link.startsWith('https://www.youtube.com/watch?')) {
-      if (content.link.includes('?v=')) {
-        videoID = content.link.split('?v=')[1].split('&')[0];
-      } else {
-        videoID = content.link.split('&v=')[1].split('&')[0];
-      }
-    }
-
-    if (content.link.includes('?list=')) {
-      playlistID = content.link.split('?list=')[1].split('&')[0];
-    } else if (content.link.includes('&list=')) {
-      playlistID = content.link.split('&list=')[1].split('&')[0];
-    }
-
-    return {
-      ...content,
-      contentType: 'youtube',
-      videoID: videoID,
-      playlistID: playlistID,
-    };
-  }
-
-  return {
-    ...content,
-    contentType: 'other',
-  };
 }
