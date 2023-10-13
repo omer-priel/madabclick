@@ -14,12 +14,13 @@ interface Props {
 }
 
 export default function ContentList({ data, locale }: Props) {
-  const { contents, domains, ageLevels, languages } = data;
+  const { contents, languages, domains, ageLevels, durations } = data;
 
   const t = useTranslations();
 
   const [selectedDomain, setSelectedDomain] = useState<string | null>(null);
   const [selectedAgeLevel, setSelectedAgeLevel] = useState<string | null>(null);
+  const [selectedDuration, setSelectedDuration] = useState<string | null>(null);
   const [selectedLanguage, setSelectedLanguage] = useState<string | null>(locale);
   const [searchText, setSearchText] = useState<string>('');
 
@@ -29,6 +30,10 @@ export default function ContentList({ data, locale }: Props) {
 
   const handleAgeLevelChange = (ageLevel: string) => {
     setSelectedAgeLevel(ageLevel === 'ALL' ? null : ageLevel);
+  };
+
+  const handleDurationChange = (duration: string) => {
+    setSelectedDuration(duration === 'ALL' ? null : duration);
   };
 
   const handleLanguageChange = (language: string) => {
@@ -41,6 +46,7 @@ export default function ContentList({ data, locale }: Props) {
     return (
       (!selectedDomain || content.domain === selectedDomain) &&
       (!selectedAgeLevel || content.ageLevel === selectedAgeLevel) &&
+      (!selectedDuration || content.duration === selectedDuration) &&
       (!selectedLanguage || content.language.id === selectedLanguage) &&
       (!searchValue ||
         content.domain.includes(searchValue) ||
@@ -71,6 +77,17 @@ export default function ContentList({ data, locale }: Props) {
               {ageLevels.map((ageLevel) => (
                 <option key={ageLevel} value={ageLevel}>
                   {ageLevel}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className='mx-3 my-1'>
+            <label className='mx-2'>{t('duration')}:</label>
+            <select onChange={(e) => handleDurationChange(e.target.value)} className='px-2 py-1 border rounded-md'>
+              <option value='ALL'>{t('all')}</option>
+              {durations.map((duration) => (
+                <option key={duration} value={duration}>
+                  {duration}
                 </option>
               ))}
             </select>

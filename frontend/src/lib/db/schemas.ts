@@ -7,9 +7,10 @@ interface Language {
 
 interface ContentBase {
   index: number;
+  language: Language;
   domain: string;
   ageLevel: string;
-  language: Language;
+  duration: string;
   name: string;
   description: string;
   link: string;
@@ -28,9 +29,10 @@ interface ContentYouTube extends ContentBase {
 export type Content = ContentOther | ContentYouTube;
 
 export interface ContentsSchema {
+  languages: Language[];
   domains: string[];
   ageLevels: string[];
-  languages: Language[];
+  durations: string[];
 
   contents: Content[];
 }
@@ -68,16 +70,18 @@ export function getContent(
   ageLevel: string,
   name: string,
   description: string,
-  link: string
+  link: string,
+  duration: string
 ): Content {
   const content = {
-    index: index,
-    domain: domain ? domain : '',
-    ageLevel: ageLevel ? ageLevel : '',
+    index,
     language: mapLabelToLanguage(language),
-    name: name ? name : '',
-    description: description ? description : '',
-    link: link ? link : '',
+    domain,
+    ageLevel,
+    duration,
+    name,
+    description,
+    link,
   };
 
   if (link.startsWith('https://www.youtube.com/')) {
