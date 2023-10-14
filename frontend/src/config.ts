@@ -7,16 +7,16 @@ export interface ClientConfig {
 
 export const LANGUAGES = [
   {
-    id: 'he',
-    label: 'עברית',
+    locale: 'he',
+    key: 'עברית',
   },
   {
-    id: 'en',
-    label: 'אנגלית',
+    locale: 'en',
+    key: 'אנגלית',
   },
   {
-    id: 'ar',
-    label: 'ערבית',
+    locale: 'ar',
+    key: 'ערבית',
   },
 ];
 

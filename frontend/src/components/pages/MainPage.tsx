@@ -5,10 +5,9 @@ import { getTranslation } from '@/translation';
 
 interface Props {
   data: ContentsSchema;
-  locale: string;
 }
 
-export default async function MainPage({ data, locale }: Props) {
+export default async function MainPage({ data }: Props) {
   const t = await getTranslation();
 
   return (
@@ -46,7 +45,7 @@ export default async function MainPage({ data, locale }: Props) {
       </div>
       <h1 className='text-2xl font-bold text-center'>{t('site-title')}</h1>
       <p className='text-gray-600 text-center'>{t('site-subtitle')}</p>
-      <ContentList data={data} locale={locale} />
+      <ContentList data={data} />
     </div>
   );
 }

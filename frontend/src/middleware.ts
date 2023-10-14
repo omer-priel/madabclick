@@ -3,7 +3,7 @@ import createMiddleware from 'next-intl/middleware';
 import { LANGUAGES } from '@/config';
 
 export default createMiddleware({
-  locales: LANGUAGES.map((language) => language.id),
+  locales: LANGUAGES.map((language) => language.locale),
   defaultLocale: 'he',
 });
 

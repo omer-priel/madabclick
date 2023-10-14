@@ -1,14 +1,13 @@
 import { useTranslations } from 'next-intl';
 
-import { Content, getTranslatedTextByKey } from '@/lib/db/schemas';
+import { Content } from '@/lib/db/schemas';
 
 interface Props {
   content: Content;
-  locale: string;
   hidden: boolean;
 }
 
-export default function ContentCard({ content, locale, hidden }: Props) {
+export default function ContentCard({ content, hidden }: Props) {
   const t = useTranslations();
 
   const links: string[][] = [];
@@ -32,9 +31,9 @@ export default function ContentCard({ content, locale, hidden }: Props) {
           {content.name ? content.name : <br />}
         </a>
       </h2>
-      <p className='text-gray-600 text-center'>{getTranslatedTextByKey(content.domain, locale)}</p>
+      <p className='text-gray-600 text-center'>{content.domain}</p>
       <p className='text-gray-600 text-center'>
-        {getTranslatedTextByKey(content.ageLevel, locale)} - {getTranslatedTextByKey(content.duration, locale)} - {content.language.label}
+        {content.ageLevel} - {content.duration} - {content.language}
       </p>
       <div className='flex items-center justify-center'>
         {links.map((link) => (

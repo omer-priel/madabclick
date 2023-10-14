@@ -1,89 +1,68 @@
 import { google } from 'googleapis';
 
 import { LANGUAGES, config } from '@/config';
-import { Content, ContentsMetadata, ContentsSchema, Language } from '@/lib/db/schemas';
+import { Content, ContentsSchema } from '@/lib/db/schemas';
 
-export function mapIDToLanguage(id: string): Language {
-  const found = LANGUAGES.filter((language) => language.id === id);
-
-  if (found.length == 0) {
-    return {
-      id: 'he',
-      label: 'עברית',
-    };
-  }
-
-  return found[0];
+interface ContentsMetadata {
+  domains: string[];
+  domainsKeys: { [key: string]: string };
+  ageLevels: string[];
+  ageLevelsKeys: { [key: string]: string };
+  durations: string[];
+  durationsKeys: { [key: string]: string };
+  languages: string[];
+  languagesKeys: { [key: string]: string };
 }
 
-function mapLabelToLanguage(label: string): Language {
-  const found = LANGUAGES.filter((language) => language.label === label);
-
-  if (found.length == 0) {
-    return {
-      id: 'he',
-      label: 'עברית',
-    };
-  }
-
-  return found[0];
-}
-
-function getContentsMetadataFromValues(values: string[][] | null | undefined): ContentsMetadata {
+function getContentsMetadataFromValues(values: string[][] | null | undefined, locale: string): ContentsMetadata {
   const metadata: ContentsMetadata = {
-    languages: LANGUAGES,
-    domains: {},
-    ageLevels: {},
-    durations: {},
+    domains: [],
+    domainsKeys: {},
+    ageLevels: [],
+    ageLevelsKeys: {},
+    durations: [],
+    durationsKeys: {},
+    languages: [],
+    languagesKeys: {},
   };
+
+  let addIndex = 1;
+  switch (locale) {
+    case 'he':
+      addIndex = 1;
+      break;
+    case 'en':
+      addIndex = 2;
+      break;
+    case 'ar':
+      addIndex = 3;
+      break;
+  }
 
   if (values) {
     for (let rowIndex = 1; rowIndex < values.length; rowIndex++) {
-      const [
-        domainKey = '',
-        domainHe = '',
-        domainEn = '',
-        domainAr = '',
-        ,
-        ageLevelKey = '',
-        ageLevelHe = '',
-        ageLevelEn = '',
-        ageLevelAr = '',
-        ,
-        durationKey = '',
-        durationHe = '',
-        durationEn = '',
-        durationAr = '',
-      ] = values[rowIndex];
-
-      if (domainKey) {
-        metadata.domains[domainKey] = {
-          key: domainKey,
-          orderIndex: Object.keys(metadata.domains).length,
-          he: domainHe,
-          en: domainEn,
-          ar: domainAr,
-        };
+      if (values[rowIndex][0]) {
+        const value = values[rowIndex][0 + addIndex];
+        metadata.domainsKeys[values[rowIndex][0]] = value;
+        metadata.domains.push(value);
       }
 
-      if (ageLevelKey) {
-        metadata.ageLevels[ageLevelKey] = {
-          key: ageLevelKey,
-          orderIndex: Object.keys(metadata.ageLevels).length,
-          he: ageLevelHe,
-          en: ageLevelEn,
-          ar: ageLevelAr,
-        };
+      if (values[rowIndex][5]) {
+        const value = values[rowIndex][5 + addIndex];
+        metadata.ageLevelsKeys[values[rowIndex][5]] = value;
+        metadata.ageLevels.push(value);
       }
 
-      if (durationKey) {
-        metadata.durations[durationKey] = {
-          key: durationKey,
-          orderIndex: Object.keys(metadata.durations).length,
-          he: durationHe,
-          en: durationEn,
-          ar: durationAr,
-        };
+      if (values[rowIndex][10]) {
+        const value = values[rowIndex][10 + addIndex];
+        metadata.durationsKeys[values[rowIndex][10]] = value;
+        metadata.durations.push(value);
+      }
+
+      if (values[rowIndex][15]) {
+        const value = values[rowIndex][15 + addIndex];
+        metadata.languagesKeys[values[rowIndex][15]] = value;
+        metadata.languages.push(value);
       }
     }
   }
@@ -103,10 +82,10 @@ function getContent(
 ): Content {
   const content = {
     index,
-    language: mapLabelToLanguage(language),
-    domain: metadata.domains[domain],
-    ageLevel: metadata.ageLevels[ageLevel],
-    duration: metadata.durations[duration],
+    language: metadata.languagesKeys[language],
+    domain: metadata.domainsKeys[domain],
+    ageLevel: metadata.ageLevelsKeys[ageLevel],
+    duration: metadata.durationsKeys[duration],
     name,
     link,
   };
@@ -159,17 +138,18 @@ function getContentsDataFromValues(metadata: ContentsMetadata, values: string[][
   return contents;
 }
 
-export async function getContentsInfo(): Promise<ContentsSchema> {
+export async function getContentsInfo(locale: string): Promise<ContentsSchema> {
   const sheets = google.sheets('v4');
 
-  let metadata = getContentsMetadataFromValues(null);
+  let metadata = getContentsMetadataFromValues(null, locale);
   let contents: Content[] = [];
+  let currentLanguage = '';
 
   try {
     const translationsResponse = await sheets.spreadsheets.values.get({
       key: config.GOOGLE_API_KEY,
       spreadsheetId: config.GOOGLE_SPREADSHEET_ID_CONTENTS,
-      range: 'translations!A:N',
+      range: 'translations!A:S',
     });
 
     const contentsResponse = await sheets.spreadsheets.values.get({
@@ -182,15 +162,23 @@ export async function getContentsInfo(): Promise<ContentsSchema> {
     const contentsValues = contentsResponse.data.values;
 
     if (translationsValues && contentsValues) {
-      metadata = getContentsMetadataFromValues(translationsValues);
+      metadata = getContentsMetadataFromValues(translationsValues, locale);
       contents = getContentsDataFromValues(metadata, contentsValues);
+
+      currentLanguage = metadata.languagesKeys[LANGUAGES.filter((language) => language.locale === locale)[0].key];
     }
   } catch (err) {
     console.error('Google Sheets API error:', err);
   }
 
   return {
-    ...metadata,
+    currentLanguage,
+
+    domains: metadata.domains,
+    ageLevels: metadata.ageLevels,
+    durations: metadata.durations,
+    languages: metadata.languages,
+
     contents,
   };
 }

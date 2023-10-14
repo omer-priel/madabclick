@@ -10,11 +10,11 @@ interface PageProps {
 }
 
 export default async function Page({ params }: PageProps) {
-  const data = await getContentsInfo();
+  const data = await getContentsInfo(params.locale);
 
   return (
     <div className='App'>
-      <MainPage data={data} locale={params.locale} />
+      <MainPage data={data} />
     </div>
   );
 }

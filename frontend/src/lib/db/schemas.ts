@@ -1,22 +1,9 @@
-export interface Language {
-  id: string;
-  label: string;
-}
-
-export interface TranslatedText {
-  key: string;
-  orderIndex: number;
-  he: string;
-  en: string;
-  ar: string;
-}
-
 interface ContentBase {
   index: number;
-  language: Language;
-  domain: TranslatedText;
-  ageLevel: TranslatedText;
-  duration: TranslatedText;
+  language: string;
+  domain: string;
+  ageLevel: string;
+  duration: string;
   name: string;
   link: string;
 }
@@ -33,26 +20,13 @@ interface ContentYouTube extends ContentBase {
 
 export type Content = ContentOther | ContentYouTube;
 
-export interface ContentsMetadata {
-  languages: Language[];
-  domains: { [key: string]: TranslatedText };
-  ageLevels: { [key: string]: TranslatedText };
-  durations: { [key: string]: TranslatedText };
-}
+export interface ContentsSchema {
+  currentLanguage: string;
 
-export interface ContentsSchema extends ContentsMetadata {
+  domains: string[];
+  ageLevels: string[];
+  durations: string[];
+  languages: string[];
+
   contents: Content[];
-}
-
-export function getTranslatedTextByKey(text: TranslatedText, key: string) {
-  switch (key) {
-    case 'he':
-      return text.he;
-    case 'en':
-      return text.en;
-    case 'ar':
-      return text.ar;
-    default:
-      return text.he;
-  }
 }

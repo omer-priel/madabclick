@@ -1,16 +1,16 @@
 import { ReactNode } from 'react';
 
 import { NextIntlClientProvider } from 'next-intl';
-import { notFound } from 'next/navigation';
 
 import { LANGUAGES } from '@/config';
-import { mapIDToLanguage } from '@/lib/db/requests';
 import { getTranslation, setLocale } from '@/translation';
 
 import '@/styles/globals.css';
 
 export interface PageProps {
-  params: { locale: string };
+  params: {
+    locale: string;
+  };
 }
 
 interface Props extends PageProps {
@@ -31,26 +31,21 @@ export async function generateMetadata({ params }: PageProps) {
 export function generateStaticParams() {
   return Array.from(
     LANGUAGES.map((language) => {
-      return { locale: language.id };
+      return { locale: language.locale };
     })
   );
 }
 
-export default async function RootLayout({ children, params }: Props) {
-  // setup next-tran
-  if (mapIDToLanguage(params.locale).id !== params.locale) {
-    notFound();
-  }
+export default async function RootLayout({ children, params: { locale } }: Props) {
+  const messages = (await import(`@/messages/${locale}.json`)).default;
 
-  const messages = (await import(`@/messages/${params.locale}.json`)).default;
-
-  setLocale(params.locale);
+  setLocale(locale);
 
   // render layout
   return (
-    <html lang={params.locale} dir={params.locale == 'en' ? 'ltr' : 'rtl'}>
+    <html lang={locale} dir={locale == 'en' ? 'ltr' : 'rtl'}>
       <body>
-        <NextIntlClientProvider locale={params.locale} messages={messages}>
+        <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
         </NextIntlClientProvider>
       </body>
