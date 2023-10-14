@@ -1,5 +1,8 @@
 import { useTranslations } from 'next-intl';
 
+import YouTubePlaylist from '@/components/atoms/YouTubePlaylist';
+import YouTubeVideo from '@/components/atoms/YouTubeVideo';
+
 import { Content } from '@/lib/db/schemas';
 
 interface Props {
@@ -43,22 +46,9 @@ export default function ContentCard({ content, hidden }: Props) {
         ))}
       </div>
       <div className='relative h-48'>
-        {content.contentType == 'youtube' && content.videoID && (
-          <iframe
-            title={content.name}
-            src={`https://www.youtube.com/embed/${content.videoID}`}
-            className='absolute inset-0 w-full h-full'
-            allowFullScreen
-          ></iframe>
-        )}
+        {content.contentType == 'youtube' && content.videoID && <YouTubeVideo videoID={content.videoID} title={content.name} />}
         {content.contentType == 'youtube' && !content.videoID && content.playlistID && (
-          <iframe
-            title={content.name}
-            src={`https://www.youtube.com/embed/videoseries?amp;list=${content.playlistID}`}
-            className='absolute inset-0 w-full h-full'
-            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-            allowFullScreen
-          ></iframe>
+          <YouTubePlaylist playlistID={content.playlistID} title={content.name} />
         )}
       </div>
     </div>
