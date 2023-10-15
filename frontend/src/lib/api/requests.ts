@@ -3,7 +3,7 @@ import { google } from 'googleapis';
 import { LANGUAGES, config } from '@/config';
 import { Content, ContentsSchema } from '@/lib/api/schemas';
 
-import { getYouTubeVideosData } from './youTubeData';
+import { getYouTubePlaylistsData, getYouTubeVideosData } from './youTubeData';
 
 interface ContentsMetadata {
   domains: string[];
@@ -83,7 +83,7 @@ function getContent(
   duration: string,
   recommended: boolean
 ): Content {
-  const content = {
+  const content: Content = {
     index,
 
     language: metadata.languagesKeys[language],
@@ -95,6 +95,9 @@ function getContent(
     recommended,
 
     title: name,
+
+    youtubeVideo: null,
+    youtubePlaylist: null,
   };
 
   if (link.startsWith('https://www.youtube.com/')) {
@@ -115,24 +118,29 @@ function getContent(
       playlistID = content.link.split('&list=')[1].split('&')[0];
     }
 
-    return {
-      ...content,
-      contentType: 'youtube',
-      videoID,
-      playlistID,
-      youtube: null,
-      thumbnail: {
-        url: `https://img.youtube.com/vi/${videoID}/maxresdefault.jpg`,
-        width: null,
-        height: null,
-      },
-    };
+    if (videoID) {
+      content.youtubeVideo = {
+        id: videoID,
+        playlistId: playlistID,
+        title: null,
+        description: null,
+        thumbnail: {
+          url: `https://img.youtube.com/vi/${videoID}/maxresdefault.jpg`,
+          width: null,
+          height: null,
+        },
+      };
+    } else if (playlistID) {
+      content.youtubePlaylist = {
+        id: playlistID,
+        title: null,
+        description: null,
+        thumbnail: null,
+      };
+    }
   }
 
-  return {
-    ...content,
-    contentType: 'other',
-  };
+  return content;
 }
 
 function getContentsDataFromValues(metadata: ContentsMetadata, values: string[][]): Content[] {
@@ -198,20 +206,43 @@ export async function getContentsInfo(locale: string): Promise<ContentsSchema> {
 
   const mapVideos = Object.fromEntries(
     contents
-      .filter((content) => content.contentType == 'youtube' && content.videoID)
-      .map((content) => [content.contentType == 'youtube' ? content.videoID : null, content.index])
+      .filter((content) => content.youtubeVideo !== null)
+      .map((content) => [content.youtubeVideo !== null ? content.youtubeVideo.id : null, content.index])
+  );
+
+  const mapPlaylists = Object.fromEntries(
+    contents
+      .filter((content) => content.youtubePlaylist !== null)
+      .map((content) => [content.youtubePlaylist !== null ? content.youtubePlaylist.id : null, content.index])
   );
 
   const videosData = await getYouTubeVideosData(Object.keys(mapVideos));
+  const playlistsData = await getYouTubePlaylistsData(Object.keys(mapPlaylists));
 
-  Object.keys(videosData.videos).forEach((videoID) => {
+  Object.keys(videosData).forEach((videoID) => {
     const content = contents[mapVideos[videoID]];
-    if (content.contentType == 'youtube') {
-      content.youtube = videosData.videos[videoID].youtube;
-      content.thumbnail = videosData.videos[videoID].thumbnail;
+    if (content.youtubeVideo) {
+      content.youtubeVideo = {
+        ...content.youtubeVideo,
+        ...videosData[videoID],
+      };
 
-      if (content.youtube?.title) {
-        content.title = content.youtube.title;
+      if (content.youtubeVideo.title) {
+        content.title = content.youtubeVideo.title;
+      }
+    }
+  });
+
+  Object.keys(playlistsData).forEach((playlistID) => {
+    const content = contents[mapPlaylists[playlistID]];
+    if (content.youtubePlaylist) {
+      content.youtubePlaylist = {
+        ...content.youtubePlaylist,
+        ...playlistsData[playlistID],
+      };
+
+      if (content.youtubePlaylist.title) {
+        content.title = content.youtubePlaylist.title;
       }
     }
   });

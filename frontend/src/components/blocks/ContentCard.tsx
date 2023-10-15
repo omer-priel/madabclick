@@ -4,6 +4,7 @@ import YouTubePlaylist from '@/components/atoms/YouTubePlaylist';
 import YouTubeVideo from '@/components/atoms/YouTubeVideo';
 
 import { Content } from '@/lib/api/schemas';
+import { hasHE, hasEN, hasAR } from '@/translation';
 
 interface Props {
   content: Content;
@@ -16,23 +17,30 @@ export default function ContentCard({ content, title, hidden }: Props) {
 
   const links: string[][] = [];
 
-  if (content.contentType == 'youtube') {
-    if (content.videoID) {
-      links.push([t('link-to-youtube-video'), content.link]);
-    }
+  if (content.youtubeVideo) {
+    links.push([t('link-to-youtube-video'), content.link]);
 
-    if (content.playlistID) {
-      links.push([t('link-to-youtube-playlist'), `https://www.youtube.com/playlist?list=${content.playlistID}`]);
+    if (content.youtubeVideo.playlistId) {
+      links.push([t('link-to-youtube-playlist'), `https://www.youtube.com/playlist?list=${content.youtubeVideo.playlistId}`]);
     }
-  } else if (content.contentType == 'other') {
+  } else if (content.youtubePlaylist) {
+    links.push([t('link-to-youtube-playlist'), `https://www.youtube.com/playlist?list=${content.youtubePlaylist.id}`]);
+  } else {
     links.push([t('link-to-website'), content.link]);
+  }
+
+  let titleStyle = {};
+  if (hasHE(title) || hasAR(title)) {
+    titleStyle = {direction: 'rtl'};
+  } else if (hasEN(title)) {
+    titleStyle = {direction: 'ltr'};
   }
 
   return (
     <div className={'bg-white border rounded-lg shadow-md p-4' + (hidden ? ' hidden' : '')}>
       <h2 className='text-xl text-center font-semibold'>
-        <a href={content.link} target='_blank' rel='noopener noreferrer' className='text-gray-900'>
-          {title ? title : <br />}
+        <a href={content.link} target='_blank' rel='noopener noreferrer' className={'text-gray-900'}>
+          <p style={titleStyle}>{title}</p>
         </a>
       </h2>
       <p className='text-gray-600 text-center'>{content.domain}</p>
@@ -47,8 +55,8 @@ export default function ContentCard({ content, title, hidden }: Props) {
         ))}
       </div>
       <div className='relative h-48'>
-        {content.contentType == 'youtube' && content.videoID && <YouTubeVideo content={content} />}
-        {content.contentType == 'youtube' && !content.videoID && content.playlistID && <YouTubePlaylist content={content} />}
+        {content.youtubeVideo && <YouTubeVideo content={content} />}
+        {content.youtubePlaylist && <YouTubePlaylist content={content} />}
       </div>
     </div>
   );

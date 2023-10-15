@@ -1,4 +1,4 @@
-interface ContentBase {
+export interface Content {
   index: number;
 
   language: string;
@@ -10,28 +10,31 @@ interface ContentBase {
   recommended: boolean;
 
   title: string; // will be displayed
-}
 
-export interface ContentOther extends ContentBase {
-  contentType: 'other';
-}
+  youtubeVideo: {
+    id: string;
+    playlistId: string | null;
+    title: string | null;
+    description: string | null;
 
-export interface ContentYouTube extends ContentBase {
-  contentType: 'youtube';
-  videoID: string | null;
-  playlistID: string | null;
-  youtube: {
-    title: string;
-    description: string;
+    thumbnail: {
+      url: string;
+      width: number | null;
+      height: number | null;
+    };
   } | null;
-  thumbnail: {
-    url: string;
-    width: number | null;
-    height: number | null;
-  };
-}
+  youtubePlaylist: {
+    id: string;
+    title: string | null;
+    description: string | null;
 
-export type Content = ContentOther | ContentYouTube;
+    thumbnail: {
+      url: string;
+      width: number | null;
+      height: number | null;
+    } | null;
+  } | null;
+}
 
 export interface ContentsSchema {
   currentLanguage: string;
