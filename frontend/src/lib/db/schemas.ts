@@ -31,5 +31,5 @@ export interface ContentsSchema {
 
   contents: Content[];
 
-  recommendedIndex: number;
+  recommendedContent: Content | null;
 }

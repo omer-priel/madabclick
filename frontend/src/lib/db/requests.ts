@@ -157,7 +157,7 @@ export async function getContentsInfo(locale: string): Promise<ContentsSchema> {
   let metadata = getContentsMetadataFromValues(null, locale);
   let contents: Content[] = [];
   let currentLanguage = '';
-  let recommendedIndex = 0;
+  let recommendedContent = null;
 
   try {
     const translationsResponse = await sheets.spreadsheets.values.get({
@@ -188,8 +188,8 @@ export async function getContentsInfo(locale: string): Promise<ContentsSchema> {
   const recommendedContents = contents.filter((content) => content.recommended);
 
   if (recommendedContents.length > 0) {
-    recommendedIndex = Math.floor(Math.random() * recommendedContents.length);
-    recommendedIndex = recommendedContents[recommendedIndex].index;
+    const recommendedIndex = Math.floor(Math.random() * recommendedContents.length);
+    recommendedContent = recommendedContents[recommendedIndex];
   }
 
   return {
@@ -202,6 +202,6 @@ export async function getContentsInfo(locale: string): Promise<ContentsSchema> {
 
     contents,
 
-    recommendedIndex,
+    recommendedContent,
   };
 }
