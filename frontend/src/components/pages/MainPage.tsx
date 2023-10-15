@@ -1,6 +1,6 @@
 import ContentList from '@/components/blocks/ContentList';
 
-import { ContentsSchema } from '@/lib/db/schemas';
+import { ContentsSchema } from '@/lib/api/schemas';
 import { getTranslation } from '@/translation';
 
 interface Props {

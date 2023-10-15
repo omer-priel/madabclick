@@ -1,22 +1,34 @@
 interface ContentBase {
   index: number;
+
   language: string;
   domain: string;
   ageLevel: string;
   duration: string;
-  name: string;
+  name: string; // from db
   link: string;
   recommended: boolean;
+
+  title: string; // will be displayed
 }
 
-interface ContentOther extends ContentBase {
+export interface ContentOther extends ContentBase {
   contentType: 'other';
 }
 
-interface ContentYouTube extends ContentBase {
+export interface ContentYouTube extends ContentBase {
   contentType: 'youtube';
   videoID: string | null;
   playlistID: string | null;
+  youtube: {
+    title: string;
+    description: string;
+  } | null;
+  thumbnail: {
+    url: string;
+    width: number | null;
+    height: number | null;
+  };
 }
 
 export type Content = ContentOther | ContentYouTube;
@@ -29,7 +41,7 @@ export interface ContentsSchema {
   durations: string[];
   languages: string[];
 
-  contents: Content[];
-
   recommendedContent: Content | null;
+
+  contents: Content[];
 }

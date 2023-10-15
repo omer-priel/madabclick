@@ -4,36 +4,35 @@ import { useState } from 'react';
 
 import Image from 'next/image';
 
+import { ContentYouTube } from '@/lib/api/schemas';
+
 interface Props {
-  videoID: string;
-  title: string;
+  content: ContentYouTube;
 }
 
-export default function YouTubeVideo({ videoID, title }: Props) {
+export default function YouTubeVideo({ content }: Props) {
   const [show, setShow] = useState(false);
-  const [imageSrc, setImageSrc] = useState(`https://img.youtube.com/vi/${videoID}/maxresdefault.jpg`);
 
   return (
     <>
       {!show ? (
         <button type='button' onClick={() => setShow(true)}>
-          <Image
-            className='absolute inset-0 w-full h-full'
-            src={imageSrc}
-            alt={title}
-            fill
-            loading='lazy'
-            onError={() => {
-              console.log(imageSrc);
-              setImageSrc(`https://img.youtube.com/vi/${videoID}/hqdefault.jpg`);
-            }}
-          />
+          <Image className='absolute inset-0 w-full h-full' src={content.thumbnail.url} alt={content.title} fill />
+          {content.thumbnail.width && content.thumbnail.height && (
+            <Image
+              className='absolute inset-0 w-full h-full'
+              src={content.thumbnail.url}
+              width={content.thumbnail.width}
+              height={content.thumbnail.height}
+              alt={content.title}
+            />
+          )}
         </button>
       ) : (
         <iframe
           className='absolute inset-0 w-full h-full'
-          title={title}
-          src={`https://www.youtube.com/embed/${videoID}?autoplay=1`}
+          title={content.title}
+          src={`https://www.youtube.com/embed/${content.videoID}?autoplay=1`}
           allow='autoplay'
           allowFullScreen
         ></iframe>

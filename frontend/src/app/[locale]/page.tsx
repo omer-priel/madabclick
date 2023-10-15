@@ -1,7 +1,7 @@
 import MainPage from '@/components/pages/MainPage';
 
 import { config } from '@/config';
-import { getContentsInfo } from '@/lib/db/requests';
+import { getContentsInfo } from '@/lib/api/requests';
 
 export const revalidate = config.APP_REVALIDATE;
 

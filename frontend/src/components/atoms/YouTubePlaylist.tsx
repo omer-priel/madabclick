@@ -1,13 +1,14 @@
+import { ContentYouTube } from '@/lib/api/schemas';
+
 interface Props {
-  playlistID: string;
-  title: string;
+  content: ContentYouTube;
 }
 
-export default function YouTubePlaylist({ playlistID, title }: Props) {
+export default function YouTubePlaylist({ content }: Props) {
   return (
     <iframe
-      title={title}
-      src={`https://www.youtube.com/embed/videoseries?amp;list=${playlistID}`}
+      title={content.title}
+      src={`https://www.youtube.com/embed/videoseries?amp;list=${content.playlistID}`}
       className='absolute inset-0 w-full h-full'
       allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
       allowFullScreen

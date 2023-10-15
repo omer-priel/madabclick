@@ -3,7 +3,7 @@ import { useTranslations } from 'next-intl';
 import YouTubePlaylist from '@/components/atoms/YouTubePlaylist';
 import YouTubeVideo from '@/components/atoms/YouTubeVideo';
 
-import { Content } from '@/lib/db/schemas';
+import { Content } from '@/lib/api/schemas';
 
 interface Props {
   content: Content;
@@ -47,10 +47,8 @@ export default function ContentCard({ content, title, hidden }: Props) {
         ))}
       </div>
       <div className='relative h-48'>
-        {content.contentType == 'youtube' && content.videoID && <YouTubeVideo videoID={content.videoID} title={content.name} />}
-        {content.contentType == 'youtube' && !content.videoID && content.playlistID && (
-          <YouTubePlaylist playlistID={content.playlistID} title={content.name} />
-        )}
+        {content.contentType == 'youtube' && content.videoID && <YouTubeVideo content={content} />}
+        {content.contentType == 'youtube' && !content.videoID && content.playlistID && <YouTubePlaylist content={content} />}
       </div>
     </div>
   );

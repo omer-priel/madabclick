@@ -1,7 +1,9 @@
 import { google } from 'googleapis';
 
 import { LANGUAGES, config } from '@/config';
-import { Content, ContentsSchema } from '@/lib/db/schemas';
+import { Content, ContentsSchema } from '@/lib/api/schemas';
+
+import { getYouTubeVideosData } from './youTubeData';
 
 interface ContentsMetadata {
   domains: string[];
@@ -83,6 +85,7 @@ function getContent(
 ): Content {
   const content = {
     index,
+
     language: metadata.languagesKeys[language],
     domain: metadata.domainsKeys[domain],
     ageLevel: metadata.ageLevelsKeys[ageLevel],
@@ -90,6 +93,8 @@ function getContent(
     name,
     link,
     recommended,
+
+    title: name,
   };
 
   if (link.startsWith('https://www.youtube.com/')) {
@@ -113,8 +118,14 @@ function getContent(
     return {
       ...content,
       contentType: 'youtube',
-      videoID: videoID,
-      playlistID: playlistID,
+      videoID,
+      playlistID,
+      youtube: null,
+      thumbnail: {
+        url: `https://img.youtube.com/vi/${videoID}/maxresdefault.jpg`,
+        width: null,
+        height: null,
+      },
     };
   }
 
@@ -185,6 +196,26 @@ export async function getContentsInfo(locale: string): Promise<ContentsSchema> {
     console.error('Google Sheets API error:', err);
   }
 
+  const mapVideos = Object.fromEntries(
+    contents
+      .filter((content) => content.contentType == 'youtube' && content.videoID)
+      .map((content) => [content.contentType == 'youtube' ? content.videoID : null, content.index])
+  );
+
+  const videosData = await getYouTubeVideosData(Object.keys(mapVideos));
+
+  Object.keys(videosData.videos).forEach((videoID) => {
+    const content = contents[mapVideos[videoID]];
+    if (content.contentType == 'youtube') {
+      content.youtube = videosData.videos[videoID].youtube;
+      content.thumbnail = videosData.videos[videoID].thumbnail;
+
+      if (content.youtube?.title) {
+        content.title = content.youtube.title;
+      }
+    }
+  });
+
   const recommendedContents = contents.filter((content) => content.recommended);
 
   if (recommendedContents.length > 0) {
@@ -200,8 +231,8 @@ export async function getContentsInfo(locale: string): Promise<ContentsSchema> {
     durations: metadata.durations,
     languages: metadata.languages,
 
-    contents,
-
     recommendedContent,
+
+    contents,
   };
 }

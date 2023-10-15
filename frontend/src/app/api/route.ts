@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 
 import { LANGUAGES } from '@/config';
-import { getContentsInfo } from '@/lib/db/requests';
-import { ContentsSchema } from '@/lib/db/schemas';
+import { getContentsInfo } from '@/lib/api/requests';
+import { ContentsSchema } from '@/lib/api/schemas';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function GET(request: Request) {

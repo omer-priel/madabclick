@@ -6,48 +6,64 @@ import { useTranslations } from 'next-intl';
 
 import ContentCard from '@/components/blocks/ContentCard';
 
-import { Content, ContentsSchema } from '@/lib/db/schemas';
+import { Content, ContentsSchema } from '@/lib/api/schemas';
 
 interface Props {
   data: ContentsSchema;
 }
 
 export default function ContentList({ data }: Props) {
-  const { contents, recommendedContent, currentLanguage, languages, domains, ageLevels, durations } = data;
+  const { currentLanguage, languages, domains, ageLevels, durations, recommendedContent, contents } = data;
 
   const t = useTranslations();
 
-  const [selectedDomain, setSelectedDomain] = useState<string>('ALL');
-  const [selectedAgeLevel, setSelectedAgeLevel] = useState<string>('ALL');
-  const [selectedDuration, setSelectedDuration] = useState<string>('ALL');
-  const [selectedLanguage, setSelectedLanguage] = useState<string>(currentLanguage);
+  const [selectedDomain, setSelectedDomain] = useState<string[]>([]);
+  const [selectedAgeLevel, setSelectedAgeLevel] = useState<string[]>([]);
+  const [selectedDuration, setSelectedDuration] = useState<string[]>([]);
+  const [selectedLanguage, setSelectedLanguage] = useState<string[]>([currentLanguage]);
   const [searchText, setSearchText] = useState<string>('');
 
   const handleDomainChange = (domain: string) => {
-    setSelectedDomain(domain);
+    if (domain == 'ALL') {
+      setSelectedDomain([]);
+    } else {
+      setSelectedDomain([domain]);
+    }
   };
 
   const handleAgeLevelChange = (ageLevel: string) => {
-    setSelectedAgeLevel(ageLevel);
+    if (ageLevel == 'ALL') {
+      setSelectedAgeLevel([]);
+    } else {
+      setSelectedAgeLevel([ageLevel]);
+    }
   };
 
   const handleDurationChange = (duration: string) => {
-    setSelectedDuration(duration);
+    if (duration == 'ALL') {
+      setSelectedDuration([]);
+    } else {
+      setSelectedDuration([duration]);
+    }
   };
 
   const handleLanguageChange = (language: string) => {
-    setSelectedLanguage(language);
+    if (language == 'ALL') {
+      setSelectedLanguage([]);
+    } else {
+      setSelectedLanguage([language]);
+    }
   };
 
   const searchValue = searchText.trim().length > 2 ? searchText.trim() : '';
 
   const showContentCard = (content: Content) => {
     return (
-      (selectedDomain === 'ALL' || content.domain === selectedDomain) &&
-      (selectedAgeLevel === 'ALL' || content.ageLevel === selectedAgeLevel) &&
-      (selectedDuration === 'ALL' || content.duration === selectedDuration) &&
-      (selectedLanguage === 'ALL' || content.language === selectedLanguage) &&
-      (!searchValue || content.domain.includes(searchValue) || content.name.includes(searchValue))
+      (selectedDomain.length === 0 || selectedDomain.includes(content.domain)) &&
+      (selectedAgeLevel.length === 0 || selectedAgeLevel.includes(content.ageLevel)) &&
+      (selectedDuration.length === 0 || selectedDuration.includes(content.duration)) &&
+      (selectedLanguage.length === 0 || selectedLanguage.includes(content.language)) &&
+      (!searchValue || content.domain.includes(searchValue) || content.title.includes(searchValue))
     );
   };
 
@@ -60,7 +76,7 @@ export default function ContentList({ data }: Props) {
             <select
               className='px-2 py-1 border rounded-md'
               onChange={(e) => handleDomainChange(e.target.value)}
-              value={selectedDomain}
+              value={selectedDomain ? selectedDomain[0] : 'ALL'}
               defaultValue={'ALL'}
             >
               <option value='ALL'>{t('all')}</option>
@@ -76,7 +92,7 @@ export default function ContentList({ data }: Props) {
             <select
               className='px-2 py-1 border rounded-md'
               onChange={(e) => handleAgeLevelChange(e.target.value)}
-              value={selectedAgeLevel}
+              value={selectedAgeLevel ? selectedAgeLevel[0] : 'ALL'}
               defaultValue={'ALL'}
             >
               <option value='ALL'>{t('all')}</option>
@@ -92,7 +108,7 @@ export default function ContentList({ data }: Props) {
             <select
               className='px-2 py-1 border rounded-md'
               onChange={(e) => handleDurationChange(e.target.value)}
-              value={selectedDuration}
+              value={selectedDuration ? selectedDuration[0] : 'ALL'}
               defaultValue={'ALL'}
             >
               <option value='ALL'>{t('all')}</option>
@@ -108,7 +124,7 @@ export default function ContentList({ data }: Props) {
             <select
               className='px-2 py-1 border rounded-md'
               onChange={(e) => handleLanguageChange(e.target.value)}
-              value={selectedLanguage}
+              value={selectedLanguage ? selectedLanguage[0] : 'ALL'}
               defaultValue={currentLanguage}
             >
               <option value='ALL'>{t('all')}</option>
@@ -128,14 +144,14 @@ export default function ContentList({ data }: Props) {
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
         {recommendedContent && (
           <div className='mx-auto sm:col-span-2 lg:col-span-4 sm:w-1/2 lg:w-1/4'>
-            <ContentCard content={recommendedContent} title={recommendedContent.name + ' - ' + t('recommended')} />
+            <ContentCard content={recommendedContent} title={recommendedContent.title + ' - ' + t('recommended')} />
           </div>
         )}
         {contents.map(
           (content) =>
             (!recommendedContent || content.index !== recommendedContent.index) && (
               <Fragment key={content.index}>
-                <ContentCard content={content} title={content.name} hidden={!showContentCard(content)} />
+                <ContentCard content={content} title={content.title} hidden={!showContentCard(content)} />
               </Fragment>
             )
         )}
