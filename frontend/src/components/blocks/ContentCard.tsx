@@ -7,10 +7,11 @@ import { Content } from '@/lib/db/schemas';
 
 interface Props {
   content: Content;
-  hidden: boolean;
+  title: string;
+  hidden?: boolean;
 }
 
-export default function ContentCard({ content, hidden }: Props) {
+export default function ContentCard({ content, title, hidden }: Props) {
   const t = useTranslations();
 
   const links: string[][] = [];
@@ -31,7 +32,7 @@ export default function ContentCard({ content, hidden }: Props) {
     <div className={'bg-white border rounded-lg shadow-md p-4' + (hidden ? ' hidden' : '')}>
       <h2 className='text-xl text-center font-semibold'>
         <a href={content.link} target='_blank' rel='noopener noreferrer' className='text-gray-900'>
-          {content.name ? content.name : <br />}
+          {title ? title : <br />}
         </a>
       </h2>
       <p className='text-gray-600 text-center'>{content.domain}</p>

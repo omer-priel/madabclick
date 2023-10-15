@@ -78,7 +78,8 @@ function getContent(
   ageLevel: string,
   name: string,
   link: string,
-  duration: string
+  duration: string,
+  recommended: boolean
 ): Content {
   const content = {
     index,
@@ -88,6 +89,7 @@ function getContent(
     duration: metadata.durationsKeys[duration],
     name,
     link,
+    recommended,
   };
 
   if (link.startsWith('https://www.youtube.com/')) {
@@ -126,11 +128,22 @@ function getContentsDataFromValues(metadata: ContentsMetadata, values: string[][
   const contents: Content[] = [];
 
   for (let rowIndex = 1; rowIndex < values.length; rowIndex++) {
-    const [language = '', domain = '', ageLevel = '', name = '', , link = '', duration = ''] = values[rowIndex];
+    const [language = '', domain = '', ageLevel = '', name = '', , link = '', duration = '', recommendedValue = ''] = values[rowIndex];
+    const recommended = recommendedValue == 'מומלץ';
 
     if (language.trim() && domain.trim() && ageLevel.trim() && name.trim() && link.trim() && duration.trim()) {
       contents.push(
-        getContent(metadata, contents.length, language.trim(), domain.trim(), ageLevel.trim(), name.trim(), link.trim(), duration.trim())
+        getContent(
+          metadata,
+          contents.length,
+          language.trim(),
+          domain.trim(),
+          ageLevel.trim(),
+          name.trim(),
+          link.trim(),
+          duration.trim(),
+          recommended
+        )
       );
     }
   }
@@ -144,6 +157,7 @@ export async function getContentsInfo(locale: string): Promise<ContentsSchema> {
   let metadata = getContentsMetadataFromValues(null, locale);
   let contents: Content[] = [];
   let currentLanguage = '';
+  let recommendedContent = null;
 
   try {
     const translationsResponse = await sheets.spreadsheets.values.get({
@@ -155,7 +169,7 @@ export async function getContentsInfo(locale: string): Promise<ContentsSchema> {
     const contentsResponse = await sheets.spreadsheets.values.get({
       key: config.GOOGLE_API_KEY,
       spreadsheetId: config.GOOGLE_SPREADSHEET_ID_CONTENTS,
-      range: 'contents!A:G',
+      range: 'contents!A:H',
     });
 
     const translationsValues = translationsResponse.data.values;
@@ -171,6 +185,13 @@ export async function getContentsInfo(locale: string): Promise<ContentsSchema> {
     console.error('Google Sheets API error:', err);
   }
 
+  const recommendedContents = contents.filter((content) => content.recommended);
+
+  if (recommendedContents.length > 0) {
+    const recommendedIndex = Math.floor(Math.random() * recommendedContents.length);
+    recommendedContent = recommendedContents[recommendedIndex];
+  }
+
   return {
     currentLanguage,
 
@@ -180,5 +201,7 @@ export async function getContentsInfo(locale: string): Promise<ContentsSchema> {
     languages: metadata.languages,
 
     contents,
+
+    recommendedContent,
   };
 }

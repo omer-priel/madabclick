@@ -6,6 +6,7 @@ interface ContentBase {
   duration: string;
   name: string;
   link: string;
+  recommended: boolean;
 }
 
 interface ContentOther extends ContentBase {
@@ -29,4 +30,6 @@ export interface ContentsSchema {
   languages: string[];
 
   contents: Content[];
+
+  recommendedContent: Content | null;
 }

@@ -13,7 +13,7 @@ interface Props {
 }
 
 export default function ContentList({ data }: Props) {
-  const { contents, currentLanguage, languages, domains, ageLevels, durations } = data;
+  const { contents, recommendedContent, currentLanguage, languages, domains, ageLevels, durations } = data;
 
   const t = useTranslations();
 
@@ -125,13 +125,20 @@ export default function ContentList({ data }: Props) {
           </div>
         </div>
       </div>
-
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
-        {contents.map((content) => (
-          <Fragment key={content.index}>
-            <ContentCard content={content} hidden={!showContentCard(content)} />
-          </Fragment>
-        ))}
+        {recommendedContent && (
+          <div className='mx-auto sm:col-span-2 lg:col-span-4 sm:w-1/2 lg:w-1/4'>
+            <ContentCard content={recommendedContent} title={recommendedContent.name + ' - ' + t('recommended')} />
+          </div>
+        )}
+        {contents.map(
+          (content) =>
+            (!recommendedContent || content.index !== recommendedContent.index) && (
+              <Fragment key={content.index}>
+                <ContentCard content={content} title={content.name} hidden={!showContentCard(content)} />
+              </Fragment>
+            )
+        )}
       </div>
     </>
   );
