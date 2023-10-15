@@ -2,8 +2,7 @@ import { ReactNode } from 'react';
 
 import { NextIntlClientProvider } from 'next-intl';
 
-import { LANGUAGES } from '@/config';
-import { getTranslation, setLocale } from '@/translation';
+import { LANGUAGES, getTranslation, setLocale } from '@/translation';
 
 import '@/styles/globals.css';
 
@@ -43,7 +42,7 @@ export default async function RootLayout({ children, params: { locale } }: Props
 
   // render layout
   return (
-    <html lang={locale} dir={locale == 'en' ? 'ltr' : 'rtl'}>
+    <html lang={locale} dir={LANGUAGES.find((language) => language.locale == locale)?.dir}>
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}

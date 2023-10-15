@@ -4,7 +4,7 @@ import YouTubePlaylist from '@/components/atoms/YouTubePlaylist';
 import YouTubeVideo from '@/components/atoms/YouTubeVideo';
 
 import { Content } from '@/lib/api/schemas';
-import { hasHE, hasEN, hasAR } from '@/translation';
+import { getTextDirection } from '@/translation';
 
 interface Props {
   content: Content;
@@ -29,18 +29,13 @@ export default function ContentCard({ content, title, hidden }: Props) {
     links.push([t('link-to-website'), content.link]);
   }
 
-  let titleStyle = {};
-  if (hasHE(title) || hasAR(title)) {
-    titleStyle = {direction: 'rtl'};
-  } else if (hasEN(title)) {
-    titleStyle = {direction: 'ltr'};
-  }
+  const titleDirection = getTextDirection(title);
 
   return (
     <div className={'bg-white border rounded-lg shadow-md p-4' + (hidden ? ' hidden' : '')}>
       <h2 className='text-xl text-center font-semibold'>
         <a href={content.link} target='_blank' rel='noopener noreferrer' className={'text-gray-900'}>
-          <p style={titleStyle}>{title}</p>
+          <span style={titleDirection ? { direction: titleDirection } : {}}>{title}</span>
         </a>
       </h2>
       <p className='text-gray-600 text-center'>{content.domain}</p>

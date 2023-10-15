@@ -5,21 +5,6 @@ export interface ClientConfig {
   GOOGLE_SPREADSHEET_ID_CONTENTS: string;
 }
 
-export const LANGUAGES = [
-  {
-    locale: 'he',
-    key: 'עברית',
-  },
-  {
-    locale: 'en',
-    key: 'אנגלית',
-  },
-  {
-    locale: 'ar',
-    key: 'ערבית',
-  },
-];
-
 export const config: ClientConfig = {
   APP_REVALIDATE: process.env.APP_REVALIDATE ? parseInt(process.env.APP_REVALIDATE) : 7200,
 

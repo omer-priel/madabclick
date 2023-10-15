@@ -35,7 +35,10 @@ export default function YouTubePlaylist({ content }: Props) {
       ) : (
         <iframe
           title={content.title}
-          src={`https://www.youtube.com/embed/videoseries?amp;list=${content.youtubePlaylist.id}` + (!!content.youtubePlaylist.thumbnail ? '&autoplay=1' : '')}
+          src={
+            `https://www.youtube.com/embed/videoseries?amp;list=${content.youtubePlaylist.id}` +
+            (!!content.youtubePlaylist.thumbnail ? '&autoplay=1' : '')
+          }
           className='absolute inset-0 w-full h-full'
           allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
           allowFullScreen

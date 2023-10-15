@@ -1,9 +1,9 @@
 import { google } from 'googleapis';
 
-import { LANGUAGES, config } from '@/config';
+import { config } from '@/config';
 import { Content, ContentsSchema } from '@/lib/api/schemas';
-
-import { getYouTubePlaylistsData, getYouTubeVideosData } from './youTubeData';
+import { getYouTubePlaylistsData, getYouTubeVideosData } from '@/lib/api/youTubeData';
+import { LANGUAGES } from '@/translation';
 
 interface ContentsMetadata {
   domains: string[];
