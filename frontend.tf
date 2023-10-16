@@ -1,4 +1,118 @@
-data "aws_ami" "frontend_ubuntu_ami" {
+resource "aws_vpc" "prod" {
+  cidr_block       = "10.0.0.0/16"
+  instance_tenancy = "default"
+
+  tags = {
+    Name = "production"
+  }
+}
+
+resource "aws_internet_gateway" "prod" {
+  vpc_id = aws_vpc.prod.id
+
+  tags = {
+    Name = "production"
+  }
+}
+
+
+resource "aws_route_table" "prod" {
+  vpc_id = aws_vpc.prod.id
+
+  tags = {
+    Name = "production"
+  }
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.prod.id
+  }
+
+  route {
+    ipv6_cidr_block = "::/0"
+    gateway_id      = aws_internet_gateway.prod.id
+  }
+}
+
+resource "aws_subnet" "prod" {
+  vpc_id            = aws_vpc.prod.id
+  cidr_block        = "10.0.1.0/24"
+  availability_zone = var.aws_availability_zone
+
+  tags = {
+    Name = "production"
+  }
+}
+
+resource "aws_route_table_association" "prod" {
+  route_table_id = aws_route_table.prod.id
+  subnet_id      = aws_subnet.prod.id
+}
+
+resource "aws_security_group" "frontend" {
+  name        = "security_group_frontend"
+  description = "frontend security group"
+  vpc_id      = aws_vpc.prod.id
+
+  tags = {
+    Name = "frontend"
+  }
+
+  ingress {
+    description = "SSH"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "HTTP"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "HTTPS"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
+}
+
+resource "aws_network_interface" "frontend" {
+  subnet_id       = aws_subnet.prod.id
+  private_ips     = ["10.0.1.50"]
+  security_groups = [aws_security_group.frontend.id]
+
+  tags = {
+    Name = "frontend"
+  }
+}
+
+resource "aws_eip" "frontend" {
+  vpc                       = true
+  network_interface         = aws_network_interface.frontend.id
+  associate_with_private_ip = "10.0.1.50"
+  depends_on                = [aws_internet_gateway.prod]
+
+  tags = {
+    Name = "frontend"
+  }
+}
+
+data "aws_ami" "frontend" {
   most_recent = true
 
   filter {
@@ -14,59 +128,6 @@ data "aws_ami" "frontend_ubuntu_ami" {
   owners = ["099720109477"]
 }
 
-resource "aws_instance" "frontend" {
-  ami           = data.aws_ami.frontend_ubuntu_ami.id
-  instance_type = "t3.micro"
-
-  tags = {
-    Name = "Frontend"
-  }
-
-  key_name        = aws_key_pair.fontend.key_name
-  security_groups = [aws_security_group.frontend.name]
-
-  user_data = <<-EOF
-              #!/bin/bash
-              sudo api update -y
-              sudo api install apache2
-              sudu systemctl start apache2
-              bash -c 'echp EC2 working with apache2 > /var/www/html/index.html'
-              EOF
-}
-
-resource "aws_eip" "frontend" {
-  instance = aws_instance.frontend.id
-  tags = {
-    Name = "Frontend"
-  }
-}
-
-resource "aws_security_group" "frontend" {
-  name        = "frontend"
-  description = "Frontend security group"
-
-  ingress {
-    from_port   = 80 # HTTP
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 443 ## HTTPS
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 22 # SSH
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
 resource "tls_private_key" "fontend" {
   algorithm = "RSA"
   rsa_bits  = 4096
@@ -75,6 +136,30 @@ resource "tls_private_key" "fontend" {
 resource "aws_key_pair" "fontend" {
   key_name   = "fontend_key_pair"
   public_key = tls_private_key.fontend.public_key_openssh
+}
+
+resource "aws_instance" "frontend" {
+  ami               = data.aws_ami.frontend.id
+  instance_type     = "t2.micro"
+  availability_zone = var.aws_availability_zone
+  key_name          = aws_key_pair.fontend.key_name
+
+  tags = {
+    Name = "frontend"
+  }
+
+  network_interface {
+    device_index         = 0
+    network_interface_id = aws_network_interface.frontend.id
+  }
+
+  user_data = <<-EOF
+              #!/bin/bash
+              sudo api update -y
+              sudo api install apache2
+              sudu systemctl start apache2
+              bash -c 'echo Hello World > /var/www/html/index.html'
+              EOF
 }
 
 output "frontend_public_ip" {

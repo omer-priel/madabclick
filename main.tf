@@ -19,8 +19,20 @@ variable "aws_secret_key" {
   type        = string
 }
 
+variable "aws_region" {
+  description = "AWS Region"
+  type        = string
+  default     = "us-east-1"
+}
+
+variable "aws_availability_zone" {
+  description = "AWS Secret Key"
+  type        = string
+  default     = "us-east-1a"
+}
+
 provider "aws" {
-  region = "us-east-1"
+  region = var.aws_region
 
   access_key = var.aws_access_key
   secret_key = var.aws_secret_key
