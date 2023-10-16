@@ -76,8 +76,7 @@ export default function ContentList({ data }: Props) {
             <select
               className='px-2 py-1 border rounded-md'
               onChange={(e) => handleDomainChange(e.target.value)}
-              value={selectedDomain ? selectedDomain[0] : 'ALL'}
-              defaultValue={'ALL'}
+              value={selectedDomain.length === 0 ? selectedDomain[0] : 'ALL'}
             >
               <option value='ALL'>{t('all')}</option>
               {domains.map((domain) => (
@@ -92,8 +91,7 @@ export default function ContentList({ data }: Props) {
             <select
               className='px-2 py-1 border rounded-md'
               onChange={(e) => handleAgeLevelChange(e.target.value)}
-              value={selectedAgeLevel ? selectedAgeLevel[0] : 'ALL'}
-              defaultValue={'ALL'}
+              value={selectedAgeLevel.length === 0 ? selectedAgeLevel[0] : 'ALL'}
             >
               <option value='ALL'>{t('all')}</option>
               {ageLevels.map((ageLevel) => (
@@ -108,8 +106,7 @@ export default function ContentList({ data }: Props) {
             <select
               className='px-2 py-1 border rounded-md'
               onChange={(e) => handleDurationChange(e.target.value)}
-              value={selectedDuration ? selectedDuration[0] : 'ALL'}
-              defaultValue={'ALL'}
+              value={selectedDuration.length === 0 ? selectedDuration[0] : 'ALL'}
             >
               <option value='ALL'>{t('all')}</option>
               {durations.map((duration) => (
@@ -124,8 +121,7 @@ export default function ContentList({ data }: Props) {
             <select
               className='px-2 py-1 border rounded-md'
               onChange={(e) => handleLanguageChange(e.target.value)}
-              value={selectedLanguage ? selectedLanguage[0] : 'ALL'}
-              defaultValue={currentLanguage}
+              value={selectedLanguage.length === 0 ? selectedLanguage[0] : 'ALL'}
             >
               <option value='ALL'>{t('all')}</option>
               {languages.map((language) => (

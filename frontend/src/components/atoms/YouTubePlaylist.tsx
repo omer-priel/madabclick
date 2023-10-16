@@ -21,15 +21,16 @@ export default function YouTubePlaylist({ content }: Props) {
     <>
       {!show && !!content.youtubePlaylist.thumbnail ? (
         <button type='button' onClick={() => setShow(true)}>
-          <Image className='absolute inset-0 w-full h-full' src={content.youtubePlaylist.thumbnail.url} alt={content.title} fill />
-          {content.youtubePlaylist.thumbnail.width && content.youtubePlaylist.thumbnail.height && (
+          {content.youtubePlaylist.thumbnail.width && content.youtubePlaylist.thumbnail.height ? (
             <Image
               className='absolute inset-0 w-full h-full'
               src={content.youtubePlaylist.thumbnail.url}
+              alt={content.title}
               width={content.youtubePlaylist.thumbnail.width}
               height={content.youtubePlaylist.thumbnail.height}
-              alt={content.title}
             />
+          ) : (
+            <Image className='absolute inset-0 w-full h-full' src={content.youtubePlaylist.thumbnail.url} alt={content.title} fill />
           )}
         </button>
       ) : (

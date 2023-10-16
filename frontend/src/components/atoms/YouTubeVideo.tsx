@@ -21,15 +21,16 @@ export default function YouTubeVideo({ content }: Props) {
     <>
       {!show ? (
         <button type='button' onClick={() => setShow(true)}>
-          <Image className='absolute inset-0 w-full h-full' src={content.youtubeVideo.thumbnail.url} alt={content.title} fill />
-          {content.youtubeVideo.thumbnail.width && content.youtubeVideo.thumbnail.height && (
+          {content.youtubeVideo.thumbnail.width && content.youtubeVideo.thumbnail.height ? (
             <Image
               className='absolute inset-0 w-full h-full'
               src={content.youtubeVideo.thumbnail.url}
+              alt={content.title}
               width={content.youtubeVideo.thumbnail.width}
               height={content.youtubeVideo.thumbnail.height}
-              alt={content.title}
             />
+          ) : (
+            <Image className='absolute inset-0 w-full h-full' src={content.youtubeVideo.thumbnail.url} alt={content.title} fill />
           )}
         </button>
       ) : (
