@@ -34,15 +34,11 @@ resource "aws_instance" "frontend" {
               EOF
 }
 
-resource "aws_eip" "eip" {
+resource "aws_eip" "frontend" {
   instance = aws_instance.frontend.id
   tags = {
     Name = "Frontend"
   }
-}
-
-output "frontend_public_ip" {
-  value = aws_eip.eip.public_ip
 }
 
 resource "aws_security_group" "frontend" {
@@ -79,4 +75,8 @@ resource "tls_private_key" "fontend" {
 resource "aws_key_pair" "fontend" {
   key_name   = "fontend_key_pair"
   public_key = tls_private_key.fontend.public_key_openssh
+}
+
+output "frontend_public_ip" {
+  value = aws_eip.frontend.public_ip
 }
