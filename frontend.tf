@@ -153,13 +153,14 @@ resource "aws_instance" "frontend" {
     network_interface_id = aws_network_interface.frontend.id
   }
 
-  user_data = <<-EOF
-              #!/bin/bash
-              sudo api update -y
-              sudo api install apache2
-              sudu systemctl start apache2
-              bash -c 'echo Hello World > /var/www/html/index.html'
-              EOF
+  user_data = <<-EOL
+  #!/bin/bash
+  apt update -y >> /var/my-install-log.txt
+  apt install apache2 -y >> /var/my-install-log.txt
+  mkdir -p /var/www/html >> /var/my-install-log.txt
+  echo Hello World > /var/www/html/index.html
+  systemctl start apache2 >> /var/my-install-log.txt
+  EOL
 }
 
 output "frontend_public_ip" {
