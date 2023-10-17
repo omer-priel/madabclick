@@ -112,6 +112,16 @@ resource "aws_eip" "frontend" {
   }
 }
 
+resource "tls_private_key" "fontend" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+resource "aws_key_pair" "fontend" {
+  key_name   = "fontend_key_pair"
+  public_key = tls_private_key.fontend.public_key_openssh
+}
+
 data "aws_ami" "frontend" {
   most_recent = true
 
@@ -128,19 +138,161 @@ data "aws_ami" "frontend" {
   owners = ["099720109477"]
 }
 
-resource "tls_private_key" "fontend" {
-  algorithm = "RSA"
-  rsa_bits  = 4096
+resource "aws_imagebuilder_image_recipe" "frontend" {
+  name         = "frontend"
+  parent_image = "arn:${data.aws_partition.current.partition}:imagebuilder:${data.aws_region.current.name}:aws:image/amazon-linux-2-x86/x.x.x"
+  version      = "1.0.0"
+
+  tags = {
+    Name = "frontend"
+  }
+
+  block_device_mapping {
+    device_name = "/dev/xvdb"
+
+    ebs {
+      delete_on_termination = true
+      volume_size           = 100
+      volume_type           = "gp2"
+    }
+  }
+
+  component {
+    component_arn = aws_imagebuilder_component.frontend.arn
+
+    parameter {
+      name  = "Parameter1"
+      value = "Value1"
+    }
+
+    parameter {
+      name  = "Parameter2"
+      value = "Value2"
+    }
+  }
 }
 
-resource "aws_key_pair" "fontend" {
-  key_name   = "fontend_key_pair"
-  public_key = tls_private_key.fontend.public_key_openssh
+resource "aws_imagebuilder_infrastructure_configuration" "frontend" {
+  name                          = "frontend"
+  description                   = "frontend"
+  instance_profile_name         = aws_iam_instance_profile.frontend.name
+  instance_types                = ["t2.nano"]
+  key_pair                      = aws_key_pair.example.key_name
+  security_group_ids            = [aws_security_group.example.id]
+  sns_topic_arn                 = aws_sns_topic.example.arn
+  subnet_id                     = aws_subnet.main.id
+  terminate_instance_on_failure = true
+
+  logging {
+    s3_logs {
+      s3_bucket_name = aws_s3_bucket.example.bucket
+      s3_key_prefix  = "logs"
+    }
+  }
+
+  tags = {
+    Name = "frontend"
+  }
+}
+
+resource "aws_imagebuilder_distribution_configuration" "frontend" {
+  name = "frontend"
+
+  tags = {
+    Name = "frontend"
+  }
+
+  distribution {
+    region = var.aws_region
+
+    ami_distribution_configuration {
+      ami_tags = {
+        CostCenter = "IT"
+      }
+
+      name = "example-{{ imagebuilder:buildDate }}"
+
+      launch_permission {
+        user_ids = ["123456789012"]
+      }
+    }
+
+    launch_template_configuration {
+      launch_template_id = "lt-0aaa1bcde2ff3456"
+    }
+  }
+}
+
+resource "aws_imagebuilder_distribution_configuration" "frontend" {
+  name = "frontend"
+
+  tags = {
+    Name = "frontend"
+  }
+
+  distribution {
+    region = var.aws_region
+
+    ami_distribution_configuration {
+      ami_tags = {
+        CostCenter = "IT"
+      }
+
+      name = "example-{{ imagebuilder:buildDate }}"
+
+      launch_permission {
+        user_ids = ["123456789012"]
+      }
+    }
+
+    launch_template_configuration {
+      launch_template_id = "lt-0aaa1bcde2ff3456"
+    }
+  }
+}
+
+resource "aws_imagebuilder_distribution_configuration" "frontend" {
+  name = "frontend"
+
+  tags = {
+    Name = "frontend"
+  }
+
+  distribution {
+    region = var.aws_region
+
+    ami_distribution_configuration {
+      ami_tags = {
+        CostCenter = "IT"
+      }
+
+      name = "example-{{ imagebuilder:buildDate }}"
+
+      launch_permission {
+        user_ids = ["123456789012"]
+      }
+    }
+
+    launch_template_configuration {
+      launch_template_id = "lt-0aaa1bcde2ff3456"
+    }
+  }
+}
+
+resource "aws_imagebuilder_image_pipeline" "example" {
+  name                             = "frontend"
+  image_recipe_arn                 = aws_imagebuilder_image_recipe.frontend.arn
+  infrastructure_configuration_arn = aws_imagebuilder_infrastructure_configuration.frontend.arn
+  distribution_configuration_arn   = aws_imagebuilder_distribution_configuration.frontend.arn
+
+  tags = {
+    Name = "frontend"
+  }
 }
 
 resource "aws_instance" "frontend" {
   ami               = data.aws_ami.frontend.id
-  instance_type     = "t2.micro"
+  instance_type     = "t2.nano"
   availability_zone = var.aws_availability_zone
   key_name          = aws_key_pair.fontend.key_name
 
