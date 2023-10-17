@@ -1,10 +1,6 @@
-import type { Config } from 'tailwindcss';
-
-const config: Config = {
-  content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
-  corePlugins: {
-    preflight: false,
-  },
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
       colors: {
@@ -35,6 +31,7 @@ const config: Config = {
       inherit: "inherit",
     },
   },
-  plugins: [],
+  corePlugins: {
+    preflight: false,
+  },
 };
-export default config;

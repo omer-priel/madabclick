@@ -1,22 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700;900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@700&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 body {
-  margin: 0;
-  line-height: normal;
+  @apply leading-[normal] m-0;
 }
-:root {
-  /* fonts */
-  --running-text-light: Poppins;
-  --font-rubik: Rubik;
-
-  /* font sizes */
-  --running-text-light-size: 16px;
-  --font-size-xl: 20px;
-  --font-size-77xl: 96px;
-
-  /* Colors */
-  --color-black: #000;
-  --color-gainsboro: #d9d9d9;
-  --color-white: #fff;
-  --color-gray-100: rgba(0, 0, 0, 0.5);
+*,
+::before,
+::after {
+  border-width: 0;
 }
