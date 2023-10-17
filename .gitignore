@@ -3,6 +3,15 @@ node_modules
 yarn.lock
 .next
 
+# Terraform
+**/.terraform/*
+
+*.tfvars
+*.tfvars.json
+
+# env
+.env
+
+# frontend
 frontend/out
 frontend/build
-frontend/.env
