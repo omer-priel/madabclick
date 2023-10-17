@@ -23,7 +23,7 @@ export default function MultiSelect({ label, options, value, onChange }: Props) 
           />
           <span className='font-bold'>{label}</span>
         </div>
-        <div className={"absolute top-[40px] right-[0px] z-10 rounded-[5px] bg-white shadow-[0px_1px_1px_rgba(0,_0,_0,_0.25)]" + (opened ? "" : " hidden")}>
+        <div className={"absolute top-[40px] rtl:right-0 ltr:left-0 z-10 rounded-[5px] bg-white shadow-[0px_1px_1px_rgba(0,_0,_0,_0.25)]" + (opened ? "" : " hidden")}>
           <div className="px-[7px] py-[10px] font-light rounded-[5px]">
           {options.map((option) => (
             <div

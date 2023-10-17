@@ -43,7 +43,7 @@ export default async function RootLayout({ children, params: { locale } }: Props
   // render layout
   return (
     <html lang={locale} dir={LANGUAGES.find((language) => language.locale == locale)?.dir}>
-      <body>
+      <body className='bg-whitesmoke text-left text-base text-black font-running-text-light'>
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
         </NextIntlClientProvider>
