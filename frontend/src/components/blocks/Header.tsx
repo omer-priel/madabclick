@@ -23,11 +23,6 @@ export default function Header({ locale } : Props) {
           عربي
         </a>
       </div>
-      <img
-        className="absolute top-[216px] left-[0px] w-[1920px] h-[960px] object-cover"
-        alt=""
-        src="/rectangle-18@2x.png"
-      />
       <div className="absolute top-[32px] left-[730px] w-[460px] h-[153px] text-xl text-gray-100">
         <img
           className="absolute top-[0px] left-[302px] w-[121px] h-[121px] object-cover"
@@ -50,12 +45,18 @@ export default function Header({ locale } : Props) {
           src="/line-1.svg"
         />
       </div>
-      <div className="absolute top-[947px] left-[1238px] text-xl uppercase font-black text-white text-right inline-block w-[419px] h-24">
+      <img
+        className="absolute top-[216px] left-[0px] w-[1920px] h-[960px] object-cover"
+        alt=""
+        src="/rectangle-18@2x.png"
+      />
+      <div className="absolute top-[216px] left-[0px] [background:linear-gradient(-75.99deg,_rgba(0,_0,_0,_0.5)_27.99%,_rgba(0,_0,_0,_0)_96.51%)] w-[1920px] h-[960px]" />
+      <div className="absolute top-[910px] left-[1208px] text-[40px] font-black text-white text-right">
+        שלום לכל הילדות והילדים
+      </div>
+      <div className="absolute top-[947px] left-[1238px] text-xl font-black text-white text-right inline-block w-[419px] h-24">
         <p className="m-0">&nbsp;</p>
         <p className="m-0">{'מוזמנים לצפות איתי בסרטונים מדעיים מרתקים בכל התחומים ולכל הגילאים '}</p>
-      </div>
-      <div className="absolute top-[910px] left-[1208px] text-[40px] uppercase font-black text-white text-right">
-        שלום לכל הילדות והילדים
       </div>
     </>
   );

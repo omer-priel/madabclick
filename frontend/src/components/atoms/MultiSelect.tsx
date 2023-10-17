@@ -6,10 +6,10 @@ interface Props {
   label: string;
   options: string[];
   value: string[];
-  onChange: (values: string[]) => void;
+  onChange: (value: string[]) => void;
 }
 
-export default function MultiSelect({ label, options, value, onChange } : Props) {
+export default function MultiSelect({ label, options, value, onChange }: Props) {
   const [opened, setOpened] = useState(false);
 
   return (
