@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 
+import { useTranslations } from 'next-intl';
+
 import MultiSelect from '@/components/atoms/MultiSelect';
 import SearchBox from '@/components/atoms/SearchBox';
 import Header from '@/components/blocks/Header'
@@ -16,6 +18,8 @@ interface Props {
 
 export default function HomePage({ data, locale }: Props) {
   const { currentLanguage, languages, domains, ageLevels, durations, recommendedContent, contents } = data;
+
+  const t = useTranslations();
 
   const [selectedDomains, setSelectedDomains] = useState<string[]>([]);
   const [selectedAgeLevels, setSelectedAgeLevels] = useState<string[]>([]);
@@ -36,14 +40,14 @@ export default function HomePage({ data, locale }: Props) {
   };
 
   return (
-    <div className="relative bg-whitesmoke w-full h-[2562px] overflow-hidden text-left text-base text-black font-running-text-light">
+    <div className="relative bg-whitesmoke w-full text-left text-base text-black font-running-text-light">
       <Header locale={locale} />
       <div className='absolute top-[1223px] left-[calc(50%_-_238px)]'>
-        <SearchBox placeholder="חפש" value={searchText} onChange={setSearchText} />
+        <SearchBox placeholder={t("search")} value={searchText} onChange={setSearchText} />
       </div>
       <div className="absolute top-[1324px] left-[1293px]">
         <MultiSelect
-          label='תחום'
+          label={t("domain")}
           options={domains}
           value={selectedDomains}
           onChange={setSelectedDomains}
@@ -51,7 +55,7 @@ export default function HomePage({ data, locale }: Props) {
       </div>
       <div className="absolute top-[1324px] left-[1074px]">
         <MultiSelect
-          label='גיל'
+          label={t("age-level")}
           options={ageLevels}
           value={selectedAgeLevels}
           onChange={setSelectedAgeLevels}
@@ -59,7 +63,7 @@ export default function HomePage({ data, locale }: Props) {
       </div>
       <div className="absolute top-[1324px] left-[817px]">
         <MultiSelect
-          label='משך זמן'
+          label={t("duration")}
           options={durations}
           value={selectedDurations}
           onChange={setSelectedDurations}
@@ -67,20 +71,25 @@ export default function HomePage({ data, locale }: Props) {
       </div>
       <div className="absolute top-[1324px] left-[585px]">
         <MultiSelect
-          label='שפה'
+          label={t("language")}
           options={languages}
           value={selectedLanguages}
           onChange={setSelectedLanguages}
         />
       </div>
-      <div className="absolute top-[1450px] left-[0px]">
-      <div className='grid grid-cols-4 w-[1820px] px-[58px] gap-x-[70px] gap-y-[168px]'>
-        {contents.map((content) => (
-          <div key={content.index} className={"bg-gainsboro w-[400px] h-[400px]" + (showContentCard(content) ? "" : " hidden")}>
-            <ContentCard content={content} title={content.title} />
-          </div>
-        ))}
-      </div>
+      <div className="absolute top-[1400px] left-[0px] w-full">
+        <div className='grid grid-cols-4 w-[calc(100%_-_120px)] px-[58px] py-[50px] gap-x-[70px] gap-y-[168px]'>
+          {recommendedContent && (
+            <div className='mx-auto col-span-4 w-[400px] h-[400px] bg-gainsboro'>
+              <ContentCard content={recommendedContent} title={recommendedContent.title + ' - ' + t('recommended')} />
+            </div>
+          )}
+          {contents.map((content) => (
+            <div key={content.index} className={"w-[400px] h-[400px] bg-gainsboro" + (showContentCard(content) ? "" : " hidden")}>
+              <ContentCard content={content} title={content.title} />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

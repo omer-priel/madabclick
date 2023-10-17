@@ -1,7 +1,9 @@
 {
-  "site-title": "Science In A Click",
-  "site-subtitle": "Quality content for children",
-  "site-description": "Quality content for children",
+  "site-title": "מדע בקליק",
+  "site-description": "תוכן לילדים סקרנים",
+
+  "header-line-1": "שלום לכל הילדות והילדים",
+  "header-line-2": "מוזמנים לצפות איתי בסרטונים מדעיים מרתקים בכל התחומים ולכל הגילאים",
 
   "recommended": "Recommended",
   "all": "All",

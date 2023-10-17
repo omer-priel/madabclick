@@ -1,10 +1,14 @@
-import { getLocaleDirection } from "@/translation";
+'use client';
+
+import { useTranslations } from 'next-intl';
 
 interface Props {
   locale: string;
 }
 
-export default function Header({ locale } : Props) {
+export default function Header({ locale }: Props) {
+
+  const t = useTranslations();
 
   return (
     <>
@@ -30,7 +34,7 @@ export default function Header({ locale } : Props) {
           src="/image-1@2x.png"
         />
         <div className="absolute top-[123px] left-[calc(50%_-_83px)]">
-          תוכן לילדים סקרנים
+          {t('site-description')}
         </div>
         <div className="absolute top-[15px] left-[0px] w-[460px] h-[114px] text-77xl text-black font-rubik">
           <b className="absolute top-[0px] left-[395px]">מ</b>
@@ -52,11 +56,11 @@ export default function Header({ locale } : Props) {
       />
       <div className="absolute top-[216px] left-[0px] [background:linear-gradient(-75.99deg,_rgba(0,_0,_0,_0.5)_27.99%,_rgba(0,_0,_0,_0)_96.51%)] w-[1920px] h-[960px]" />
       <div className="absolute top-[910px] left-[1208px] text-[40px] font-black text-white text-right">
-        שלום לכל הילדות והילדים
+      {t('header-line-1')}
       </div>
       <div className="absolute top-[947px] left-[1238px] text-xl font-black text-white text-right inline-block w-[419px] h-24">
         <p className="m-0">&nbsp;</p>
-        <p className="m-0">{'מוזמנים לצפות איתי בסרטונים מדעיים מרתקים בכל התחומים ולכל הגילאים '}</p>
+        <p className="m-0">{t('header-line-2')}</p>
       </div>
     </>
   );
