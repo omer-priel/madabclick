@@ -6,10 +6,10 @@ import { useTranslations } from 'next-intl';
 
 import MultiSelect from '@/components/atoms/MultiSelect';
 import SearchBox from '@/components/atoms/SearchBox';
-import Header from '@/components/blocks/Header'
 import ContentCard from '@/components/blocks/ContentCard';
+import Header from '@/components/blocks/Header';
 
-import { ContentsSchema, Content } from '@/lib/api/schemas';
+import { Content, ContentsSchema } from '@/lib/api/schemas';
 
 interface Props {
   data: ContentsSchema;
@@ -40,50 +40,30 @@ export default function HomePage({ data, locale }: Props) {
   };
 
   return (
-    <div className="relative w-full">
+    <div className='relative w-full'>
       <Header locale={locale} />
       <div className='flex justify-center w-full mt-[47px]'>
-        <div className="w-[476px]">
-          <SearchBox placeholder={t("search")} value={searchText} onChange={setSearchText} />
+        <div className='w-[476px]'>
+          <SearchBox placeholder={t('search')} value={searchText} onChange={setSearchText} />
         </div>
       </div>
       <div className='flex justify-center w-full mt-[78px]'>
         <div className='grid grid-cols-4 w-[900px] rtl:pr-[112px] ltr:pl-[112px]'>
           <div className='w-fit'>
-            <MultiSelect
-              label={t("domain")}
-              options={domains}
-              value={selectedDomains}
-              onChange={setSelectedDomains}
-            />
+            <MultiSelect label={t('domain')} options={domains} value={selectedDomains} onChange={setSelectedDomains} />
           </div>
           <div className='w-fit'>
-            <MultiSelect
-              label={t("age-level")}
-              options={ageLevels}
-              value={selectedAgeLevels}
-              onChange={setSelectedAgeLevels}
-            />
+            <MultiSelect label={t('age-level')} options={ageLevels} value={selectedAgeLevels} onChange={setSelectedAgeLevels} />
           </div>
           <div className='w-fit'>
-            <MultiSelect
-              label={t("duration")}
-              options={durations}
-              value={selectedDurations}
-              onChange={setSelectedDurations}
-            />
+            <MultiSelect label={t('duration')} options={durations} value={selectedDurations} onChange={setSelectedDurations} />
           </div>
           <div className='w-fit'>
-            <MultiSelect
-              label={t("language")}
-              options={languages}
-              value={selectedLanguages}
-              onChange={setSelectedLanguages}
-            />
+            <MultiSelect label={t('language')} options={languages} value={selectedLanguages} onChange={setSelectedLanguages} />
           </div>
         </div>
       </div>
-      <div className="w-full mt-[50px]">
+      <div className='w-full mt-[50px]'>
         <div className='grid grid-cols-4 w-[calc(100%_-_120px)] px-[58px] py-[50px] gap-x-[70px] gap-y-[168px]'>
           {recommendedContent && (
             <div className='mx-auto col-span-4 w-[400px] h-[400px] bg-gainsboro'>
@@ -91,7 +71,7 @@ export default function HomePage({ data, locale }: Props) {
             </div>
           )}
           {contents.map((content) => (
-            <div key={content.index} className={"w-[400px] h-[400px] bg-gainsboro" + (showContentCard(content) ? "" : " hidden")}>
+            <div key={content.index} className={'w-[400px] h-[400px] bg-gainsboro' + (showContentCard(content) ? '' : ' hidden')}>
               <ContentCard content={content} title={content.title} />
             </div>
           ))}
