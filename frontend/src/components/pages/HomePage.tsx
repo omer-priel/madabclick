@@ -5,7 +5,7 @@ import { useState } from 'react';
 import MultiSelect from '@/components/atoms/MultiSelect';
 import SearchBox from '@/components/atoms/SearchBox';
 import Header from '@/components/blocks/Header'
-import ContentListV2 from '@/components/blocks/ContentListV2';
+import ContentCard from '@/components/blocks/ContentCard';
 
 import { ContentsSchema, Content } from '@/lib/api/schemas';
 
@@ -74,7 +74,13 @@ export default function HomePage({ data, locale }: Props) {
         />
       </div>
       <div className="absolute top-[1450px] left-[0px]">
-        <ContentListV2 contents={contents} showContentCard={showContentCard} />
+      <div className='grid grid-cols-4 w-[1820px] px-[58px] gap-x-[70px] gap-y-[168px]'>
+        {contents.map((content) => (
+          <div key={content.index} className={"bg-gainsboro w-[400px] h-[400px]" + (showContentCard(content) ? "" : " hidden")}>
+            <ContentCard content={content} title={content.title} />
+          </div>
+        ))}
+      </div>
       </div>
     </div>
   );
