@@ -1,6 +1,8 @@
 
 import { ContentsSchema } from '@/lib/api/schemas';
 
+import Header from '@/components/blocks/Header'
+
 import styles from "@/styles/styles.module.css";
 
 interface Props {
@@ -10,19 +12,7 @@ interface Props {
 export default function HomePage({ data }: Props) {
   return (
     <div className={styles.homePage}>
-      <img className={styles.homePageChild} alt="" src="/rectangle-18@2x.png" />
-      <div className={styles.image1Parent}>
-        <img className={styles.image1Icon} alt="" src="/image-1@2x.png" />
-        <div className={styles.div}>תוכן לילדים סקרנים</div>
-        <div className={styles.parent}>
-          <b className={styles.b}>מ</b>
-          <b className={styles.b1}>
-            <span>{`דע `}</span>
-            <span className={styles.span}>בקליק</span>
-          </b>
-        </div>
-        <img className={styles.groupChild} alt="" src="/line-1.svg" />
-      </div>
+      <Header />
       <b className={styles.b2}>תחום</b>
       <b className={styles.b3}>גיל</b>
       <b className={styles.b4}>משך זמן</b>
@@ -36,12 +26,6 @@ export default function HomePage({ data }: Props) {
         >{`מוזמנים לצפות איתי בסרטונים מדעיים מרתקים בכל התחומים ולכל הגילאים `}</p>
       </div>
       <div className={styles.div2}>שלום לכל הילדות והילדים</div>
-      <div className={styles.hebrewSelection}>
-        <div className={styles.hebrew}>Hebrew</div>
-      </div>
-      <div className={styles.englishSelection}>
-        <div className={styles.english}>enGLISH</div>
-      </div>
       <img
         className={styles.dashiconsarrowUp}
         alt=""
