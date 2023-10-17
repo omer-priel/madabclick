@@ -12,7 +12,7 @@ interface Props {
   hidden?: boolean;
 }
 
-export default function ContentCard({ content, title, hidden }: Props) {
+export default function ContentCard({ content, title }: Props) {
   const t = useTranslations();
 
   const links: string[][] = [];
@@ -32,7 +32,7 @@ export default function ContentCard({ content, title, hidden }: Props) {
   const titleDirection = getTextDirection(title);
 
   return (
-    <div className={'bg-white border rounded-lg shadow-md p-4' + (hidden ? ' hidden' : '')}>
+    <>
       <h2 className='text-xl text-center font-semibold'>
         <a href={content.link} target='_blank' rel='noopener noreferrer' className={'text-gray-900'}>
           <span style={titleDirection ? { direction: titleDirection } : {}}>{title}</span>
@@ -53,6 +53,6 @@ export default function ContentCard({ content, title, hidden }: Props) {
         {content.youtubeVideo && <YouTubeVideo content={content} />}
         {content.youtubePlaylist && <YouTubePlaylist content={content} />}
       </div>
-    </div>
+    </>
   );
 }
