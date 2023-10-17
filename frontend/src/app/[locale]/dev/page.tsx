@@ -15,5 +15,5 @@ export default async function Page({ params }: PageProps) {
 
   const data = await getContentsInfo(params.locale);
 
-  return <HomePage data={data} />;
+  return <HomePage data={data} locale={params.locale} />;
 }

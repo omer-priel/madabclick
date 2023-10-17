@@ -1,61 +1,22 @@
+import Header from '@/components/blocks/Header'
 
 import { ContentsSchema } from '@/lib/api/schemas';
 
 interface Props {
   data: ContentsSchema;
+  locale: string;
 }
 
-export default function HomePage({ data }: Props) {
+export default function HomePage({ data, locale }: Props) {
   return (
     <div className="relative bg-whitesmoke w-full h-[2562px] overflow-hidden text-left text-base text-black font-running-text-light">
-      <img
-        className="absolute top-[216px] left-[0px] w-[1920px] h-[960px] object-cover"
-        alt=""
-        src="/rectangle-18@2x.png"
-      />
-      <div className="absolute top-[32px] left-[730px] w-[460px] h-[153px] text-xl text-gray-100">
-        <img
-          className="absolute top-[0px] left-[302px] w-[121px] h-[121px] object-cover"
-          alt=""
-          src="/image-1@2x.png"
-        />
-        <div className="absolute top-[123px] left-[calc(50%_-_83px)] uppercase">
-          תוכן לילדים סקרנים
-        </div>
-        <div className="absolute top-[15px] left-[0px] w-[460px] h-[114px] text-77xl text-black font-rubik">
-          <b className="absolute top-[0px] left-[395px] uppercase">מ</b>
-          <b className="absolute top-[0px] left-[0px] uppercase text-yellowgreen-100">
-            <span>{`דע `}</span>
-            <span className="text-black">בקליק</span>
-          </b>
-        </div>
-        <img
-          className="absolute top-[151px] left-[126px] w-[175px] h-1"
-          alt=""
-          src="/line-1.svg"
-        />
-      </div>
-      <b className="absolute top-[1324px] left-[1293px] uppercase">תחום</b>
-      <b className="absolute top-[1324px] left-[1074px] uppercase">גיל</b>
-      <b className="absolute top-[1324px] left-[817px] uppercase">משך זמן</b>
-      <b className="absolute top-[1324px] left-[585px] uppercase">שפה</b>
+      <Header locale={locale} />
+      <b className="absolute top-[1324px] left-[1293px]">תחום</b>
+      <b className="absolute top-[1324px] left-[1074px]">גיל</b>
+      <b className="absolute top-[1324px] left-[817px]">משך זמן</b>
+      <b className="absolute top-[1324px] left-[585px]">שפה</b>
       <div className="absolute top-[216px] left-[0px] [background:linear-gradient(-75.99deg,_rgba(0,_0,_0,_0.5)_27.99%,_rgba(0,_0,_0,_0)_96.51%)] w-[1920px] h-[960px]" />
       <div className="absolute top-[315px] left-[1123px] w-[619px] h-[619px]" />
-      <div className="absolute top-[947px] left-[1238px] text-xl uppercase font-black text-white text-right inline-block w-[419px] h-24">
-        <p className="m-0">&nbsp;</p>
-        <p className="m-0">{`מוזמנים לצפות איתי בסרטונים מדעיים מרתקים בכל התחומים ולכל הגילאים `}</p>
-      </div>
-      <div className="absolute top-[910px] left-[1208px] text-[40px] uppercase font-black text-white text-right">
-        שלום לכל הילדות והילדים
-      </div>
-      <div className="absolute top-[37px] left-[70px] w-[63px] h-6 text-right text-yellowgreen-200">
-        <div className="absolute top-[0px] left-[0px] [text-decoration:underline] uppercase">
-          Hebrew
-        </div>
-      </div>
-      <div className="absolute top-[37px] left-[150px] w-16 h-6 text-right">
-        <div className="absolute top-[0px] left-[0px] uppercase">English</div>
-      </div>
       <img
         className="absolute top-[1324px] left-[1338px] w-[25px] h-[25px]"
         alt=""

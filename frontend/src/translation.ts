@@ -46,6 +46,15 @@ export async function getTranslation() {
   return (await getTranslator(gStore.locale)).rich;
 }
 
+export function getLocaleDirection(locale: string): 'ltr' | 'rtl' {
+  const dir = LANGUAGES.find((language) => language.has(locale))?.dir;
+  if (dir) {
+    return dir;
+  }
+
+  return 'rtl';
+}
+
 export function getTextDirection(text: string): 'ltr' | 'rtl' | null {
   const dir = LANGUAGES.find((language) => language.has(text))?.dir;
   if (dir) {
