@@ -7,15 +7,14 @@ interface Props {
 export default function ContentListV2({ data } : Props) {
 
   return (
-    <>
-      <div className="absolute top-[1450px] left-[1468px] bg-gainsboro w-[400px] h-[400px]" />
-      <div className="absolute top-[1450px] left-[998px] bg-gainsboro w-[400px] h-[400px]" />
-      <div className="absolute top-[1450px] left-[528px] bg-gainsboro w-[400px] h-[400px]" />
-      <div className="absolute top-[1450px] left-[58px] bg-gainsboro w-[400px] h-[400px]" />
-      <div className="absolute top-[2018px] left-[1468px] bg-gainsboro w-[400px] h-[400px]" />
-      <div className="absolute top-[2018px] left-[998px] bg-gainsboro w-[400px] h-[400px]" />
-      <div className="absolute top-[2018px] left-[528px] bg-gainsboro w-[400px] h-[400px]" />
-      <div className="absolute top-[2018px] left-[58px] bg-gainsboro w-[400px] h-[400px]" />
-    </>
+    <div className='grid grid-cols-4 w-[1820px] px-[58px] gap-x-[70px] gap-y-[168px]'>
+      <div className="bg-gainsboro w-[400px] h-[400px]" />
+      <div className="bg-gainsboro w-[400px] h-[400px]" />
+      <div className="bg-gainsboro w-[400px] h-[400px]" />
+      <div className="bg-gainsboro w-[400px] h-[400px]" />
+      <div className="bg-gainsboro w-[400px] h-[400px]" />
+      <div className="bg-gainsboro w-[400px] h-[400px]" />
+      <div className="bg-gainsboro w-[400px] h-[400px]" />
+    </div>
   );
 }
