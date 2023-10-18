@@ -296,14 +296,14 @@ resource "aws_s3_bucket" "prod_codepipeline" {
   }
 }
 
-# resource "aws_codestarconnections_connection" "prod" {
-#   name          = "production"
-#   provider_type = "GitHub"
+resource "aws_codestarconnections_connection" "prod" {
+  name          = "production"
+  provider_type = "GitHub"
 
-#   tags = {
-#     Name = "production"
-#   }
-# }
+  tags = {
+    Name = "production"
+  }
+}
 
 # data "aws_iam_policy_document" "prod_codebuild_sts" {
 #   statement {
