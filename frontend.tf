@@ -345,147 +345,137 @@ resource "aws_cloudwatch_log_group" "prod_codebuild" {
   }
 }
 
-# resource "aws_codebuild_project" "frontend" {
-#   name          = "frontend"
-#   description   = "frontend"
-#   service_role  = aws_iam_role.prod_codebuild.arn
-#   build_timeout = "5"
+resource "aws_codebuild_project" "frontend" {
+  name          = "frontend"
+  description   = "frontend"
+  service_role  = aws_iam_role.prod_codebuild.arn
+  build_timeout = "5"
 
-#   tags = {
-#     Name = "frontend"
-#   }
+  tags = {
+    Name = "frontend"
+  }
 
-#   source {
-#     type      = "CODEPIPELINE"
-#     buildspec = "aws/codebuild/buildspec.yml"
-#   }
+  source {
+    type      = "CODEPIPELINE"
+    buildspec = "aws/codebuild/buildspec.yml"
+  }
 
-#   artifacts {
-#     type = "CODEPIPELINE"
-#   }
+  artifacts {
+    type = "CODEPIPELINE"
+  }
 
-#   environment {
-#     compute_type                = "BUILD_GENERAL1_SMALL"
-#     image                       = "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
-#     type                        = "LINUX_CONTAINER"
-#     image_pull_credentials_type = "CODEBUILD"
+  environment {
+    compute_type                = "BUILD_GENERAL1_SMALL"
+    image                       = "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
+    type                        = "LINUX_CONTAINER"
+    image_pull_credentials_type = "CODEBUILD"
 
-#     environment_variable {
-#       name  = "APP_REVALIDATE"
-#       value = var.env_app_revalidate
-#     }
+    environment_variable {
+      name  = "APP_REVALIDATE"
+      value = var.env_app_revalidate
+    }
 
-#     environment_variable {
-#       name  = "GOOGLE_API_KEY"
-#       value = var.env_google_api_key
-#     }
+    environment_variable {
+      name  = "GOOGLE_API_KEY"
+      value = var.env_google_api_key
+    }
 
-#     environment_variable {
-#       name  = "GOOGLE_SPREADSHEET_ID_CONTENTS"
-#       value = var.env_google_spreadsheet_id_contents
-#     }
-#   }
+    environment_variable {
+      name  = "GOOGLE_SPREADSHEET_ID_CONTENTS"
+      value = var.env_google_spreadsheet_id_contents
+    }
+  }
 
-#   cache {
-#     type     = "S3"
-#     location = aws_s3_bucket.prod_codebuild.bucket
-#   }
+  cache {
+    type     = "S3"
+    location = aws_s3_bucket.prod_codebuild.bucket
+  }
 
-#   logs_config {
-#     cloudwatch_logs {
-#       group_name = aws_cloudwatch_log_group.prod_codebuild.name
-#     }
-#   }
+  logs_config {
+    cloudwatch_logs {
+      group_name = aws_cloudwatch_log_group.prod_codebuild.name
+    }
+  }
 
-#   vpc_config {
-#     vpc_id             = aws_vpc.prod.id
-#     subnets            = [aws_subnet.prod.id]
-#     security_group_ids = [aws_security_group.frontend.id]
-#   }
-# }
+  vpc_config {
+    vpc_id             = aws_vpc.prod.id
+    subnets            = [aws_subnet.prod.id]
+    security_group_ids = [aws_security_group.frontend.id]
+  }
+}
 
-# resource "aws_codedeploy_app" "frontend" {
-#   name             = "frontend"
-#   compute_platform = "Server"
+resource "aws_codedeploy_app" "frontend" {
+  name             = "frontend"
+  compute_platform = "Server"
 
-#   tags = {
-#     Name = "frontend"
-#   }
-# }
+  tags = {
+    Name = "frontend"
+  }
+}
 
-# data "aws_iam_policy_document" "prod_codedeploy_sts" {
-#   statement {
-#     effect  = "Allow"
-#     actions = ["sts:AssumeRole"]
+data "aws_iam_policy_document" "prod_codedeploy_sts" {
+  statement {
+    effect  = "Allow"
+    actions = ["sts:AssumeRole"]
 
-#     principals {
-#       type        = "Service"
-#       identifiers = ["codedeploy.amazonaws.com"]
-#     }
-#   }
-# }
+    principals {
+      type        = "Service"
+      identifiers = ["codedeploy.amazonaws.com"]
+    }
+  }
+}
 
-# resource "aws_iam_role" "prod_codedeploy" {
-#   name               = "prod_codedeploy"
-#   assume_role_policy = data.aws_iam_policy_document.prod_codedeploy_sts.json
+resource "aws_iam_role" "prod_codedeploy" {
+  name               = "prod_codedeploy"
+  assume_role_policy = data.aws_iam_policy_document.prod_codedeploy_sts.json
 
-#   tags = {
-#     Name = "production"
-#   }
-# }
+  tags = {
+    Name = "production"
+  }
+}
 
-# resource "aws_iam_role_policy_attachment" "prod_codedeploy_AWSCodeDeployRole" {
-#   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole"
-#   role       = aws_iam_role.prod_codedeploy.name
-# }
+resource "aws_iam_role_policy_attachment" "prod_codedeploy_AWSCodeDeployRole" {
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole"
+  role       = aws_iam_role.prod_codedeploy.name
+}
 
-# resource "aws_s3_bucket" "prod_elb" {
-#   tags = {
-#     Name = "production"
-#   }
-# }
+resource "aws_elb" "frontend" {
+  name            = "frontend"
+  security_groups = [aws_security_group.frontend.id]
+  subnets         = [aws_subnet.prod.id]
 
-# resource "aws_elb" "frontend" {
-#   name               = "frontend"
-#   availability_zones = [var.aws_availability_zone]
+  cross_zone_load_balancing   = true
+  idle_timeout                = 400
+  connection_draining         = true
+  connection_draining_timeout = 400
 
-#   cross_zone_load_balancing   = true
-#   idle_timeout                = 400
-#   connection_draining         = true
-#   connection_draining_timeout = 400
+  tags = {
+    Name = "frontend"
+  }
 
-#   tags = {
-#     Name = "frontend"
-#   }
+  listener {
+    instance_port     = 80
+    instance_protocol = "http"
+    lb_port           = 80
+    lb_protocol       = "http"
+  }
 
-#   access_logs {
-#     bucket   = aws_s3_bucket.prod_elb.bucket
-#     interval = 60
-#   }
+  # listener {
+  #   instance_port     = 80
+  #   instance_protocol = "http"
+  #   lb_port           = 443
+  #   lb_protocol       = "https"
+  #   ssl_certificate_id = "arn:aws:iam::123456789012:server-certificate/certName"
+  # }
 
-#   listener {
-#     instance_port     = 80
-#     instance_protocol = "http"
-#     lb_port           = 80
-#     lb_protocol       = "http"
-#   }
-
-#   # listener {
-#   #   instance_port     = 80
-#   #   instance_protocol = "http"
-#   #   lb_port           = 443
-#   #   lb_protocol       = "https"
-#   #   ssl_certificate_id = "arn:aws:iam::123456789012:server-certificate/certName"
-#   # }
-
-#   health_check {
-#     healthy_threshold   = 2
-#     unhealthy_threshold = 2
-#     timeout             = 3
-#     target              = "HTTP:8000/"
-#     interval            = 30
-#   }
-# }
+  health_check {
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+    timeout             = 3
+    target              = "HTTP:80/"
+    interval            = 30
+  }
+}
 
 # resource "aws_codedeploy_deployment_group" "frontend" {
 #   app_name              = aws_codedeploy_app.frontend.name
