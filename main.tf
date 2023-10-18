@@ -4,6 +4,10 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 4.16"
     }
+    tls = {
+      source  = "hashicorp/tls"
+      version = "4.0.4"
+    }
   }
 
   required_version = ">= 1.2.0"
@@ -22,13 +26,19 @@ variable "aws_secret_key" {
 variable "aws_region" {
   description = "AWS Region"
   type        = string
-  default     = "us-east-1"
+  default     = "eu-central-1"
 }
 
 variable "aws_availability_zone" {
   description = "AWS Secret Key"
   type        = string
-  default     = "us-east-1a"
+  default     = "eu-central-1a"
+}
+
+variable "aws_partition" {
+  description = "AWS Partition"
+  type        = string
+  default     = "aws"
 }
 
 provider "aws" {
