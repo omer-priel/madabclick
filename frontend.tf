@@ -305,65 +305,45 @@ resource "aws_codestarconnections_connection" "prod" {
   }
 }
 
-# data "aws_iam_policy_document" "prod_codebuild_sts" {
-#   statement {
-#     effect  = "Allow"
-#     actions = ["sts:AssumeRole"]
+data "aws_iam_policy_document" "prod_codebuild_sts" {
+  statement {
+    effect  = "Allow"
+    actions = ["sts:AssumeRole"]
 
-#     principals {
-#       type        = "Service"
-#       identifiers = ["codebuild.amazonaws.com"]
-#     }
-#   }
-# }
+    principals {
+      type        = "Service"
+      identifiers = ["codebuild.amazonaws.com"]
+    }
+  }
+}
 
-# data "aws_iam_policy_document" "prod_codebuild_ec2" {
-#   statement {
-#     effect = "Allow"
-#     actions = [
-#       "ec2:CreateNetworkInterface",
-#       "ec2:DescribeDhcpOptions",
-#       "ec2:DescribeNetworkInterfaces",
-#       "ec2:DeleteNetworkInterface",
-#       "ec2:DescribeSubnets",
-#       "ec2:DescribeSecurityGroups",
-#       "ec2:DescribeVpcs",
-#       "ec2:CreateNetworkInterfacePermission"
-#     ]
+resource "aws_iam_role" "prod_codebuild" {
+  name               = "prod_codebuild"
+  assume_role_policy = data.aws_iam_policy_document.prod_codebuild_sts.json
 
-#     principals {
-#       type        = "Service"
-#       identifiers = ["ec2.amazonaws.com"]
-#     }
-#   }
-# }
+  tags = {
+    Name = "production"
+  }
+}
 
-# resource "aws_iam_role" "prod_codebuild" {
-#   name               = "prod_codebuild"
-#   assume_role_policy = data.aws_iam_policy_document.prod_codebuild_sts.json
+resource "aws_iam_role_policy_attachment" "prod_codebuild_AmazonEC2FullAccess" {
+  role       = aws_iam_role.prod_codebuild.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
+}
 
-#   tags = {
-#     Name = "production"
-#   }
+resource "aws_s3_bucket" "prod_codebuild" {
+  tags = {
+    Name = "production"
+  }
+}
 
-#   inline_policy {
-#     policy = data.aws_iam_policy_document.prod_codebuild_ec2.json
-#   }
-# }
+resource "aws_cloudwatch_log_group" "prod_codebuild" {
+  name = "production_codebuild"
 
-# resource "aws_s3_bucket" "prod_codebuild" {
-#   tags = {
-#     Name = "production"
-#   }
-# }
-
-# resource "aws_cloudwatch_log_group" "prod_codebuild" {
-#   name = "production_codebuild"
-
-#   tags = {
-#     Name = "production"
-#   }
-# }
+  tags = {
+    Name = "production"
+  }
+}
 
 # resource "aws_codebuild_project" "frontend" {
 #   name          = "frontend"
