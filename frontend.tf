@@ -263,9 +263,6 @@ resource "aws_imagebuilder_image_pipeline" "frontend" {
   }
 }
 
-# new
-
-
 data "aws_iam_policy_document" "prod_codepipeline_sts" {
   statement {
     effect = "Allow"
@@ -288,6 +285,26 @@ resource "aws_iam_role" "prod_codepipeline" {
   tags = {
     Name = "production"
   }
+}
+
+resource "aws_iam_role_policy_attachment" "prod_codepipeline_AWSCodeDeployRole" {
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole"
+  role       = aws_iam_role.prod_codepipeline.name
+}
+
+resource "aws_iam_role_policy_attachment" "prod_codepipeline_AWSCodePipeline_FullAccess" {
+  role       = aws_iam_role.prod_codepipeline.name
+  policy_arn = "arn:aws:iam::aws:policy/AWSCodePipeline_FullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "prod_codepipeline_AWSCodeStarServiceRole" {
+  role       = aws_iam_role.prod_codepipeline.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSCodeStarServiceRole"
+}
+
+resource "aws_iam_role_policy_attachment" "prod_codepipeline_AmazonS3FullAccess" {
+  role       = aws_iam_role.prod_codepipeline.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 }
 
 resource "aws_s3_bucket" "prod_codepipeline" {
@@ -434,11 +451,6 @@ resource "aws_iam_role" "prod_codedeploy" {
   }
 }
 
-resource "aws_iam_role_policy_attachment" "prod_codedeploy_AWSCodeDeployRole" {
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole"
-  role       = aws_iam_role.prod_codedeploy.name
-}
-
 resource "aws_elb" "frontend" {
   name            = "frontend"
   security_groups = [aws_security_group.frontend.id]
@@ -513,77 +525,77 @@ resource "aws_codedeploy_deployment_group" "frontend" {
   }
 }
 
-# resource "aws_codepipeline" "frontend" {
-#   name     = "frontend"
-#   role_arn = aws_iam_role.prod_codepipeline.arn
+resource "aws_codepipeline" "frontend" {
+  name     = "frontend"
+  role_arn = aws_iam_role.prod_codepipeline.arn
 
-#   tags = {
-#     Name = "frontend"
-#   }
+  tags = {
+    Name = "frontend"
+  }
 
-#   artifact_store {
-#     location = aws_s3_bucket.prod_codepipeline.bucket
-#     type     = "S3"
-#   }
+  artifact_store {
+    location = aws_s3_bucket.prod_codepipeline.bucket
+    type     = "S3"
+  }
 
-#   stage {
-#     name = "Source"
+  stage {
+    name = "Source"
 
-#     action {
-#       name             = "Source"
-#       category         = "Source"
-#       owner            = "AWS"
-#       provider         = "CodeStarSourceConnection"
-#       version          = "1"
-#       region           = var.aws_region
-#       output_artifacts = ["source_output"]
+    action {
+      name             = "Source"
+      category         = "Source"
+      owner            = "AWS"
+      provider         = "CodeStarSourceConnection"
+      version          = "1"
+      region           = var.aws_region
+      output_artifacts = ["source_output"]
 
-#       configuration = {
-#         ConnectionArn    = aws_codestarconnections_connection.prod.arn
-#         FullRepositoryId = var.github_repository_id
-#         BranchName       = var.github_prod_branch
-#       }
-#     }
-#   }
+      configuration = {
+        ConnectionArn    = aws_codestarconnections_connection.prod.arn
+        FullRepositoryId = var.github_repository_id
+        BranchName       = var.github_prod_branch
+      }
+    }
+  }
 
-#   stage {
-#     name = "Build"
+  stage {
+    name = "Build"
 
-#     action {
-#       name             = "Build"
-#       category         = "Build"
-#       owner            = "AWS"
-#       provider         = "CodeBuild"
-#       version          = "1"
-#       region           = var.aws_region
-#       input_artifacts  = ["source_output"]
-#       output_artifacts = ["build_output"]
+    action {
+      name             = "Build"
+      category         = "Build"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      version          = "1"
+      region           = var.aws_region
+      input_artifacts  = ["source_output"]
+      output_artifacts = ["build_output"]
 
-#       configuration = {
-#         ProjectName = aws_codebuild_project.frontend.name
-#       }
-#     }
-#   }
+      configuration = {
+        ProjectName = aws_codebuild_project.frontend.name
+      }
+    }
+  }
 
-#   stage {
-#     name = "Deploy"
+  stage {
+    name = "Deploy"
 
-#     action {
-#       name            = "Deploy"
-#       category        = "Deploy"
-#       owner           = "AWS"
-#       provider        = "CodeDeploy"
-#       version         = "1"
-#       region          = var.aws_region
-#       input_artifacts = ["build_output"]
+    action {
+      name            = "Deploy"
+      category        = "Deploy"
+      owner           = "AWS"
+      provider        = "CodeDeploy"
+      version         = "1"
+      region          = var.aws_region
+      input_artifacts = ["build_output"]
 
-#       configuration = {
-#         ApplicationName     = aws_codedeploy_app.frontend.name
-#         DeploymentGroupName = aws_codedeploy_deployment_group.frontend.deployment_group_name
-#       }
-#     }
-#   }
-# }
+      configuration = {
+        ApplicationName     = aws_codedeploy_app.frontend.name
+        DeploymentGroupName = aws_codedeploy_deployment_group.frontend.deployment_group_name
+      }
+    }
+  }
+}
 
 output "frontend_public_ip" {
   value = aws_eip.frontend.public_ip
