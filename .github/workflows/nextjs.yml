@@ -32,11 +32,14 @@ jobs:
         with:
           static_site_generator: next
       - name: Install dependencies
-        run: cd ${{ github.workspace }}/frontend && yarn install
+        run: yarn install
+        working-directory: ./frontend
       - name: Build with Next.js
-        run: cd ${{ github.workspace }}/frontend && yarn build
+        run: yarn build
+        working-directory: ./frontend
       - name: Static HTML export with Next.js
-        run: cd ${{ github.workspace }}/frontend && next export
+        run: next export
+        working-directory: ./frontend
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
