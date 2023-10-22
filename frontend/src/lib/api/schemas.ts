@@ -44,7 +44,8 @@ export interface ContentsSchema {
   durations: string[];
   languages: string[];
 
-  recommendedContent: Content | null;
+  contentsTotal: number;
 
+  recommendedContent: Content | null;
   contents: Content[];
 }

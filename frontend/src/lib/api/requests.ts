@@ -150,7 +150,7 @@ function getContentsDataFromValues(metadata: ContentsMetadata, values: string[][
     const [language = '', domain = '', ageLevel = '', name = '', , link = '', duration = '', recommendedValue = ''] = values[rowIndex];
     const recommended = recommendedValue == 'מומלץ';
 
-    if (language.trim() && domain.trim() && ageLevel.trim() && name.trim() && link.trim() && duration.trim()) {
+    if (language.trim() && domain.trim() && ageLevel.trim() && link.trim() && duration.trim()) {
       contents.push(
         getContent(
           metadata,
@@ -261,6 +261,8 @@ export async function getContentsInfo(locale: string): Promise<ContentsSchema> {
     ageLevels: metadata.ageLevels,
     durations: metadata.durations,
     languages: metadata.languages,
+
+    contentsTotal: contents.length,
 
     recommendedContent,
 
