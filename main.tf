@@ -47,6 +47,12 @@ variable "aws_partition" {
   default     = "aws"
 }
 
+variable "aws_frontend_image_arn" {
+  description = "AWS Frontend Image ID"
+  type        = string
+  default     = "arn:aws:imagebuilder:eu-central-1:178344858845:image/frontend/1.0.0"
+}
+
 variable "github_repository_id" {
   description = "GitHub Full Repository ID"
   type        = string
