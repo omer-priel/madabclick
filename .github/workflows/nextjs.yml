@@ -28,7 +28,7 @@ jobs:
         with:
           static_site_generator: next
       - name: ls
-        run: ls
+        run: ls -la
       - name: Install dependencies
         run: yarn install
         working-directory: frontend
