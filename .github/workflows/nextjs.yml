@@ -33,13 +33,13 @@ jobs:
           static_site_generator: next
       - name: Install dependencies
         run: yarn install
-        working-directory: ./frontend
+        working-directory: frontend
       - name: Build with Next.js
         run: yarn build
-        working-directory: ./frontend
+        working-directory: frontend
       - name: Static HTML export with Next.js
         run: next export
-        working-directory: ./frontend
+        working-directory: frontend
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
