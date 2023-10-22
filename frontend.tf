@@ -98,48 +98,6 @@ resource "aws_security_group" "frontend" {
   }
 }
 
-resource "aws_network_interface" "frontend_1" {
-  subnet_id       = aws_subnet.prod_1.id
-  private_ips     = ["10.0.1.50"]
-  security_groups = [aws_security_group.frontend.id]
-
-  tags = {
-    Name = "frontend"
-  }
-}
-
-resource "aws_network_interface" "frontend_2" {
-  subnet_id       = aws_subnet.prod_2.id
-  private_ips     = ["10.0.2.50"]
-  security_groups = [aws_security_group.frontend.id]
-
-  tags = {
-    Name = "frontend"
-  }
-}
-
-resource "aws_eip" "frontend_1" {
-  vpc                       = true
-  network_interface         = aws_network_interface.frontend_1.id
-  associate_with_private_ip = "10.0.1.50"
-  depends_on                = [aws_internet_gateway.prod]
-
-  tags = {
-    Name = "frontend"
-  }
-}
-
-resource "aws_eip" "frontend_2" {
-  vpc                       = true
-  network_interface         = aws_network_interface.frontend_2.id
-  associate_with_private_ip = "10.0.2.50"
-  depends_on                = [aws_internet_gateway.prod]
-
-  tags = {
-    Name = "frontend"
-  }
-}
-
 resource "tls_private_key" "fontend" {
   algorithm = "RSA"
   rsa_bits  = 4096
@@ -152,86 +110,6 @@ resource "aws_key_pair" "fontend" {
   tags = {
     Name = "frontend"
   }
-}
-
-resource "aws_s3_bucket" "prod_codedeploy" {
-  tags = {
-    Name = "production"
-  }
-}
-
-resource "aws_codedeploy_app" "frontend" {
-  name             = "frontend"
-  compute_platform = "Server"
-
-  tags = {
-    Name = "frontend"
-  }
-}
-
-data "aws_iam_policy_document" "prod_codedeploy_sts" {
-  statement {
-    effect  = "Allow"
-    actions = ["sts:AssumeRole"]
-
-    principals {
-      type        = "Service"
-      identifiers = ["codedeploy.amazonaws.com"]
-    }
-  }
-}
-
-resource "aws_iam_role" "prod_codedeploy" {
-  name               = "prod_codedeploy"
-  assume_role_policy = data.aws_iam_policy_document.prod_codedeploy_sts.json
-
-  tags = {
-    Name = "production"
-  }
-}
-
-resource "aws_codedeploy_deployment_group" "frontend" {
-  app_name              = aws_codedeploy_app.frontend.name
-  deployment_group_name = "frontend"
-  service_role_arn      = aws_iam_role.prod_codedeploy.arn
-
-  tags = {
-    Name = "frontend"
-  }
-
-  deployment_style {
-    deployment_option = "WITH_TRAFFIC_CONTROL"
-    deployment_type   = "BLUE_GREEN"
-  }
-
-  load_balancer_info {
-    elb_info {
-      name = aws_lb.frontend.name
-    }
-  }
-
-  blue_green_deployment_config {
-    deployment_ready_option {
-      action_on_timeout    = "STOP_DEPLOYMENT"
-      wait_time_in_minutes = 60
-    }
-
-    green_fleet_provisioning_option {
-      action = "DISCOVER_EXISTING"
-    }
-
-    terminate_blue_instances_on_deployment_success {
-      action = "KEEP_ALIVE"
-    }
-  }
-}
-
-output "frontend_public_ip_1" {
-  value = aws_eip.frontend_1.public_ip
-}
-
-output "frontend_public_ip_2" {
-  value = aws_eip.frontend_2.public_ip
 }
 
 output "production_codedeploy_bucket" {
