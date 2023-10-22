@@ -37,7 +37,7 @@ jobs:
           codedeploy_name: frontend
           codedeploy_group: frontend
           codedeploy_register_only: false
-          s3_bucket: ${{ secrets.AWS_FRONTEND_BUILD_BUCKET }}
+          s3_bucket: ${{ secrets.AWS_CODE_DEPLOY_BUCKET }}
           s3_folder: frontend
           max_polling_iterations: 0
           directory: ./
