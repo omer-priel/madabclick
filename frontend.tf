@@ -34,19 +34,34 @@ resource "aws_route_table" "prod" {
   }
 }
 
-resource "aws_subnet" "prod" {
+resource "aws_subnet" "prod_1" {
   vpc_id            = aws_vpc.prod.id
   cidr_block        = "10.0.1.0/24"
-  availability_zone = var.aws_availability_zone
+  availability_zone = var.aws_availability_zone_1
 
   tags = {
     Name = "production"
   }
 }
 
-resource "aws_route_table_association" "prod" {
+resource "aws_subnet" "prod_2" {
+  vpc_id            = aws_vpc.prod.id
+  cidr_block        = "10.0.2.0/24"
+  availability_zone = var.aws_availability_zone_2
+
+  tags = {
+    Name = "production"
+  }
+}
+
+resource "aws_route_table_association" "prod_1" {
   route_table_id = aws_route_table.prod.id
-  subnet_id      = aws_subnet.prod.id
+  subnet_id      = aws_subnet.prod_1.id
+}
+
+resource "aws_route_table_association" "prod_2" {
+  route_table_id = aws_route_table.prod.id
+  subnet_id      = aws_subnet.prod_2.id
 }
 
 resource "aws_security_group" "frontend" {
@@ -83,8 +98,8 @@ resource "aws_security_group" "frontend" {
   }
 }
 
-resource "aws_network_interface" "frontend" {
-  subnet_id       = aws_subnet.prod.id
+resource "aws_network_interface" "frontend_1" {
+  subnet_id       = aws_subnet.prod_1.id
   private_ips     = ["10.0.1.50"]
   security_groups = [aws_security_group.frontend.id]
 
@@ -93,10 +108,31 @@ resource "aws_network_interface" "frontend" {
   }
 }
 
-resource "aws_eip" "frontend" {
+resource "aws_network_interface" "frontend_2" {
+  subnet_id       = aws_subnet.prod_2.id
+  private_ips     = ["10.0.2.50"]
+  security_groups = [aws_security_group.frontend.id]
+
+  tags = {
+    Name = "frontend"
+  }
+}
+
+resource "aws_eip" "frontend_1" {
   vpc                       = true
-  network_interface         = aws_network_interface.frontend.id
+  network_interface         = aws_network_interface.frontend_1.id
   associate_with_private_ip = "10.0.1.50"
+  depends_on                = [aws_internet_gateway.prod]
+
+  tags = {
+    Name = "frontend"
+  }
+}
+
+resource "aws_eip" "frontend_2" {
+  vpc                       = true
+  network_interface         = aws_network_interface.frontend_2.id
+  associate_with_private_ip = "10.0.2.50"
   depends_on                = [aws_internet_gateway.prod]
 
   tags = {
@@ -214,7 +250,7 @@ resource "aws_imagebuilder_infrastructure_configuration" "frontend" {
   instance_types                = ["t2.nano"]
   key_pair                      = aws_key_pair.fontend.key_name
   security_group_ids            = [aws_security_group.frontend.id]
-  subnet_id                     = aws_subnet.prod.id
+  subnet_id                     = aws_subnet.prod_1.id
   terminate_instance_on_failure = true
 
   tags = {
@@ -299,41 +335,43 @@ resource "aws_iam_role" "prod_codedeploy" {
   }
 }
 
-resource "aws_elb" "frontend" {
-  name            = "frontend"
-  security_groups = [aws_security_group.frontend.id]
-  subnets         = [aws_subnet.prod.id]
+resource "aws_lb" "frontend" {
+  name               = "frontend"
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = [aws_security_group.frontend.id]
+  subnets            = [aws_subnet.prod_1.id, aws_subnet.prod_2.id]
 
-  cross_zone_load_balancing   = true
-  idle_timeout                = 400
-  connection_draining         = true
-  connection_draining_timeout = 400
+  enable_deletion_protection = true
 
   tags = {
     Name = "frontend"
   }
+}
 
-  listener {
-    instance_port     = 80
-    instance_protocol = "http"
-    lb_port           = 80
-    lb_protocol       = "http"
+resource "aws_lb_target_group" "frontend" {
+  name     = "frontend"
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = aws_vpc.prod.id
+
+  tags = {
+    Name = "frontend"
+  }
+}
+
+resource "aws_lb_listener" "frontend" {
+  load_balancer_arn = aws_lb.frontend.arn
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.frontend.arn
   }
 
-  # listener {
-  #   instance_port     = 80
-  #   instance_protocol = "http"
-  #   lb_port           = 443
-  #   lb_protocol       = "https"
-  #   ssl_certificate_id = "arn:aws:iam::123456789012:server-certificate/certName"
-  # }
-
-  health_check {
-    healthy_threshold   = 2
-    unhealthy_threshold = 2
-    timeout             = 3
-    target              = "HTTP:80/"
-    interval            = 300
+  tags = {
+    Name = "frontend"
   }
 }
 
@@ -353,7 +391,7 @@ resource "aws_codedeploy_deployment_group" "frontend" {
 
   load_balancer_info {
     elb_info {
-      name = aws_elb.frontend.name
+      name = aws_lb.frontend.name
     }
   }
 
@@ -373,8 +411,12 @@ resource "aws_codedeploy_deployment_group" "frontend" {
   }
 }
 
-output "frontend_public_ip" {
-  value = aws_eip.frontend.public_ip
+output "frontend_public_ip_1" {
+  value = aws_eip.frontend_1.public_ip
+}
+
+output "frontend_public_ip_2" {
+  value = aws_eip.frontend_2.public_ip
 }
 
 output "production_codedeploy_bucket" {

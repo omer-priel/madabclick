@@ -29,10 +29,16 @@ variable "aws_region" {
   default     = "eu-central-1"
 }
 
-variable "aws_availability_zone" {
+variable "aws_availability_zone_1" {
   description = "AWS Secret Key"
   type        = string
   default     = "eu-central-1a"
+}
+
+variable "aws_availability_zone_2" {
+  description = "AWS Secret Key"
+  type        = string
+  default     = "eu-central-1b"
 }
 
 variable "aws_partition" {
