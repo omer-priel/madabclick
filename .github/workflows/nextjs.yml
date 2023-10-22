@@ -18,13 +18,14 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "18.17.0"
-      - uses: actions/checkout@v4
+      - name: Copy Source
+        uses: actions/checkout@v4
         with:
           ref: feature/terraform
       - name: yarn install
         run: yarn install
         working-directory: frontend
-      - name: Build with Next.js
+      - name: yarn run build
         run: yarn run build
         working-directory: frontend
       - name: AWS CodeDeploy
