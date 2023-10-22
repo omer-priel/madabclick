@@ -100,6 +100,11 @@ function getContent(
     youtubePlaylist: null,
   };
 
+  if (link.startsWith('https://youtu.be/')) {
+    const videoID = link.split('https://youtu.be/')[1].split('?')[0];
+    content.link = link = 'https://www.youtube.com/watch?v=' + videoID;
+  }
+
   if (link.startsWith('https://www.youtube.com/')) {
     let videoID = null;
     let playlistID = null;
