@@ -15,13 +15,7 @@ export default function Header({ locale }: Props) {
       <div className='relative w-full h-[158px]'>
         <div className='absolute w-[250px] h-[35px] top-[38px] right-[52px]'>
           <div className='flex'>
-            <Image
-              className='ml-[36px]'
-              alt={t('choose-language')}
-              src={'/choose-language.svg'}
-              width='35'
-              height='35'
-            />
+            <Image className='ml-[36px]' alt={t('choose-language')} src={'/choose-language.svg'} width='35' height='35' />
             <div className='h-[24px] ml-[36px] my-auto'>
               <a href='/he' className={'text-right hover:text-yellowgreen-200' + (locale == 'he' ? ' text-yellowgreen-200' : '')}>
                 עברית
@@ -39,7 +33,13 @@ export default function Header({ locale }: Props) {
             </div>
           </div>
         </div>
-        <Image className='absolute top-[30px] left-[calc(50%_-_140px)] w-[280px] h-[97px]' alt='' src='/full-logo.svg' width='280' height='97' />
+        <Image
+          className='absolute top-[30px] left-[calc(50%_-_140px)] w-[280px] h-[97px]'
+          alt=''
+          src='/full-logo.svg'
+          width='280'
+          height='97'
+        />
       </div>
       <div className='relative w-full h-[960px]'>
         <Image className='absolute left-0 top-0 w-full h-full object-cover' alt='' src='/header-image.png' width='1920' height='960' />
