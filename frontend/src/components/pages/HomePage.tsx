@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 import MultiSelect from '@/components/atoms/MultiSelect';
 import SearchBox from '@/components/atoms/SearchBox';
 import ContentCard from '@/components/blocks/ContentCard';
-import Header from '@/components/blocks/Header';
+import Header from '@/components/blocks/header/Header';
 
 import { Content, ContentsSchema } from '@/lib/api/schemas';
 
