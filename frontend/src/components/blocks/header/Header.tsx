@@ -42,9 +42,9 @@ export default function Header({ locale }: Props) {
         />
       </div>
       <div className='relative w-full h-[960px]'>
-        <Image className='absolute left-0 top-0 w-full h-full object-cover' alt='' src='/header-image.png' width='1920' height='960' />
+        <Image className='absolute w-full h-full left-0 top-0 object-cover' alt='' src='/header-image.png' width='1920' height='960' />
         <div
-          className='absolute left-0 top-0 w-full h-full
+          className='absolute w-full h-full left-0 top-0
                     [back first-letter:ground:linear-gradient(-75.99deg,_rgba(0,_0,_0,_0.5)_27.99%,_rgba(0,_0,_0,_0)_96.51%)]'
         />
         <div className='absolute h-[60px] right-[201px] top-[230px] text-[40px]/[60px] font-black text-white text-right'>

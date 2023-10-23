@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 
 import MultiSelect from '@/components/atoms/MultiSelect';
 import SearchBox from '@/components/atoms/SearchBox';
@@ -42,9 +43,18 @@ export default function HomePage({ data, locale }: Props) {
   return (
     <div className='relative w-[1920px]'>
       <Header locale={locale} />
-      <div className='flex justify-center w-full mt-[47px]'>
-        <div className='w-[476px]'>
-          <SearchBox placeholder={t('search')} value={searchText} onChange={setSearchText} />
+      <div className='relative w-full h-[1054px]'>
+        <Image
+          className='absolute w-full h-full left-0 top-0 object-cover'
+          alt=''
+          src='/section-2-background.png'
+          width='1920'
+          height='1054'
+        />
+        <div className='absolute w-full h-[64px] top-[76px]'>
+          <div className='w-[644px] mx-auto'>
+            <SearchBox placeholder={t('search')} value={searchText} onChange={setSearchText} />
+          </div>
         </div>
       </div>
       <div className='flex justify-center w-full mt-[78px]'>
