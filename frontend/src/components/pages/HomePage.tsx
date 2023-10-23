@@ -41,7 +41,7 @@ export default function HomePage({ data, locale }: Props) {
   };
 
   return (
-    <div className='relative w-[1920px]'>
+    <div className='relative w-[1920px] font-poppins'>
       <Header locale={locale} />
       <div className='relative w-full h-[1054px]'>
         <Image
@@ -54,6 +54,12 @@ export default function HomePage({ data, locale }: Props) {
         <div className='absolute w-full h-[64px] top-[76px]'>
           <div className='w-[644px] mx-auto'>
             <SearchBox placeholder={t('search')} value={searchText} onChange={setSearchText} />
+          </div>
+        </div>
+        <div className='absolute w-full h-[823px] left-0 top-[140px]'>
+          <div className='w-fit h-[60px] mx-auto mt-[201px] text-black text-[40px]/[60px] font-black'>
+            {t('section-2-title')}
+            <Image className='block' alt='' src='/section-2-title-line.svg' width='126' height='5' />
           </div>
         </div>
       </div>

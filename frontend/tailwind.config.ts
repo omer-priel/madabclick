@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss';
+import defaultTheme from 'tailwindcss/defaultTheme';
 
 const config: Config = {
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
@@ -34,7 +35,12 @@ const config: Config = {
       '77xl': '96px',
       inherit: 'inherit',
     },
+    fontFamily: {
+      ...defaultTheme.fontFamily,
+      poppins: ['Poppins', ...defaultTheme.fontFamily.sans],
+    },
   },
   plugins: [],
 };
+
 export default config;
