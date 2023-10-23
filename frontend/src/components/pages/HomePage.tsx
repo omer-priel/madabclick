@@ -8,7 +8,9 @@ import Image from 'next/image';
 import MultiSelect from '@/components/atoms/MultiSelect';
 import SearchBox from '@/components/atoms/SearchBox';
 import ContentCard from '@/components/blocks/ContentCard';
-import Header from '@/components/blocks/header/Header';
+import Header from '@/components/blocks/Header';
+import Section1 from '@/components/blocks/Section1';
+import Section2 from '@/components/blocks/Section2';
 
 import { Content, ContentsSchema } from '@/lib/api/schemas';
 
@@ -43,11 +45,13 @@ export default function HomePage({ data, locale }: Props) {
   return (
     <div className='relative w-[1920px] font-poppins'>
       <Header locale={locale} />
+      <Section1 />
+      <Section2 />
       <div className='relative w-full h-[1054px]'>
         <Image
           className='absolute w-full h-full left-0 top-0 object-cover'
           alt=''
-          src='/section-2-background.png'
+          src='/section-3-background.png'
           width='1920'
           height='1054'
         />
@@ -58,9 +62,10 @@ export default function HomePage({ data, locale }: Props) {
         </div>
         <div className='absolute w-full h-[823px] left-0 top-[140px]'>
           <div className='w-fit h-[60px] mx-auto mt-[201px] text-black text-[40px]/[60px] font-black'>
-            {t('section-2-title')}
-            <Image className='block' alt='' src='/section-2-title-line.svg' width='126' height='5' />
+            {t('section-3-title')}
+            <div className='w-[126px] h-[8px] bg-[#81B826]' />
           </div>
+          <div className='w-[720px] h-[521px] mx-auto mt-[33px]'>text</div>
         </div>
       </div>
       <div className='flex justify-center w-full mt-[78px]'>
