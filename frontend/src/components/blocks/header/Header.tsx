@@ -14,7 +14,7 @@ export default function Header({ locale }: Props) {
     <>
       <div className='relative w-full h-[158px]'>
         <div className='absolute w-[250px] h-[35px] top-[38px] right-[52px]'>
-          <div className='flex'>
+          <div className='flex ltr:flex-row-reverse'>
             <Image className='ml-[36px]' alt={t('choose-language')} src={'/choose-language.svg'} width='35' height='35' />
             <div className='h-[24px] ml-[36px] my-auto'>
               <a href='/he' className={'text-right hover:text-yellowgreen-200' + (locale == 'he' ? ' text-yellowgreen-200' : '')}>
@@ -47,10 +47,11 @@ export default function Header({ locale }: Props) {
           className='absolute left-0 top-0 w-full h-full
                     [back first-letter:ground:linear-gradient(-75.99deg,_rgba(0,_0,_0,_0.5)_27.99%,_rgba(0,_0,_0,_0)_96.51%)]'
         />
-        <div className='absolute top-[230px] right-[201px] text-[40px] font-black text-white text-right'>{t('header-line-1')}</div>
-        <div className='absolute top-[731px] right-[1238px] inline-block w-[419px] h-24 text-xl font-black text-white text-right'>
-          <p className='m-0'>&nbsp;</p>
-          <p className='m-0'>{t('header-line-2')}</p>
+        <div className='absolute h-[60px] right-[201px] top-[230px] text-[40px]/[60px] font-black text-white text-right'>
+          {t('header-line-1')}
+        </div>
+        <div className='absolute w-[492px] h-[126px] right-[204px] top-[300px] text-[20px]/[32px] font-black text-white text-right'>
+          {t('header-line-2')}
         </div>
       </div>
     </>
