@@ -41,14 +41,14 @@ export default function Header({ locale }: Props) {
         </div>
         <Image className='absolute top-[30px] left-[calc(50%_-_140px)] w-[280px] h-[97px]' alt='' src='/full-logo.svg' width='280' height='97' />
       </div>
-      <div className='relative h-[960px]'>
+      <div className='relative w-full h-[960px]'>
         <Image className='absolute left-0 top-0 w-full h-full object-cover' alt='' src='/header-image.png' width='1920' height='960' />
         <div
           className='absolute left-0 top-0 w-full h-full
-                    [background:linear-gradient(-75.99deg,_rgba(0,_0,_0,_0.5)_27.99%,_rgba(0,_0,_0,_0)_96.51%)]'
+                    [back first-letter:ground:linear-gradient(-75.99deg,_rgba(0,_0,_0,_0.5)_27.99%,_rgba(0,_0,_0,_0)_96.51%)]'
         />
-        <div className='absolute top-[694px] left-[1208px] text-[40px] font-black text-white text-right'>{t('header-line-1')}</div>
-        <div className='absolute top-[731px] left-[1238px] inline-block w-[419px] h-24 text-xl font-black text-white text-right'>
+        <div className='absolute top-[230px] right-[201px] text-[40px] font-black text-white text-right'>{t('header-line-1')}</div>
+        <div className='absolute top-[731px] right-[1238px] inline-block w-[419px] h-24 text-xl font-black text-white text-right'>
           <p className='m-0'>&nbsp;</p>
           <p className='m-0'>{t('header-line-2')}</p>
         </div>
