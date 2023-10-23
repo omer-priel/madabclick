@@ -40,7 +40,7 @@ export default function HomePage({ data, locale }: Props) {
   };
 
   return (
-    <div className='relative w-full'>
+    <div className='relative w-[1920px]'>
       <Header locale={locale} />
       <div className='flex justify-center w-full mt-[47px]'>
         <div className='w-[476px]'>
