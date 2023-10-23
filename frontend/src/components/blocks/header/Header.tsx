@@ -12,7 +12,7 @@ export default function Header({ locale }: Props) {
 
   return (
     <>
-      <div className='relative w-full h-[216px]'>
+      <div className='relative w-full h-[158px]'>
         <div className='absolute w-[250px] h-[35px] top-[38px] right-[52px]'>
           <div className='flex'>
             <Image
@@ -39,18 +39,7 @@ export default function Header({ locale }: Props) {
             </div>
           </div>
         </div>
-        <div className='absolute top-[32px] left-[calc(50%_-_230px)] w-[460px] text-xl text-gray-100'>
-          <Image className='absolute top-[0px] left-[302px] object-cover' alt='' src='/logo.png' width='121' height='121' />
-          <div className='absolute top-[123px] left-[calc(50%_-_83px)]'>{t('site-description')}</div>
-          <div className='absolute top-[15px] left-[0px] w-[460px] h-[114px] text-77xl text-black font-rubik'>
-            <b className='absolute top-[0px] left-[395px]'>מ</b>
-            <b className='absolute top-[0px] left-[0px] text-yellowgreen-100'>
-              <span>{'דע '}</span>
-              <span className='text-black'>בקליק</span>
-            </b>
-          </div>
-          <Image className='absolute top-[151px] left-[126px]' alt='' src='/line-1.svg' width='175' height='4' />
-        </div>
+        <Image className='absolute top-[30px] left-[calc(50%_-_140px)] w-[280px] h-[97px]' alt='' src='/full-logo.svg' width='280' height='97' />
       </div>
       <div className='relative h-[960px]'>
         <Image className='absolute left-0 top-0 w-full h-full object-cover' alt='' src='/header-image.png' width='1920' height='960' />
