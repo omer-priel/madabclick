@@ -2,7 +2,7 @@
   "site-title": "מדע בקליק",
   "site-description": "תוכן לילדים סקרנים",
 
-  "choose-language": "Choose language",
+  "choose-language": "בחר שפה",
 
   "section-1-line-1": "שלום לכל מדעני העתיד",
   "section-1-line-2": "רוצים לגלות את סודות היקום?  מוזמנים לחקור אותו יחד איתי דרך  המשקפיים של בוגרי תוכנית אסכולה, שאספו עבורכם סרטונים מרתקים.        רק אל תשכחו מה הסקרנות עשתה לחתול . . .",
@@ -12,15 +12,18 @@
 
   "section-3-title": "המלצת הבוגרים",
 
-  "recommended": "Recommended",
-  "all": "All",
-  "domain": "Domain",
-  "age-level": "Age",
-  "duration": "Duration",
-  "language": "Language",
+  "contents-section-title": "סרטונים בקליק",
+
+  "recommended": "מומלץ!",
+  "all": "הכל",
+
   "search": "מה מסקרן אותך היום?",
 
-  "link-to-youtube-video": "link to video",
-  "link-to-youtube-playlist": "link to playlist",
-  "link-to-website": "link to website"
+  "filter-age-level": "באיזו כיתה אתם?",
+  "filter-duration": "כמה דקות תוכלו להתרכז?",
+  "filter-language": "באיזו שפה תרצו לחקור?",
+
+  "link-to-youtube-video": "קישור לסירטון",
+  "link-to-youtube-playlist": "קישור לרשימה",
+  "link-to-website": "קישור לאתר"
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import Image from 'next/image';
 
@@ -13,11 +13,20 @@ interface Props {
 
 export default function MultiSelect({ label, options, value, onChange }: Props) {
   const [opened, setOpened] = useState(false);
+  const [labelWidth, setLabelWidth] = useState<number>(0);
+
+  const labelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (labelRef.current) {
+      setLabelWidth(labelRef.current.clientWidth);
+    }
+  }, [labelRef, setLabelWidth]);
 
   return (
     <>
       <div className='relative' onBlur={() => setOpened(false)}>
-        <div className='flex justify-center' onClick={() => setOpened((prevOpend) => !prevOpend)}>
+        <div ref={labelRef} className='flex justify-center' onClick={() => setOpened((prevOpend) => !prevOpend)}>
           <Image
             className={'rtl:pl-[7px] ltr:pr-[7px]' + (!opened ? '' : ' hidden')}
             alt={label}
@@ -64,6 +73,17 @@ export default function MultiSelect({ label, options, value, onChange }: Props) 
               </div>
             ))}
           </div>
+        </div>
+        <div className='flex flex-wrap min-h-[41px]' style={labelWidth ? { width: `${labelWidth}px` } : {}}>
+          {value.map((el) => (
+            <div
+              key={el}
+              className='flex w-fit h-[33px] mx-[8px] mt-[8px] px-[8px] bg-white
+                        rounded-[50px] box-border border-[1px] border-solid border-gray-300 text-right'
+            >
+              <p className='w-fit h-fit mx-auto my-auto'>{el}</p>
+            </div>
+          ))}
         </div>
       </div>
     </>

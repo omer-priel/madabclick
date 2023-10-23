@@ -12,13 +12,16 @@
 
   "section-3-title": "המלצת הבוגרים",
 
-  "recommended": "מומלץ",
+  "contents-section-title": "סרטונים בקליק",
+
+  "recommended": "מומלץ!",
   "all": "הכל",
-  "domain": "תחום",
-  "age-level": "גיל",
-  "duration": "משך זמן",
-  "language": "שפה",
+
   "search": "מה מסקרן אותך היום?",
+
+  "filter-age-level": "באיזו כיתה אתם?",
+  "filter-duration": "כמה דקות תוכלו להתרכז?",
+  "filter-language": "באיזו שפה תרצו לחקור?",
 
   "link-to-youtube-video": "קישור לסירטון",
   "link-to-youtube-playlist": "קישור לרשימה",

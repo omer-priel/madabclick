@@ -9,7 +9,7 @@ interface Props {
   content: Content;
 }
 
-export default function ContentCard({ content }: Props) {
+export default function RecommendedContentCard({ content }: Props) {
   const t = useTranslations();
 
   const links: string[][] = [];
@@ -34,9 +34,9 @@ export default function ContentCard({ content }: Props) {
   }
 
   return (
-    <div className='relative w-[400px] h-[400px]'>
-      {contentType == 1 && <YouTubeVideo content={content} />}
-      {contentType == 2 && <YouTubePlaylist content={content} />}
+    <div className='relative w-[720px] h-[480px]'>
+      {contentType == 1 && <YouTubeVideo content={content} overlayText={t('recommended') + ' ' + content.title} />}
+      {contentType == 2 && <YouTubePlaylist content={content} overlayText={t('recommended') + ' ' + content.title} />}
     </div>
   );
 }

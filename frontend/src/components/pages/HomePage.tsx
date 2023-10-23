@@ -9,6 +9,7 @@ import MultiSelect from '@/components/atoms/MultiSelect';
 import SearchBox from '@/components/atoms/SearchBox';
 import ContentCard from '@/components/blocks/ContentCard';
 import Header from '@/components/blocks/Header';
+import RecommendedContentCard from '@/components/blocks/RecommendedContentCard';
 import Section1 from '@/components/blocks/Section1';
 import Section2 from '@/components/blocks/Section2';
 
@@ -20,11 +21,10 @@ interface Props {
 }
 
 export default function HomePage({ data, locale }: Props) {
-  const { currentLanguage, languages, domains, ageLevels, durations, recommendedContent, contents } = data;
+  const { currentLanguage, languages, ageLevels, durations, recommendedContent, contents } = data;
 
   const t = useTranslations();
 
-  const [selectedDomains, setSelectedDomains] = useState<string[]>([]);
   const [selectedAgeLevels, setSelectedAgeLevels] = useState<string[]>([]);
   const [selectedDurations, setSelectedDurations] = useState<string[]>([]);
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([currentLanguage]);
@@ -34,7 +34,6 @@ export default function HomePage({ data, locale }: Props) {
 
   const showContentCard = (content: Content) => {
     return (
-      (selectedDomains.length === 0 || selectedDomains.includes(content.domain)) &&
       (selectedAgeLevels.length === 0 || selectedAgeLevels.includes(content.ageLevel)) &&
       (selectedDurations.length === 0 || selectedDurations.includes(content.duration)) &&
       (selectedLanguages.length === 0 || selectedLanguages.includes(content.language)) &&
@@ -43,59 +42,56 @@ export default function HomePage({ data, locale }: Props) {
   };
 
   return (
-    <div className='relative w-[1920px] font-poppins'>
-      <Header locale={locale} />
-      <Section1 />
-      <Section2 />
-      <div className='relative w-full h-[1054px]'>
-        <Image
-          className='absolute w-full h-full left-0 top-0 object-cover'
-          alt=''
-          src='/section-3-background.png'
-          width='1920'
-          height='1054'
-        />
-        <div className='absolute w-full h-[64px] top-[76px]'>
-          <div className='w-[644px] mx-auto'>
-            <SearchBox placeholder={t('search')} value={searchText} onChange={setSearchText} />
-          </div>
-        </div>
-        <div className='absolute w-full h-[823px] left-0 top-[140px]'>
-          <div className='w-fit h-[60px] mx-auto mt-[201px] text-black text-[40px]/[60px] font-black'>
-            {t('section-3-title')}
-            <div className='w-[126px] h-[8px] bg-[#81B826]' />
-          </div>
-          <div className='w-[720px] h-[521px] mx-auto mt-[33px]'>text</div>
-        </div>
-      </div>
-      <div className='flex justify-center w-full mt-[78px]'>
-        <div className='grid grid-cols-4 w-[900px] rtl:pr-[112px] ltr:pl-[112px]'>
-          <div className='w-fit'>
-            <MultiSelect label={t('domain')} options={domains} value={selectedDomains} onChange={setSelectedDomains} />
-          </div>
-          <div className='w-fit'>
-            <MultiSelect label={t('age-level')} options={ageLevels} value={selectedAgeLevels} onChange={setSelectedAgeLevels} />
-          </div>
-          <div className='w-fit'>
-            <MultiSelect label={t('duration')} options={durations} value={selectedDurations} onChange={setSelectedDurations} />
-          </div>
-          <div className='w-fit'>
-            <MultiSelect label={t('language')} options={languages} value={selectedLanguages} onChange={setSelectedLanguages} />
-          </div>
-        </div>
-      </div>
-      <div className='w-full mt-[50px]'>
-        <div className='grid grid-cols-4 w-[calc(100%_-_120px)] px-[58px] py-[50px] gap-x-[70px] gap-y-[168px]'>
-          {recommendedContent && (
-            <div className='mx-auto col-span-4 w-[400px] h-[400px] bg-gainsboro'>
-              <ContentCard content={recommendedContent} title={recommendedContent.title + ' - ' + t('recommended')} />
+    <div className='w-full font-poppins'>
+      <div className='relative w-[1920px] mx-auto'>
+        <Header locale={locale} />
+        <Section1 />
+        <Section2 />
+        <div className='relative w-full h-[1013px]'>
+          <Image
+            className='absolute w-[1920px] h-[1054px] left-0 top-0 object-cover'
+            alt=''
+            src='/section-3-background.png'
+            width='1920'
+            height='1054'
+          />
+          <div className='absolute w-full h-[64px] top-[110px]'>
+            <div className='w-[644px] mx-auto'>
+              <SearchBox placeholder={t('search')} value={searchText} onChange={setSearchText} />
             </div>
-          )}
-          {contents.map((content) => (
-            <div key={content.index} className={'w-[400px] h-[400px] bg-gainsboro' + (showContentCard(content) ? '' : ' hidden')}>
-              <ContentCard content={content} title={content.title} />
+          </div>
+          <div className='absolute w-full h-[823px] left-0 top-[347px]'>
+            <div className='w-fit h-[60px] mx-auto text-white text-[40px]/[60px] font-black'>{t('section-3-title')}</div>
+            <div className='w-fit mx-auto mt-[33px]'>{!!recommendedContent && <RecommendedContentCard content={recommendedContent} />}</div>
+          </div>
+        </div>
+        <div className='w-full mt-[81px]'>
+          <div className='w-fit h-[60px] mx-auto text-black text-[40px]/[60px] text-right font-black'>
+            {t('contents-section-title')}
+            <div className='w-[60px] h-[8px] mx-auto mt-[21px] bg-[#81B826]' />
+          </div>
+        </div>
+        <div className='w-full mt-[69px]'>
+          <div className='flex w-fit mx-auto'>
+            <div className='w-fit ml-[66px]'>
+              <MultiSelect label={t('filter-age-level')} options={ageLevels} value={selectedAgeLevels} onChange={setSelectedAgeLevels} />
             </div>
-          ))}
+            <div className='w-fit ml-[66px]'>
+              <MultiSelect label={t('filter-duration')} options={durations} value={selectedDurations} onChange={setSelectedDurations} />
+            </div>
+            <div className='w-fit'>
+              <MultiSelect label={t('filter-language')} options={languages} value={selectedLanguages} onChange={setSelectedLanguages} />
+            </div>
+          </div>
+        </div>
+        <div className='flex justify-center w-full mt-[50px]'>
+          <div className='grid grid-cols-4 w-[calc(100%_-_120px)] px-[58px] py-[50px] gap-x-[70px] gap-y-[168px]'>
+            {contents.map((content) => (
+              <div key={content.index} className={'bg-gainsboro' + (showContentCard(content) ? '' : ' hidden')}>
+                <ContentCard content={content} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
