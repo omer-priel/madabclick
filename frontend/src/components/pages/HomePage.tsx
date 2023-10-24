@@ -42,73 +42,71 @@ export default function HomePage({ data, locale }: Props) {
   };
 
   return (
-    <div className='w-full overflow-x-hidden overflow-y-hidden bg-whitesmoke text-base text-black font-poppins'>
-      <div className='relative w-[1920px] mx-auto'>
-        <Header locale={locale} />
-        <Section1 />
-        <Section2 />
-        <div className='relative w-full h-[1013px]'>
-          <Image
-            className='absolute w-[1920px] h-[1054px] left-0 top-0 object-cover'
-            alt=''
-            src='/section-3-background.png'
-            width='1920'
-            height='1054'
-          />
-          <div className='absolute w-full h-[64px] top-[110px]'>
-            <div className='w-[644px] mx-auto'>
-              <SearchBox placeholder={t('search')} value={searchText} onChange={setSearchText} />
-            </div>
-          </div>
-          <div className='absolute w-full h-[823px] left-0 top-[347px]'>
-            <div className='w-fit h-[60px] mx-auto text-white text-[40px]/[60px] font-black'>{t('section-3-title')}</div>
-            <div className='w-fit mx-auto mt-[33px]'>{!!recommendedContent && <RecommendedContentCard content={recommendedContent} />}</div>
+    <div className='relative w-full mx-auto overflow-x-hidden overflow-y-hidden bg-whitesmoke text-base text-black font-poppins'>
+      <Header locale={locale} />
+      <Section1 />
+      <Section2 />
+      <div className='relative w-full h-[52.76vw]'>
+        <Image
+          className='absolute w-full h-full left-0 top-0 object-cover'
+          alt=''
+          src='/section-3-background.png'
+          width='1920'
+          height='1013'
+        />
+        <div className='absolute w-full h-[3.333vw] top-[5.729vw]'>
+          <div className='w-[33.541vw] mx-auto'>
+            <SearchBox placeholder={t('search')} value={searchText} onChange={setSearchText} />
           </div>
         </div>
-        <div className='w-full mt-[81px]'>
-          <div className='w-fit h-[60px] mx-auto text-black text-[40px]/[60px] text-right font-black'>
-            {t('contents-section-title')}
-            <div className='w-[60px] h-[8px] mx-auto mt-[21px] bg-[#81B826]' />
+        <div className='absolute w-full h-[29.375vw] left-0 top-[18.072vw]'>
+          <div className='w-fit h-[3.125vw] mx-auto text-white text-[2.083vw]/[3.125vw] font-black'>{t('section-3-title')}</div>
+          <div className='w-fit mx-auto mt-[1.25vw]'>{!!recommendedContent && <RecommendedContentCard content={recommendedContent} />}</div>
+        </div>
+      </div>
+      <div className='w-full mt-[4.218vw]'>
+        <div className='w-fit h-[3.125vw] mx-auto text-black text-[2.083vw]/[3.125vw] text-right font-black'>
+          {t('contents-section-title')}
+          <div className='w-[3.125vw] h-[0.416vw] mx-auto mt-[1.093vw] bg-[#81B826]' />
+        </div>
+      </div>
+      <div className='w-full mt-[3.593vw]'>
+        <div className='flex w-fit mx-auto'>
+          <div className='w-fit ml-[3.437vw]'>
+            <MultiSelect label={t('filter-age-level')} options={ageLevels} value={selectedAgeLevels} onChange={setSelectedAgeLevels} />
+          </div>
+          <div className='w-fit ml-[3.437vw]'>
+            <MultiSelect label={t('filter-duration')} options={durations} value={selectedDurations} onChange={setSelectedDurations} />
+          </div>
+          <div className='w-fit'>
+            <MultiSelect label={t('filter-language')} options={languages} value={selectedLanguages} onChange={setSelectedLanguages} />
           </div>
         </div>
-        <div className='w-full mt-[69px]'>
-          <div className='flex w-fit mx-auto'>
-            <div className='w-fit ml-[66px]'>
-              <MultiSelect label={t('filter-age-level')} options={ageLevels} value={selectedAgeLevels} onChange={setSelectedAgeLevels} />
-            </div>
-            <div className='w-fit ml-[66px]'>
-              <MultiSelect label={t('filter-duration')} options={durations} value={selectedDurations} onChange={setSelectedDurations} />
-            </div>
-            <div className='w-fit'>
-              <MultiSelect label={t('filter-language')} options={languages} value={selectedLanguages} onChange={setSelectedLanguages} />
-            </div>
-          </div>
-        </div>
-        <div className='w-full min-h-[400px] mt-[95px]'>
-          {domains.map((domain) => (
-            <div
-              key={domain}
-              className={
-                'w-full mb-[98px] ' + (contents.find((content) => content.domain == domain && showContentCard(content)) ? '' : ' hidden')
-              }
-            >
-              <div className='w-fit h-[36px] mx-auto text-black text-[24px]/[36px] text-right font-black'>{domain}</div>
-              <div className='flex flex-nowrap mt-[33px] overflow-x-scroll'>
-                <div className='flex h-fit mx-auto'>
-                  {contents
-                    .filter((content) => content.domain == domain)
-                    .map((content) => (
-                      <div key={content.index} className={'ml-[35px] ' + (showContentCard(content) ? '' : ' hidden')}>
-                        <ContentCard content={content} />
-                      </div>
-                    ))}
-                </div>
+      </div>
+      <div className='w-full min-h-[20.833vw] mt-[4.947vw]'>
+        {domains.map((domain) => (
+          <div
+            key={domain}
+            className={
+              'w-full mb-[5.104vw] ' + (contents.find((content) => content.domain == domain && showContentCard(content)) ? '' : ' hidden')
+            }
+          >
+            <div className='w-fit h-[1.875vw] mx-auto text-black text-[1.25vw]/[1.875vw] text-right font-black'>{domain}</div>
+            <div className='flex flex-nowrap mt-[1.718vw] overflow-x-scroll'>
+              <div className='flex h-fit mx-auto'>
+                {contents
+                  .filter((content) => content.domain == domain)
+                  .map((content) => (
+                    <div key={content.index} className={'ml-[1.822vw] ' + (showContentCard(content) ? '' : ' hidden')}>
+                      <ContentCard content={content} />
+                    </div>
+                  ))}
               </div>
             </div>
-          ))}
-        </div>
-        <div className='w-full h-[100px]' />
+          </div>
+        ))}
       </div>
+      <div className='w-full h-[5.208vw]' />
     </div>
   );
 }

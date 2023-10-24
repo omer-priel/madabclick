@@ -34,7 +34,7 @@ export default function RecommendedContentCard({ content }: Props) {
   }
 
   return (
-    <div className='relative w-[720px] h-[480px]'>
+    <div className='relative w-[37.5vw] h-[25vw]'>
       {contentType == 1 && <YouTubeVideo content={content} overlayText={t('recommended') + ' ' + content.title} />}
       {contentType == 2 && <YouTubePlaylist content={content} overlayText={t('recommended') + ' ' + content.title} />}
     </div>

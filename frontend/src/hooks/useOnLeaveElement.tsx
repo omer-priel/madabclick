@@ -2,14 +2,14 @@ import { RefObject, useEffect } from 'react';
 
 export default function useOnLeaveElement(ref: RefObject<HTMLElement>, callback: () => void) {
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
+    function listener(event: MouseEvent) {
       if (ref.current && !ref.current.contains(event.target as Node)) {
         callback();
       }
     }
-    document.addEventListener('mousedown', handleClickOutside);
+    window.addEventListener('mousedown', listener);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('mousedown', listener);
     };
   }, [ref, callback]);
 }

@@ -34,9 +34,9 @@ export default function YouTubePlaylist({ content, overlayText }: Props) {
             <Image className='absolute inset-0 w-full h-full' src={content.youtubePlaylist.thumbnail.url} alt={content.title} fill />
           )}
           {!!overlayText && (
-            <div className='absolute w-full h-[106px] bottom-0 left-0 bg-[#04090E]/[.70]'>
+            <div className='absolute w-full h-[5.52vw] bottom-0 left-0 bg-[#04090E]/[.70]'>
               <div className='flex w-full h-full'>
-                <p className='w-fit h-[24px] mx-auto my-auto text-white text-[16px]/[24px] font-black'>{overlayText}</p>
+                <p className='w-fit h-[1.25vw] mx-auto my-auto text-white text-[0.833vw]/[1.25vw] font-black'>{overlayText}</p>
               </div>
             </div>
           )}
