@@ -84,7 +84,7 @@ export default function HomePage({ data, locale }: Props) {
             </div>
           </div>
         </div>
-        <div className='w-full mt-[95px]'>
+        <div className='w-full min-h-[400px] mt-[95px]'>
           {domains.map((domain) => (
             <div
               key={domain}
@@ -107,6 +107,7 @@ export default function HomePage({ data, locale }: Props) {
             </div>
           ))}
         </div>
+        <div className='w-full h-[100px]' />
       </div>
     </div>
   );

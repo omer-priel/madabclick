@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 
 import Image from 'next/image';
 
+import { useOnLeaveElement } from '@/hooks';
+
 interface Props {
   label: string;
   options: string[];
@@ -15,7 +17,12 @@ export default function MultiSelect({ label, options, value, onChange }: Props) 
   const [opened, setOpened] = useState(false);
   const [labelWidth, setLabelWidth] = useState<number>(0);
 
+  const containerRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLDivElement>(null);
+
+  useOnLeaveElement(containerRef, () => {
+    setOpened(false);
+  });
 
   useEffect(() => {
     if (labelRef.current) {
@@ -25,7 +32,7 @@ export default function MultiSelect({ label, options, value, onChange }: Props) 
 
   return (
     <>
-      <div className='relative' onBlur={() => setOpened(false)}>
+      <div ref={containerRef} className='relative'>
         <div ref={labelRef} className='flex justify-center' onClick={() => setOpened((prevOpend) => !prevOpend)}>
           <Image
             className={'rtl:pl-[7px] ltr:pr-[7px]' + (!opened ? '' : ' hidden')}
