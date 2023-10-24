@@ -21,7 +21,7 @@ interface Props {
 }
 
 export default function HomePage({ data, locale }: Props) {
-  const { currentLanguage, languages, ageLevels, durations, recommendedContent, contents } = data;
+  const { currentLanguage, languages, domains, ageLevels, durations, recommendedContent, contents } = data;
 
   const t = useTranslations();
 
@@ -42,7 +42,7 @@ export default function HomePage({ data, locale }: Props) {
   };
 
   return (
-    <div className='w-full font-poppins'>
+    <div className='w-full overflow-x-hidden overflow-y-hidden bg-whitesmoke text-base text-black font-poppins'>
       <div className='relative w-[1920px] mx-auto'>
         <Header locale={locale} />
         <Section1 />
@@ -84,14 +84,28 @@ export default function HomePage({ data, locale }: Props) {
             </div>
           </div>
         </div>
-        <div className='flex justify-center w-full mt-[50px]'>
-          <div className='grid grid-cols-4 w-[calc(100%_-_120px)] px-[58px] py-[50px] gap-x-[70px] gap-y-[168px]'>
-            {contents.map((content) => (
-              <div key={content.index} className={'bg-gainsboro' + (showContentCard(content) ? '' : ' hidden')}>
-                <ContentCard content={content} />
+        <div className='w-full mt-[95px]'>
+          {domains.map((domain) => (
+            <div
+              key={domain}
+              className={
+                'w-full mb-[98px] ' + (contents.find((content) => content.domain == domain && showContentCard(content)) ? '' : ' hidden')
+              }
+            >
+              <div className='w-fit h-[36px] mx-auto text-black text-[24px]/[36px] text-right font-black'>{domain}</div>
+              <div className='flex flex-nowrap mt-[33px] overflow-x-scroll'>
+                <div className='flex h-fit mx-auto'>
+                  {contents
+                    .filter((content) => content.domain == domain)
+                    .map((content) => (
+                      <div key={content.index} className={'ml-[35px] ' + (showContentCard(content) ? '' : ' hidden')}>
+                        <ContentCard content={content} />
+                      </div>
+                    ))}
+                </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

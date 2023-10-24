@@ -34,9 +34,12 @@ export default function ContentCard({ content }: Props) {
   }
 
   return (
-    <div className='relative w-[400px] h-[400px]'>
-      {contentType == 1 && <YouTubeVideo content={content} />}
-      {contentType == 2 && <YouTubePlaylist content={content} />}
+    <div className='w-[400px]'>
+      <div className='relative w-[400px] h-[282px]'>
+        {contentType == 1 && <YouTubeVideo content={content} />}
+        {contentType == 2 && <YouTubePlaylist content={content} />}
+      </div>
+      <div className='mt-[15px] text-black text-[16px]/[24px] text-right font-black'>{content.title}</div>
     </div>
   );
 }
