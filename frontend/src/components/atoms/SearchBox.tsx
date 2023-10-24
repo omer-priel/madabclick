@@ -17,7 +17,7 @@ export default function SearchBox({ placeholder, value, onChange }: Props) {
       <Image className='w-[2.864vw] h-[2.864vw] mx-[0.625vw]' alt='' src='/search-icon.svg' width='55' height='55' />
       <input
         type='text'
-        className='w-full h-[1.302vw] mx-[0.625vw] my-[0.781vw] font-light'
+        className='w-full h-[1.302vw] mx-[0.625vw] my-[0.781vw] text-[0.833vw]/[1.354vw] font-light placeholder:text-[#00000080]'
         style={{ outline: 'none' }}
         value={value}
         placeholder={placeholder}
