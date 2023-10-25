@@ -16,6 +16,10 @@ resource "aws_launch_template" "frontend" {
   tags = {
     Name = "frontend"
   }
+
+  network_interfaces {
+    associate_public_ip_address = true
+  }
 }
 
 resource "aws_autoscaling_group" "frontend" {
