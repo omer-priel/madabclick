@@ -10,7 +10,7 @@ resource "aws_network_interface" "frontend" {
 
 resource "aws_launch_template" "frontend" {
   name          = "frontend"
-  image_id      = "ami-0fb820135757d28fd"
+  image_id      = "ami-04376654933b081a7"
   instance_type = "t2.micro"
 
   tags = {
@@ -30,9 +30,9 @@ resource "aws_autoscaling_group" "frontend" {
 
   force_delete = true
 
-  desired_capacity = 2
-  min_size         = 2
-  max_size         = 2
+  desired_capacity = 0
+  min_size         = 0
+  max_size         = 0
 
   tag {
     key                 = "Name"

@@ -34,6 +34,11 @@ resource "aws_iam_role" "prod_codedeploy" {
   }
 }
 
+resource "aws_iam_role_policy_attachment" "prod_codedeploy_AdministratorAccess" {
+  role       = aws_iam_role.prod_codedeploy.id
+  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+}
+
 resource "aws_iam_role_policy_attachment" "prod_codedeploy_AutoScalingFullAccess" {
   role       = aws_iam_role.prod_codedeploy.name
   policy_arn = "arn:aws:iam::aws:policy/AutoScalingFullAccess"
