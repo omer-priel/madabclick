@@ -18,32 +18,8 @@ resource "aws_launch_template" "frontend" {
   }
 }
 
-resource "aws_autoscaling_group" "frontend_blue" {
-  name = "frontend_blue"
-
-  vpc_zone_identifier = [aws_subnet.prod_1.id, aws_subnet.prod_2.id]
-  target_group_arns   = [aws_lb_target_group.frontend.arn]
-
-  force_delete = true
-
-  desired_capacity = 2
-  min_size         = 2
-  max_size         = 2
-
-  tag {
-    key                 = "Name"
-    value               = "frontend"
-    propagate_at_launch = true
-  }
-
-  launch_template {
-    id      = aws_launch_template.frontend.id
-    version = "$Latest"
-  }
-}
-
-resource "aws_autoscaling_group" "frontend_green" {
-  name = "frontend_green"
+resource "aws_autoscaling_group" "frontend" {
+  name = "frontend"
 
   vpc_zone_identifier = [aws_subnet.prod_1.id, aws_subnet.prod_2.id]
   target_group_arns   = [aws_lb_target_group.frontend.arn]
