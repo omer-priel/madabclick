@@ -51,27 +51,12 @@ resource "aws_codedeploy_deployment_group" "frontend" {
 
   deployment_style {
     deployment_option = "WITH_TRAFFIC_CONTROL"
-    deployment_type   = "BLUE_GREEN"
+    deployment_type   = "IN_PLACE"
   }
 
   load_balancer_info {
     elb_info {
       name = aws_lb.frontend.name
-    }
-  }
-
-  blue_green_deployment_config {
-    deployment_ready_option {
-      action_on_timeout    = "STOP_DEPLOYMENT"
-      wait_time_in_minutes = 60
-    }
-
-    green_fleet_provisioning_option {
-      action = "DISCOVER_EXISTING"
-    }
-
-    terminate_blue_instances_on_deployment_success {
-      action = "KEEP_ALIVE"
     }
   }
 }
