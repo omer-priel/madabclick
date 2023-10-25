@@ -4,15 +4,12 @@ import YouTubePlaylist from '@/components/atoms/YouTubePlaylist';
 import YouTubeVideo from '@/components/atoms/YouTubeVideo';
 
 import { Content } from '@/lib/api/schemas';
-import { getTextDirection } from '@/translation';
 
 interface Props {
   content: Content;
-  title: string;
-  hidden?: boolean;
 }
 
-export default function ContentCard({ content, title, hidden }: Props) {
+export default function ContentCard({ content }: Props) {
   const t = useTranslations();
 
   const links: string[][] = [];
@@ -29,30 +26,20 @@ export default function ContentCard({ content, title, hidden }: Props) {
     links.push([t('link-to-website'), content.link]);
   }
 
-  const titleDirection = getTextDirection(title);
+  let contentType = 0;
+  if (content.youtubeVideo) {
+    contentType = 1;
+  } else if (content.youtubePlaylist) {
+    contentType = 2;
+  }
 
   return (
-    <div className={'bg-white border rounded-lg shadow-md p-4' + (hidden ? ' hidden' : '')}>
-      <h2 className='text-xl text-center font-semibold'>
-        <a href={content.link} target='_blank' rel='noopener noreferrer' className={'text-gray-900'}>
-          <span style={titleDirection ? { direction: titleDirection } : {}}>{title}</span>
-        </a>
-      </h2>
-      <p className='text-gray-600 text-center'>{content.domain}</p>
-      <p className='text-gray-600 text-center'>
-        {content.ageLevel} - {content.duration} - {content.language}
-      </p>
-      <div className='flex items-center justify-center'>
-        {links.map((link) => (
-          <a key={link[1]} href={link[1]} target='_blank' rel='noopener noreferrer' className='text-blue-500 mx-3'>
-            {link[0]}
-          </a>
-        ))}
+    <div className='w-[20.833vw]'>
+      <div className='relative w-[20.833vw] h-[14.6875vw]'>
+        {contentType == 1 && <YouTubeVideo content={content} />}
+        {contentType == 2 && <YouTubePlaylist content={content} />}
       </div>
-      <div className='relative h-48'>
-        {content.youtubeVideo && <YouTubeVideo content={content} />}
-        {content.youtubePlaylist && <YouTubePlaylist content={content} />}
-      </div>
+      <div className='mt-[0.781vw] text-black text-[0.833vw]/[1.25vw] text-right font-black'>{content.title}</div>
     </div>
   );
 }

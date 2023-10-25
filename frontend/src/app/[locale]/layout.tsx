@@ -43,7 +43,10 @@ export default async function RootLayout({ children, params: { locale } }: Props
   // render layout
   return (
     <html lang={locale} dir={LANGUAGES.find((language) => language.locale == locale)?.dir}>
-      <body>
+      <head>
+        <link href='https://fonts.googleapis.com/css?family=Poppins&display=optional' rel='stylesheet' />
+      </head>
+      <body className='text-left'>
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
         </NextIntlClientProvider>

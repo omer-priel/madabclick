@@ -100,6 +100,11 @@ function getContent(
     youtubePlaylist: null,
   };
 
+  if (link.startsWith('https://youtu.be/')) {
+    const videoID = link.split('https://youtu.be/')[1].split('?')[0];
+    content.link = link = 'https://www.youtube.com/watch?v=' + videoID;
+  }
+
   if (link.startsWith('https://www.youtube.com/')) {
     let videoID = null;
     let playlistID = null;
@@ -150,7 +155,7 @@ function getContentsDataFromValues(metadata: ContentsMetadata, values: string[][
     const [language = '', domain = '', ageLevel = '', name = '', , link = '', duration = '', recommendedValue = ''] = values[rowIndex];
     const recommended = recommendedValue == 'מומלץ';
 
-    if (language.trim() && domain.trim() && ageLevel.trim() && name.trim() && link.trim() && duration.trim()) {
+    if (language.trim() && domain.trim() && ageLevel.trim() && link.trim() && duration.trim()) {
       contents.push(
         getContent(
           metadata,
@@ -261,6 +266,8 @@ export async function getContentsInfo(locale: string): Promise<ContentsSchema> {
     ageLevels: metadata.ageLevels,
     durations: metadata.durations,
     languages: metadata.languages,
+
+    contentsTotal: contents.length,
 
     recommendedContent,
 

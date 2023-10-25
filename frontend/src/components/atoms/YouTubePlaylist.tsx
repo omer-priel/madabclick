@@ -8,9 +8,10 @@ import { Content } from '@/lib/api/schemas';
 
 interface Props {
   content: Content;
+  overlayText?: string | null;
 }
 
-export default function YouTubePlaylist({ content }: Props) {
+export default function YouTubePlaylist({ content, overlayText }: Props) {
   const [show, setShow] = useState(false);
 
   if (!content.youtubePlaylist) {
@@ -31,6 +32,13 @@ export default function YouTubePlaylist({ content }: Props) {
             />
           ) : (
             <Image className='absolute inset-0 w-full h-full' src={content.youtubePlaylist.thumbnail.url} alt={content.title} fill />
+          )}
+          {!!overlayText && (
+            <div className='absolute w-full h-[5.52vw] bottom-0 left-0 bg-[#04090E]/[.70]'>
+              <div className='flex w-full h-full'>
+                <p className='w-fit h-[1.25vw] mx-auto my-auto text-white text-[0.833vw]/[1.25vw] font-black'>{overlayText}</p>
+              </div>
+            </div>
           )}
         </button>
       ) : (
