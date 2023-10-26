@@ -3,6 +3,8 @@
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
+import Link from '@/components/atoms/Link';
+
 interface Props {
   locale: string;
 }
@@ -21,38 +23,14 @@ export default function Header({ locale }: Props) {
             width='35'
             height='35'
           />
-          <div className='h-[1.25vw] ml-[1.875vw] my-auto'>
-            <a
-              href='/he'
-              className={
-                'text-right text-[0.833vw]/[1.25vw] font-normal hover:text-yellowgreen-200' +
-                (locale == 'he' ? ' text-yellowgreen-200' : '')
-              }
-            >
-              עברית
-            </a>
+          <div className='h-[1.25vw] ml-[1.875vw] my-auto text-right text-[0.833vw]/[1.25vw] font-normal'>
+            <Link href='/he' label='עברית' active={locale == 'he'} />
           </div>
-          <div className='h-[1.25vw] ml-[1.875vw] my-auto'>
-            <a
-              href='/en'
-              className={
-                'text-right text-[0.833vw]/[1.25vw] font-normal hover:text-yellowgreen-200' +
-                (locale == 'en' ? ' text-yellowgreen-200' : '')
-              }
-            >
-              English
-            </a>
+          <div className='h-[1.25vw] ml-[1.875vw] my-auto text-right text-[0.833vw]/[1.25vw] font-normal'>
+            <Link href='/en' label='English' active={locale == 'en'} />
           </div>
-          <div className='h-[1.25vw] my-auto'>
-            <a
-              href='/ar'
-              className={
-                'text-right text-[0.833vw]/[1.25vw] font-normal hover:text-yellowgreen-200' +
-                (locale == 'ar' ? ' text-yellowgreen-200' : '')
-              }
-            >
-              عربي
-            </a>
+          <div className='h-[1.25vw] my-auto text-right text-[0.833vw]/[1.25vw] font-normal'>
+            <Link href='/ar' label='عربي' active={locale == 'ar'} />
           </div>
         </div>
       </div>
