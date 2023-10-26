@@ -11,6 +11,6 @@ interface Props {
   reset: () => void;
 }
 
-export default function Page({error, reset}: Props) {
-  return <ErrorPage error={error} reset={reset} locale="he" />;
+export default function Page({ error, reset }: Props) {
+  return <ErrorPage error={error} reset={reset} locale={document.documentElement.lang} />;
 }

@@ -42,6 +42,10 @@ export function setLocale(locale: string): void {
   gStore.locale = locale;
 }
 
+export function getLocale(): string {
+  return gStore.locale;
+}
+
 export async function getTranslation() {
   return (await getTranslator(gStore.locale)).rich;
 }
