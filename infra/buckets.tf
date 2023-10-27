@@ -3,7 +3,3 @@ resource "aws_s3_bucket" "prod" {
     Name = "production"
   }
 }
-
-output "production_bucket" {
-  value = aws_s3_bucket.prod.bucket
-}

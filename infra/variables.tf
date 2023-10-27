@@ -1,14 +1,3 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 4.16"
-    }
-  }
-
-  required_version = ">= 1.2.0"
-}
-
 variable "aws_access_key" {
   description = "AWS Access Key"
   type        = string
@@ -67,11 +56,4 @@ variable "env_google_api_key" {
 variable "env_google_spreadsheet_id_contents" {
   default = "env GOOGLE_SPREADSHEET_ID_CONTENTS"
   type    = string
-}
-
-provider "aws" {
-  region = var.aws_region
-
-  access_key = var.aws_access_key
-  secret_key = var.aws_secret_key
 }
