@@ -9,16 +9,19 @@ resource "aws_network_interface" "frontend" {
 }
 
 resource "aws_launch_template" "frontend" {
-  name          = "frontend"
-  image_id      = tolist(aws_imagebuilder_image.frontend.output_resources[0].amis)[0].image
-  instance_type = "t2.micro"
+  name                 = "frontend"
+  image_id             = tolist(aws_imagebuilder_image.frontend.output_resources[0].amis)[0].image
+  instance_type        = "t2.micro"
+  security_group_names = [aws_security_group.frontend.name]
+
+  key_name = aws_key_pair.fontend.key_name
 
   tags = {
     Name = "frontend"
   }
 
-  network_interfaces {
-    associate_public_ip_address = true
+  iam_instance_profile {
+    name = aws_iam_instance_profile.prod_image_builder.name
   }
 }
 
@@ -30,9 +33,9 @@ resource "aws_autoscaling_group" "frontend" {
 
   force_delete = true
 
-  desired_capacity = 1
-  min_size         = 1
-  max_size         = 1
+  desired_capacity = 0
+  min_size         = 0
+  max_size         = 0
 
   tag {
     key                 = "Name"
