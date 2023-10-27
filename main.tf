@@ -41,12 +41,6 @@ variable "aws_availability_zone_2" {
   default     = "eu-central-1b"
 }
 
-variable "aws_partition" {
-  description = "AWS Partition"
-  type        = string
-  default     = "aws"
-}
-
 variable "aws_frontend_image_arn" {
   description = "AWS Frontend Image ID"
   type        = string
