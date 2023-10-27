@@ -58,7 +58,7 @@ resource "aws_imagebuilder_infrastructure_configuration" "frontend" {
 
   logging {
     s3_logs {
-      s3_bucket_name = aws_s3_bucket.frontend_logs.bucket
+      s3_bucket_name = aws_s3_bucket.prod.bucket
       s3_key_prefix  = "logs"
     }
   }
@@ -96,6 +96,6 @@ resource "aws_imagebuilder_image" "frontend" {
   }
 }
 
-output "frontend_aim_id" {
-  value = tolist(aws_imagebuilder_image.frontend.output_resources[0].amis)[0].name
+output "frontend_image_id" {
+  value = tolist(aws_imagebuilder_image.frontend.output_resources[0].amis)[0].image
 }

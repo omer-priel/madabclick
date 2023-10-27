@@ -10,7 +10,7 @@ resource "aws_network_interface" "frontend" {
 
 resource "aws_launch_template" "frontend" {
   name          = "frontend"
-  image_id      = "ami-04376654933b081a7"
+  image_id      = tolist(aws_imagebuilder_image.frontend.output_resources[0].amis)[0].image
   instance_type = "t2.micro"
 
   tags = {

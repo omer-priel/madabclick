@@ -1,11 +1,9 @@
-resource "aws_s3_bucket" "frontend_logs" {
-  tags = {
-    Name = "frontend"
-  }
-}
-
-resource "aws_s3_bucket" "prod_codedeploy" {
+resource "aws_s3_bucket" "prod" {
   tags = {
     Name = "production"
   }
+}
+
+output "production_bucket" {
+  value = aws_s3_bucket.prod.bucket
 }

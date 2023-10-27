@@ -106,7 +106,3 @@ resource "aws_key_pair" "fontend" {
     Name = "frontend"
   }
 }
-
-output "production_codedeploy_bucket" {
-  value = aws_s3_bucket.prod_codedeploy.bucket
-}
