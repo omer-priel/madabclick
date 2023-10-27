@@ -30,9 +30,9 @@ resource "aws_autoscaling_group" "frontend" {
 
   force_delete = true
 
-  desired_capacity = 0
-  min_size         = 0
-  max_size         = 0
+  desired_capacity = 1
+  min_size         = 1
+  max_size         = 1
 
   tag {
     key                 = "Name"
