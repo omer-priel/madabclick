@@ -98,14 +98,9 @@ resource "aws_security_group" "frontend" {
   }
 }
 
-resource "tls_private_key" "fontend" {
-  algorithm = "RSA"
-  rsa_bits  = 4096
-}
-
 resource "aws_key_pair" "fontend" {
   key_name   = "fontend_key_pair"
-  public_key = tls_private_key.fontend.public_key_openssh
+  public_key = var.aws_ssh_key_frontend
 
   tags = {
     Name = "frontend"

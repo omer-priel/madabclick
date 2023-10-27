@@ -50,8 +50,6 @@ resource "aws_imagebuilder_infrastructure_configuration" "frontend" {
   instance_profile_name         = aws_iam_instance_profile.prod_image_builder.name
   instance_types                = ["t2.micro"]
   key_pair                      = aws_key_pair.fontend.key_name
-  security_group_ids            = [aws_security_group.frontend.id]
-  subnet_id                     = aws_subnet.prod_1.id
   terminate_instance_on_failure = true
 
   tags = {
@@ -88,10 +86,7 @@ resource "aws_imagebuilder_distribution_configuration" "frontend" {
   }
 }
 
-resource "aws_imagebuilder_image_pipeline" "frontend" {
-  name        = "frontend"
-  description = "frontend"
-
+resource "aws_imagebuilder_image" "frontend" {
   distribution_configuration_arn   = aws_imagebuilder_distribution_configuration.frontend.arn
   image_recipe_arn                 = aws_imagebuilder_image_recipe.frontend.arn
   infrastructure_configuration_arn = aws_imagebuilder_infrastructure_configuration.frontend.arn
@@ -99,4 +94,8 @@ resource "aws_imagebuilder_image_pipeline" "frontend" {
   tags = {
     Name = "frontend"
   }
+}
+
+output "frontend_aim_id" {
+  value = tolist(aws_imagebuilder_image.frontend.output_resources[0].amis)[0].name
 }

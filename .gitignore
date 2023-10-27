@@ -9,6 +9,9 @@ yarn.lock
 *.tfvars
 *.tfvars.json
 
+# SSH Keys
+ssh_keys
+
 # env
 .env
 

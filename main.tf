@@ -4,10 +4,6 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 4.16"
     }
-    tls = {
-      source  = "hashicorp/tls"
-      version = "4.0.4"
-    }
   }
 
   required_version = ">= 1.2.0"
@@ -20,6 +16,11 @@ variable "aws_access_key" {
 
 variable "aws_secret_key" {
   description = "AWS Secret Key"
+  type        = string
+}
+
+variable "aws_ssh_key_frontend" {
+  description = "SSH Key for frontend key pair"
   type        = string
 }
 
@@ -39,12 +40,6 @@ variable "aws_availability_zone_2" {
   description = "AWS Secret Key"
   type        = string
   default     = "eu-central-1b"
-}
-
-variable "aws_frontend_image_arn" {
-  description = "AWS Frontend Image ID"
-  type        = string
-  default     = "arn:aws:imagebuilder:eu-central-1:178344858845:image/frontend/1.0.0"
 }
 
 variable "github_repository_id" {
@@ -79,10 +74,4 @@ provider "aws" {
 
   access_key = var.aws_access_key
   secret_key = var.aws_secret_key
-}
-
-provider "tls" {
-  proxy {
-    url = "https://corporate.proxy.service"
-  }
 }
