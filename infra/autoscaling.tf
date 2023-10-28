@@ -1,71 +1,62 @@
-# resource "aws_launch_template" "frontend" {
-#   name                   = "frontend"
-#   image_id               = tolist(aws_imagebuilder_image.frontend.output_resources[0].amis)[0].image
-#   instance_type          = "t2.micro"
-#   update_default_version = true
+resource "aws_launch_template" "frontend" {
+  name                   = "frontend"
+  image_id               = tolist(aws_imagebuilder_image.frontend.output_resources[0].amis)[0].image
+  instance_type          = "t2.micro"
+  update_default_version = true
 
-#   key_name = aws_key_pair.fontend.key_name
+  key_name = aws_key_pair.fontend.key_name
 
-#   tags = {
-#     Name = "frontend"
-#   }
+  tags = {
+    Name = "frontend"
+  }
 
-#   iam_instance_profile {
-#     name = aws_iam_instance_profile.prod_image_builder.name
-#   }
+  iam_instance_profile {
+    name = aws_iam_instance_profile.prod_image_builder.name
+  }
 
-#   block_device_mappings {
-#     device_name = "/dev/xvda"
+  block_device_mappings {
+    device_name = "/dev/xvda"
 
-#     ebs {
-#       volume_size           = 50
-#       delete_on_termination = true
-#     }
-#   }
+    ebs {
+      volume_size           = 64
+      delete_on_termination = true
+    }
+  }
+}
 
-#   network_interfaces {
-#     device_index       = 0
-#     ipv4_address_count = 1
+resource "aws_autoscaling_group" "frontend" {
+  name = "frontend"
 
-#     # subnet_id       = aws_subnet.prod_1.id
-#     # security_groups = [aws_security_group.frontend.id]
+  desired_capacity = 2
+  min_size         = 2
+  max_size         = 2
 
-#     delete_on_termination = true
-#   }
-# }
+  health_check_grace_period = 30
 
-# resource "aws_autoscaling_group" "frontend" {
-#   name = "frontend"
+  availability_zones = [var.aws_availability_zone_a, var.aws_availability_zone_b]
 
-#   min_size = 1
-#   max_size = 1
+  tag {
+    key                 = "Name"
+    value               = "frontend"
+    propagate_at_launch = true
+  }
 
-#   health_check_grace_period = 30
+  launch_template {
+    id      = aws_launch_template.frontend.id
+    version = "$Latest"
+  }
+}
 
-#   availability_zones = [var.aws_availability_zone_a]
+resource "aws_autoscaling_policy" "frontend_target_tracking" {
+  name                   = "frontend_target_tracking"
+  policy_type            = "TargetTrackingScaling"
+  autoscaling_group_name = aws_autoscaling_group.frontend.name
 
-#   tag {
-#     key                 = "Name"
-#     value               = "frontend"
-#     propagate_at_launch = true
-#   }
+  target_tracking_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ASGAverageCPUUtilization"
+    }
 
-#   launch_template {
-#     id      = aws_launch_template.frontend.id
-#     version = "$Latest"
-#   }
-# }
-
-# resource "aws_autoscaling_policy" "frontend_target_tracking" {
-#   name                   = "frontend_target_tracking"
-#   policy_type            = "TargetTrackingScaling"
-#   autoscaling_group_name = aws_autoscaling_group.frontend.name
-
-#   target_tracking_configuration {
-#     predefined_metric_specification {
-#       predefined_metric_type = "ASGAverageCPUUtilization"
-#     }
-
-#     target_value = 70.0
-#   }
-# }
+    target_value = 70.0
+  }
+}
