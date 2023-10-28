@@ -4,10 +4,15 @@ resource "aws_launch_template" "frontend" {
   instance_type          = "t2.micro"
   update_default_version = true
 
-  key_name = aws_key_pair.fontend.key_name
-
   tags = {
     Name = "frontend"
+  }
+
+  tag_specifications {
+    resource_type = "instance"
+    tags = {
+      Name = "frontend"
+    }
   }
 
   iam_instance_profile {
@@ -22,18 +27,31 @@ resource "aws_launch_template" "frontend" {
       delete_on_termination = true
     }
   }
+
+  user_data = filebase64("${path.module}/frontend_user_data.sh")
+
+  network_interfaces {
+    device_index = 0
+
+    associate_public_ip_address = true
+
+    delete_on_termination = true
+  }
 }
 
 resource "aws_autoscaling_group" "frontend" {
   name = "frontend"
 
-  desired_capacity = 2
-  min_size         = 2
-  max_size         = 2
+  desired_capacity = 0
+  min_size         = 0
+  max_size         = 0
 
   health_check_grace_period = 30
+  health_check_type         = "ELB"
 
-  availability_zones = [var.aws_availability_zone_a, var.aws_availability_zone_b]
+  vpc_zone_identifier = [aws_subnet.prod_a.id, aws_subnet.prod_b.id]
+
+  target_group_arns = [aws_lb_target_group.frontend.arn]
 
   tag {
     key                 = "Name"

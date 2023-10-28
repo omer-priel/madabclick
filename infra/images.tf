@@ -49,7 +49,6 @@ resource "aws_imagebuilder_infrastructure_configuration" "frontend" {
   description                   = "frontend"
   instance_profile_name         = aws_iam_instance_profile.prod_image_builder.name
   instance_types                = ["t2.micro"]
-  key_pair                      = aws_key_pair.fontend.key_name
   terminate_instance_on_failure = true
 
   tags = {

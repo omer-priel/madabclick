@@ -8,11 +8,6 @@ variable "aws_secret_key" {
   type        = string
 }
 
-variable "aws_ssh_key_frontend" {
-  description = "SSH Key for frontend key pair"
-  type        = string
-}
-
 variable "aws_region" {
   description = "AWS Region"
   type        = string

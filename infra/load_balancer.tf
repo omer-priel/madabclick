@@ -20,6 +20,16 @@ resource "aws_lb_target_group" "frontend" {
   tags = {
     Name = "frontend"
   }
+
+  health_check {
+    path                = "/"
+    port                = 80
+    protocol            = "HTTP"
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+    timeout             = 5
+    interval            = 30
+  }
 }
 
 resource "aws_lb_listener" "frontend" {
