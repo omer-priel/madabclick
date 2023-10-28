@@ -34,30 +34,14 @@ flowchart TD
   end
 
   subgraph AWS
-    CodeDeploy --> EC2[Group of EC2 instances]
-    IP[Image Pipline] --> Image --> LT[Lanch Template]
-    ASG[Auto Scalling Group] --> LT --> EC2
-    CHR[Client HTTP Request] --> Domain[Domain / Public IP] --> LB[Load Balancer] --> EC2
-  end
-    
-  Build --> CodeDeploy
-```
-
-Stage 3
-
-```mermaid
-flowchart TD
-  subgraph GitHub
-    PR[Pull Request / Push] --> GA[GitHub Actions] --> Build 
-  end
-
-  subgraph AWS
-    subgraph VPC[VPC in eu-central-1]
-      CodeDeploy --> EC2[Group of EC2 instances]
-      IP[Image Pipline] --> Image --> LT[Lanch Template]
-      ASG[Auto Scalling Group] --> LT --> EC2
-      CHR[Client HTTP Request] --> Domain[Domain / Public IP] --> LB[Load Balancer] --> EC2
-      SG[Security Group] --> EC2
+    subgraph VPC
+      subgraph Subnet
+        CodeDeploy --> EC2[Group of EC2 instances]
+        IP[Image Pipline] --> Image --> LT[Lanch Template]
+        ASG[Auto Scalling Group] --> LT --> EC2
+        CHR[Client HTTP Request] --> Domain[Domain / Public IP] --> LB[Load Balancer] --> EC2
+        SG[Security Group] --> EC2
+      end
     end
   end
     
