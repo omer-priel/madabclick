@@ -42,7 +42,7 @@
 
 #   health_check_grace_period = 30
 
-#   availability_zones = [var.aws_availability_zone_1]
+#   availability_zones = [var.aws_availability_zone_a]
 
 #   tag {
 #     key                 = "Name"
