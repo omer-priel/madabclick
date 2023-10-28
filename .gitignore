@@ -12,6 +12,9 @@ yarn.lock
 # env
 .env
 
+# SSH Keys
+ssh_keys
+
 # frontend
 frontend/out
 frontend/build
