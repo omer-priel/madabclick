@@ -28,8 +28,6 @@ resource "aws_launch_template" "frontend" {
     }
   }
 
-  user_data = filebase64("${path.module}/frontend_user_data.sh")
-
   network_interfaces {
     device_index = 0
 
@@ -45,9 +43,9 @@ resource "aws_launch_template" "frontend" {
 resource "aws_autoscaling_group" "frontend" {
   name = "frontend"
 
-  desired_capacity = 2
-  min_size         = 2
-  max_size         = 2
+  desired_capacity = 0
+  min_size         = 0
+  max_size         = 0
 
   health_check_grace_period = 30
   health_check_type         = "ELB"
