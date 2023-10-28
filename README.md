@@ -7,6 +7,42 @@ Quality content for children \
 * GitHub: <https://github.com/omer-priel/quality-content-for-children>
 * Google Drive: <https://drive.google.com/drive/folders/1Jg3n8xkLEtAfkz5vPlV0N0s7QNT2TxU0>
 
+## Deployment
+
+Now using Amplify
+
+```mermaid
+flowchart TD
+    subgraph GitHub
+        PR[Pull Request / Push] --> GA[GitHub Actions]
+    end
+
+    subgraph AWS Amplify
+        Amplify --> Build --> Lambda
+        CHR[Client HTTP Request] --> Domain --> Lambda
+    end
+    
+    GA --> Amplify
+```
+
+After Moving to EC2
+
+```mermaid
+flowchart TD
+    subgraph GitHub
+        PR[Pull Request / Push] --> GA[GitHub Actions] --> Build 
+    end
+
+    subgraph AWS
+        CodeDeploy --> ASG[Auto Scalling Group]
+        IP[Image Pipline] --> Image --> LT[Lanch Template]
+        AS[Auto Scalling] --> LT --> ASG
+        CHR[Client HTTP Request] --> Domain[Domain / Public IP] --> LB[Load Balancer] --> ASG
+    end
+    
+    Build --> CodeDeploy
+```
+
 ## Environment Variables
 
 | Name                           | Description                             |
