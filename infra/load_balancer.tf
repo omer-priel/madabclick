@@ -1,14 +1,14 @@
-# resource "aws_lb" "frontend" {
-#   name               = "frontend"
-#   load_balancer_type = "application"
-#   internal           = false
-#   subnets            = [aws_subnet.prod.id]
-#   security_groups    = [aws_security_group.frontend.id]
+resource "aws_lb" "frontend" {
+  name               = "frontend"
+  load_balancer_type = "application"
+  internal           = false
+  subnets            = [aws_subnet.prod_a.id, aws_subnet.prod_b.id]
+  security_groups    = [aws_security_group.frontend.id]
 
-#   tags = {
-#     Name = "frontend"
-#   }
-# }
+  tags = {
+    Name = "frontend"
+  }
+}
 
 # resource "aws_lb_target_group" "frontend" {
 #   name     = "frontend"
