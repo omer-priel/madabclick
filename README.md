@@ -13,35 +13,57 @@ Now using Amplify
 
 ```mermaid
 flowchart TD
-    subgraph GitHub
-        PR[Pull Request / Push] --> GA[GitHub Actions]
-    end
+  subgraph GitHub
+    PR[Pull Request / Push] --> GA[GitHub Actions]
+  end
 
-    subgraph AWS Amplify
-        Amplify --> Build --> Lambda
-        CHR[Client HTTP Request] --> Domain --> Lambda
-    end
-    
-    GA --> Amplify
+  subgraph AWS Amplify
+    Amplify --> Build --> Lambda
+    CHR[Client HTTP Request] --> Domain --> Lambda
+  end
+  
+  GA --> Amplify
 ```
 
-After Moving to EC2
+Stage 2
 
 ```mermaid
 flowchart TD
-    subgraph GitHub
-        PR[Pull Request / Push] --> GA[GitHub Actions] --> Build 
-    end
+  subgraph GitHub
+    PR[Pull Request / Push] --> GA[GitHub Actions] --> Build 
+  end
 
-    subgraph AWS
-        CodeDeploy --> ASG[Auto Scalling Group]
-        IP[Image Pipline] --> Image --> LT[Lanch Template]
-        AS[Auto Scalling] --> LT --> ASG
-        CHR[Client HTTP Request] --> Domain[Domain / Public IP] --> LB[Load Balancer] --> ASG
-    end
+  subgraph AWS
+    CodeDeploy --> EC2[Group of EC2 instances]
+    IP[Image Pipline] --> Image --> LT[Lanch Template]
+    ASG[Auto Scalling Group] --> LT --> EC2
+    CHR[Client HTTP Request] --> Domain[Domain / Public IP] --> LB[Load Balancer] --> EC2
+  end
     
-    Build --> CodeDeploy
+  Build --> CodeDeploy
 ```
+
+Stage 3
+
+```mermaid
+flowchart TD
+  subgraph GitHub
+    PR[Pull Request / Push] --> GA[GitHub Actions] --> Build 
+  end
+
+  subgraph AWS
+    subgraph VPC[VPC in eu-central-1]
+      CodeDeploy --> EC2[Group of EC2 instances]
+      IP[Image Pipline] --> Image --> LT[Lanch Template]
+      ASG[Auto Scalling Group] --> LT --> EC2
+      CHR[Client HTTP Request] --> Domain[Domain / Public IP] --> LB[Load Balancer] --> EC2
+      SG[Security Group] --> EC2
+    end
+  end
+    
+  Build --> CodeDeploy
+```
+
 
 ## Environment Variables
 
