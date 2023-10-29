@@ -30,14 +30,14 @@ Stage 2
 ```mermaid
 flowchart TD
   subgraph GitHub
-    PR[Pull Request / Push] --> GA[GitHub Actions] --> Build 
+    PR[Pull Request / Push] --> GA[GitHub Actions] --> GInstall[Install] --> GLint[Lint] --> GBuild[Build] 
   end
 
   subgraph AWS
     subgraph VPC
       subgraph Subnet
-        CodeDeploy --> EC2[Group of EC2 instances]
-        IP[Image Pipline] --> Image --> LT[Lanch Template]
+        CodeDeploy[CodeDeploy Deployment Group] --> Deployment[CodeDeploy Deployment] --> Install --> Build --> EC2[Group of EC2 instances]
+        Image --> LT[Lanch Template]
         ASG[Auto Scalling Group] --> LT --> EC2
         CHR[Client HTTP Request] --> Domain[Domain / Public IP] --> LB[Load Balancer] --> EC2
         SG[Security Group] --> EC2
@@ -45,7 +45,7 @@ flowchart TD
     end
   end
     
-  Build --> CodeDeploy
+  GBuild --> CodeDeploy
 ```
 
 

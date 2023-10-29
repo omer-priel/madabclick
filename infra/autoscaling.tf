@@ -1,5 +1,6 @@
 resource "aws_launch_template" "frontend" {
   name                   = "frontend"
+  description            = "frontend"
   image_id               = tolist(aws_imagebuilder_image.frontend.output_resources[0].amis)[0].image
   instance_type          = "t2.micro"
   update_default_version = true
@@ -26,7 +27,6 @@ resource "aws_launch_template" "frontend" {
 
     delete_on_termination = true
 
-    subnet_id       = aws_subnet.prod_a.id
     security_groups = [aws_security_group.frontend.id]
   }
 }
