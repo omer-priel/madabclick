@@ -6,17 +6,17 @@ export NVM_DIR="/.nvm"
 
 nvm --version
 
-nvm use 20.9.0
+# nvm use 20.9.0
 
-node -v
-yarn -v
+# node -v
+# yarn -v
 
-# build frontend server
-cd /var/frontend/
+# # build frontend server
+# cd /var/frontend/
 
-rm -rf node_modules/
-rm -rf .next
+# rm -rf node_modules/ yarn.lock
+# rm -rf .next
 
-yarn install
+# yarn install
 
-yarn run build
+# yarn run build

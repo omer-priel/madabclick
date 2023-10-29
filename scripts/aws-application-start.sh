@@ -6,12 +6,12 @@ export NVM_DIR="/.nvm"
 
 nvm --version
 
-nvm use 20.9.0
+# nvm use 20.9.0
 
-node -v
-yarn -v
+# node -v
+# yarn -v
 
-# Start the server
-cd /var/frontend/
+# # Start the server
+# cd /var/frontend/
 
-yarn run start
+# yarn run start
