@@ -22,7 +22,7 @@ resource "aws_lb_target_group" "frontend_application" {
   }
 
   health_check {
-    path                = "/"
+    path                = "/api/health-check"
     port                = 80
     protocol            = "HTTP"
     healthy_threshold   = 2
