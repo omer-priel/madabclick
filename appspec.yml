@@ -11,13 +11,10 @@ file_exists_behavior: OVERWRITE
 
 hooks:
   AfterInstall:
-    - location: scripts/aws-after-install-root.sh
-      timeout: 300
-      runas: root
-    - location: scripts/aws-after-install-user.sh
+    - location: scripts/aws-after-install.sh
       timeout: 1200
-      runas: ec2-user
+      runas: root
   ApplicationStart:
     - location: scripts/aws-application-start.sh
       timeout: 300
-      runas: ec2-user
+      runas: root
