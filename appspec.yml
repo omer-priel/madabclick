@@ -11,6 +11,6 @@ file_exists_behavior: OVERWRITE
 
 hooks:
   ApplicationStart:
-    - location: scripts/aws-application-start.sh
+    - location: scripts/aws/application-start.sh
       timeout: 1200
       runas: root

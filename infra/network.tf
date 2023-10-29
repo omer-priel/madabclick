@@ -15,7 +15,7 @@ resource "aws_internet_gateway" "prod" {
   }
 }
 
-resource "aws_eip" "fronend" {
+resource "aws_eip" "frontend" {
   tags = {
     Name = "frontend"
   }

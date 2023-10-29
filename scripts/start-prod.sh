@@ -13,4 +13,4 @@ yarn -v
 set -x #echo on
 
 cd frontend
-run start
+node_modules/next/dist/bin/next start -p 3000

@@ -36,11 +36,14 @@ flowchart TD
   subgraph AWS
     subgraph VPC
       subgraph Subnet
-        CodeDeploy[CodeDeploy Deployment Group] --> Deployment[CodeDeploy Deployment] --> Install --> Build --> EC2[Group of EC2 instances]
+        CodeDeploy[CodeDeploy Deployment Group] --> Deployment[CodeDeploy Deployment] --> EC2[Group of EC2 instances]
         Image --> LT[Lanch Template]
         ASG[Auto Scalling Group] --> LT --> EC2
-        CHR[Client HTTP Request] --> Domain[Domain / Public IP] --> LB[Load Balancer] --> EC2
+        ASG --> Deployment
+        CHR[Client HTTP Request] --> Domain --> EIP[Elastic IP] --> NLB[Network Load Balancer]
+        NLB --> ALB[Appliction Load Balancer] --> EC2
         SG[Security Group] --> EC2
+        ALB <---> ASG
       end
     end
   end
