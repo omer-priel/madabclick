@@ -68,6 +68,10 @@ In local developemt. Create '.env' file in frontent that will contain the Enviro
 For install this project run the following commands in the terminal:
 
 ```bash
+nvm install 16.0.0
+
+nvm use
+
 npm install --global yarn
 
 cd frontend

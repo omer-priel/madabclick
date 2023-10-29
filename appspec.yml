@@ -3,7 +3,7 @@ version: 0.0
 os: linux
 
 files:
-  - source: /
+  - source: /frontend/
     destination: /var/frontend/
     overwrite: true
 
