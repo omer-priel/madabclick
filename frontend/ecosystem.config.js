@@ -7,7 +7,7 @@ module.exports = {
       script: 'node_modules/next/dist/bin/next',
       args: 'start -p 80',
       cwd: '/var/frontend',
-      args: 'start'
-    }
-  ]
-}
+      args: 'start',
+    },
+  ],
+};
