@@ -14,4 +14,4 @@ yarn -v
 cd /var/frontend
 pwd
 
-node_modules/next/dist/bin/next start -p 80
+npx pm2 restart all
