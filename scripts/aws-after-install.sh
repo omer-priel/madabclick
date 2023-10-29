@@ -1,4 +1,5 @@
-#!/bin/bash
+
+echo Start Building > /tmp/example.txt
 
 export NVM_DIR="/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" >> /tmp/example.txt
