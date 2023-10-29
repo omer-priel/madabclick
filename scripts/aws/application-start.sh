@@ -14,4 +14,4 @@ yarn -v
 cd /var/frontend
 pwd
 
-npx pm2 restart all
+pm2 startOrRestart ecosystem.config.js

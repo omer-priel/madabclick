@@ -10,14 +10,9 @@ node -v
 yarn -v
 
 # Stop the server
-
-# Delete Old app
-
 if [ -d "/var/frontend" ]; then
-    if command -v pm2 &> /dev/null; then
-        npx pm2 delete all
-    else
-        echo "pm2 is not installed."
+    cd /var/frontend
+    pm2 delete ecosystem.config.js
     fi
 else
     echo "/var/frontend does not exist."

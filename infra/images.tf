@@ -1,6 +1,6 @@
 resource "aws_imagebuilder_component" "frontend_nvm" {
   name        = "frontend-nvm"
-  description = "Install nvm, node, npm and yarn for frontend image"
+  description = "Install nvm, node, npm, yarn and pm2 for frontend image"
   platform    = "Linux"
   version     = "1.0.0"
 
@@ -22,6 +22,8 @@ resource "aws_imagebuilder_component" "frontend_nvm" {
             "npm -v",
             "npm install --global yarn",
             "yarn -v",
+            "npm install --global pm2",
+            "pm2 -v"
           ]
         }
       }]
