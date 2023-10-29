@@ -9,3 +9,11 @@ output "frontend_image_id" {
 output "frontend_load_balancer_dns_name" {
   value = aws_lb.frontend.dns_name
 }
+
+output "frontend_public_ip" {
+  value = aws_eip.fronend.public_ip
+}
+
+output "frontend_public_dns_name" {
+  value = aws_eip.fronend.public_dns
+}

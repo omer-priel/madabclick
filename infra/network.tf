@@ -15,6 +15,12 @@ resource "aws_internet_gateway" "prod" {
   }
 }
 
+resource "aws_eip" "fronend" {
+  tags = {
+    Name = "frontend"
+  }
+}
+
 resource "aws_route_table" "prod" {
   vpc_id = aws_vpc.prod.id
 
