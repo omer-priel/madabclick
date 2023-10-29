@@ -23,8 +23,8 @@ resource "aws_codedeploy_deployment_group" "frontend" {
   }
 
   load_balancer_info {
-    elb_info {
-      name = aws_lb.frontend.name
+    target_group_info {
+      name = aws_lb_target_group.frontend.name
     }
   }
 }
