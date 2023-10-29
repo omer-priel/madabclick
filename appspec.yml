@@ -12,7 +12,7 @@ file_exists_behavior: OVERWRITE
 hooks:
   AfterInstall:
     - location: scripts/aws-after-install.sh
-      timeout: 300
+      timeout: 1200
       runas: root
   ApplicationStart:
     - location: scripts/aws-application-start.sh
