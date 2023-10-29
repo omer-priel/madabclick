@@ -19,15 +19,6 @@ resource "aws_launch_template" "frontend" {
     name = aws_iam_instance_profile.prod_image_builder.name
   }
 
-  block_device_mappings {
-    device_name = "/dev/xvda"
-
-    ebs {
-      volume_size           = 64
-      delete_on_termination = true
-    }
-  }
-
   network_interfaces {
     device_index = 0
 

@@ -1,6 +1,42 @@
+resource "aws_imagebuilder_component" "frontend_nvm" {
+  name        = "frontend-nvm"
+  description = "Install nvm, node, npm and yarn for frontend image"
+  platform    = "Linux"
+  version     = "1.0.0"
+
+  data = yamlencode({
+    phases = [{
+      name = "build"
+      steps = [{
+        name   = "install"
+        action = "ExecuteBash"
+        inputs = {
+          commands = [
+            "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash",
+            "export NVM_DIR=\"$HOME/.nvm\"",
+            "[ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\"",
+            "[ -s \"$NVM_DIR/bash_completion\" ] && \\. \"$NVM_DIR/bash_completion\"",
+            "nvm -v",
+            "nvm install 20.9.0",
+            "node -v",
+            "npm -v",
+            "npm install --global yarn",
+            "yarn -v",
+          ]
+        }
+      }]
+    }]
+    schemaVersion = 1.0
+  })
+
+  tags = {
+    Name = "frontend"
+  }
+}
+
 resource "aws_imagebuilder_image_recipe" "frontend" {
   name              = "frontend"
-  parent_image      = "arn:aws:imagebuilder:${var.aws_region}:aws:image/amazon-linux-2-x86/x.x.x"
+  parent_image      = "ami-04376654933b081a7"
   version           = "1.0.0"
   working_directory = "/tmp"
 
@@ -9,12 +45,12 @@ resource "aws_imagebuilder_image_recipe" "frontend" {
   }
 
   block_device_mapping {
-    device_name = "/dev/xvdb"
+    device_name = "/dev/xvda"
 
     ebs {
-      delete_on_termination = true
-      volume_size           = 8
+      volume_size           = 64
       volume_type           = "gp2"
+      delete_on_termination = true
     }
   }
 
@@ -28,6 +64,10 @@ resource "aws_imagebuilder_image_recipe" "frontend" {
 
   component {
     component_arn = "arn:aws:imagebuilder:${var.aws_region}:aws:component/aws-codedeploy-agent-linux/x.x.x"
+  }
+
+  component {
+    component_arn = aws_imagebuilder_component.frontend_nvm.arn
   }
 
   component {

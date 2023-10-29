@@ -27,4 +27,6 @@ resource "aws_codedeploy_deployment_group" "frontend" {
       name = aws_lb_target_group.frontend.name
     }
   }
+
+
 }
