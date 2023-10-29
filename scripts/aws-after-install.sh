@@ -9,20 +9,12 @@ export NVM_DIR="$HOME/.nvm"
 nvm install 18.17.0
 npm install --global yarn
 
-#
-
-echo $(which npm)
-echo $(which node)
-echo $(which yarn)
-
 # build frontend server
-pwd
 cd /var/frontend/
-pwd
 
 rm -rf node_modules/
+rm -rf .next
+
 yarn install
 
-yarn build
-
-ls -l -a
+yarn run build

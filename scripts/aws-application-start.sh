@@ -1,3 +1,5 @@
 #!/bin/bash
 
-run start
+# Start the server
+cd /var/frontend/
+yarn run start
