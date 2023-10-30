@@ -22,13 +22,13 @@ resource "aws_lb_target_group" "frontend_application" {
   }
 
   health_check {
-    path                = "/api/health-check"
+    path                = "/api/health-check/"
     port                = 80
     protocol            = "HTTP"
     healthy_threshold   = 2
-    unhealthy_threshold = 10
+    unhealthy_threshold = 4
     timeout             = 60
-    interval            = 90
+    interval            = 120
   }
 }
 
@@ -69,6 +69,31 @@ resource "aws_lb_target_group" "frontend_network" {
   vpc_id      = aws_vpc.prod.id
   protocol    = "TCP"
   port        = 80
+
+  tags = {
+    Name = "frontend"
+  }
+
+  health_check {
+    path                = "/api/health-check/"
+    port                = 80
+    protocol            = "HTTP"
+    healthy_threshold   = 2
+    unhealthy_threshold = 4
+    timeout             = 60
+    interval            = 120
+  }
+}
+
+resource "aws_lb_listener" "frontend_network" {
+  load_balancer_arn = aws_lb.frontend_network.arn
+  port              = "80"
+  protocol          = "TCP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.frontend_network.arn
+  }
 
   tags = {
     Name = "frontend"

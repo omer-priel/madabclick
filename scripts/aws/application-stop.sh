@@ -9,6 +9,12 @@ nvm use 20.9.0
 node -v
 yarn -v
 
+# Stop the simple http server
+if [ -d "/var/www/html" ]; then
+    systemctl stop httpd
+    systemctl disable httpd
+fi
+
 # Stop the server
 if [ -d "/var/frontend" ]; then
     cd /var/frontend

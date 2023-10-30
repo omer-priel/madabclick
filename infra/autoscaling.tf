@@ -29,6 +29,8 @@ resource "aws_launch_template" "frontend" {
 
     security_groups = [aws_security_group.frontend.id]
   }
+
+  user_data = filebase64("../scripts/aws/user_data.sh")
 }
 
 resource "aws_autoscaling_group" "frontend" {
@@ -38,8 +40,8 @@ resource "aws_autoscaling_group" "frontend" {
   min_size         = 2
   max_size         = 2
 
-  health_check_grace_period = 3000
-  health_check_type         = "ELB"
+  # health_check_grace_period = 3000
+  # health_check_type         = "ELB"
 
   vpc_zone_identifier = [aws_subnet.prod_a.id, aws_subnet.prod_b.id]
 

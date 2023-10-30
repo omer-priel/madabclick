@@ -1,6 +1,6 @@
 resource "aws_imagebuilder_component" "frontend_nvm" {
-  name        = "frontend-nvm"
-  description = "Install nvm, node, npm, yarn and pm2 for frontend image"
+  name        = "frontend"
+  description = "Install httpd, nvm, node, npm, yarn and pm2 for frontend image"
   platform    = "Linux"
   version     = "1.0.0"
 
@@ -8,7 +8,7 @@ resource "aws_imagebuilder_component" "frontend_nvm" {
     phases = [{
       name = "build"
       steps = [{
-        name   = "install"
+        name   = "install-node"
         action = "ExecuteBash"
         inputs = {
           commands = [
@@ -24,6 +24,15 @@ resource "aws_imagebuilder_component" "frontend_nvm" {
             "yarn -v",
             "npm install --global pm2",
             "pm2 -v"
+          ]
+        }
+        }, {
+        name   = "install-httpd"
+        action = "ExecuteBash"
+        inputs = {
+          commands = [
+            "yum update -y",
+            "yum install -y httpd"
           ]
         }
       }]
