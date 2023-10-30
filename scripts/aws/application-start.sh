@@ -12,6 +12,4 @@ yarn -v
 # Start the server
 
 cd /var/frontend
-pwd
-
 pm2 startOrRestart ecosystem.config.js
