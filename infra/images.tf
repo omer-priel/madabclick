@@ -1,6 +1,6 @@
-resource "aws_imagebuilder_component" "frontend_nvm" {
+resource "aws_imagebuilder_component" "frontend" {
   name        = "frontend"
-  description = "Install httpd, nvm, node, npm, yarn and pm2 for frontend image"
+  description = "component for frontend image"
   platform    = "Linux"
   version     = "1.0.0"
 
@@ -8,32 +8,10 @@ resource "aws_imagebuilder_component" "frontend_nvm" {
     phases = [{
       name = "build"
       steps = [{
-        name   = "install-node"
+        name   = "image-component-build"
         action = "ExecuteBash"
         inputs = {
-          commands = [
-            "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash",
-            "export NVM_DIR=\"$HOME/.nvm\"",
-            "[ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\"",
-            "[ -s \"$NVM_DIR/bash_completion\" ] && \\. \"$NVM_DIR/bash_completion\"",
-            "nvm -v",
-            "nvm install 20.9.0",
-            "node -v",
-            "npm -v",
-            "npm install --global yarn",
-            "yarn -v",
-            "npm install --global pm2",
-            "pm2 -v"
-          ]
-        }
-        }, {
-        name   = "install-httpd"
-        action = "ExecuteBash"
-        inputs = {
-          commands = [
-            "yum update -y",
-            "yum install -y httpd"
-          ]
+          commands = split("\n", chomp(file("../scripts/aws/image-component-build.sh")))
         }
       }]
     }]
@@ -59,7 +37,7 @@ resource "aws_imagebuilder_image_recipe" "frontend" {
     device_name = "/dev/xvda"
 
     ebs {
-      volume_size           = 64
+      volume_size           = 28
       volume_type           = "gp2"
       delete_on_termination = true
     }
@@ -78,11 +56,11 @@ resource "aws_imagebuilder_image_recipe" "frontend" {
   }
 
   component {
-    component_arn = aws_imagebuilder_component.frontend_nvm.arn
+    component_arn = "arn:aws:imagebuilder:${var.aws_region}:aws:component/simple-boot-test-linux/x.x.x"
   }
 
   component {
-    component_arn = "arn:aws:imagebuilder:${var.aws_region}:aws:component/simple-boot-test-linux/x.x.x"
+    component_arn = aws_imagebuilder_component.frontend.arn
   }
 }
 
@@ -145,4 +123,3 @@ resource "aws_imagebuilder_image" "frontend" {
     Name = "frontend"
   }
 }
-

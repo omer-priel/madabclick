@@ -24,8 +24,7 @@ flowchart TD
   
   GA --> Amplify
 ```
-
-Stage 2
+Using Full AWS Infrastructure
 
 ```mermaid
 flowchart TD
@@ -35,6 +34,15 @@ flowchart TD
 
   subgraph AWS
     subgraph VPC
+      subgraph Image Building
+        subgraph BuildInstance
+          ImageComponentBuild[Component Build Step]
+        end
+        subgraph TestInstance
+          ImageComponentTest[Component Test Step]
+        end
+        ImageComponentBuild --> ImageComponentTest --> Image
+      end
       subgraph Subnet
         CodeDeploy[CodeDeploy Deployment Group] --> Deployment[CodeDeploy Deployment] --> EC2[Group of EC2 instances]
         Image --> LT[Lanch Template]
@@ -43,7 +51,7 @@ flowchart TD
         CHR[Client HTTP Request] --> Domain --> EIP[Elastic IP] --> NLB[Network Load Balancer]
         NLB --> ALB[Appliction Load Balancer] --> EC2
         SG[Security Group] --> EC2
-        ALB <---> ASG
+        ALB <--> ASG
       end
     end
   end

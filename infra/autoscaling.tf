@@ -36,9 +36,9 @@ resource "aws_launch_template" "frontend" {
 resource "aws_autoscaling_group" "frontend" {
   name = "frontend"
 
-  desired_capacity = 2
-  min_size         = 2
-  max_size         = 2
+  desired_capacity = 0
+  min_size         = 0
+  max_size         = 0
 
   vpc_zone_identifier = [aws_subnet.prod_a.id, aws_subnet.prod_b.id]
 
