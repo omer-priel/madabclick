@@ -1,4 +1,3 @@
-# Delete Old app
+# Delete the previous version
 
 rm -rf /var/frontend
-rm -rf /var/www/html
