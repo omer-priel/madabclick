@@ -18,7 +18,6 @@ fi
 if [ -d "/var/frontend" ]; then
     echo "Stop fronend previous version" >> /var/log/frontend-deployment.txt
     cd /var/frontend
-    pm2 delete ecosystem.config.js
     pm2 delete all
     echo "Delete fronend previous version" >> /var/log/frontend-deployment.txt
     cd /

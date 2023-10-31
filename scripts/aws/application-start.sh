@@ -7,6 +7,6 @@ date >> /var/log/frontend-deployment.txt
 cd /var/frontend
 
 pm2 delete all
-pm2 --name fronend start yarn -- start
+pm2 --name fronend start "node_modules/next/dist/bin/next start --port 80"
 
 echo '' >> /var/log/frontend-deployment.txt
