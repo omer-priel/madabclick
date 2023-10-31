@@ -2,7 +2,8 @@
 
 if [ -d "/var/frontend" ]; then
     cd "/var/frontend"
-    pm2 startOrRestart ecosystem.config.js
+    pm2 delete all
+    pm2 --name fronend start yarn -- start
 else
     systemctl enable httpd
     rm -rf /var/www/html/api
