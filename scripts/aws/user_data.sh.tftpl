@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# export Environment Variables from SSM Parameter Store
+AWS=`which aws`
+REGION=${aws_region}
+
+SSM_TAGS=$(echo $($AWS ssm get-parameters-by-path --with-decryption --path /frontend/env --region $REGION))
+
+for key in $(echo $SSM_TAGS | /usr/bin/jq -r ".[][].Name"); do
+    value=$(echo $SSM_TAGS | /usr/bin/jq -r ".[][] | select(.Name==\"$key\") | .Value");
+    key=$(echo "$(basename "$key")" | /usr/bin/tr ':' '_' | /usr/bin/tr '-' '_' | /usr/bin/tr '[:lower:]' '[:upper:]');
+    echo export "$key=\"$value\""
+done
+
+# Restart the server
+if [ -d "/var/frontend" ]; then
+    cd "/var/frontend"
+    pm2 delete all
+    pm2 --name fronend start "node_modules/next/dist/bin/next start --port 80"
+else
+    systemctl enable httpd
+    rm -rf /var/www/html/api
+    mkdir /var/www/html/api
+    mkdir /var/www/html/api/health-check
+    echo "INIT: Root" > /var/www/html/index.html
+    echo "INIT health-check" > /var/www/html/api/health-check/index.html
+    systemctl start httpd
+fi

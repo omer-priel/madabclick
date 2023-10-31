@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 
+import { config } from '@/config';
 import { getContentsInfo } from '@/lib/api/requests';
 import { ContentsSchema } from '@/lib/api/schemas';
 import { LANGUAGES } from '@/translation';
@@ -13,5 +14,8 @@ export async function GET(request: Request) {
     res[locale] = await getContentsInfo(locale);
   }
 
-  return NextResponse.json(res);
+  return NextResponse.json({
+    ...res,
+    ...config,
+  });
 }

@@ -30,7 +30,9 @@ resource "aws_launch_template" "frontend" {
     security_groups = [aws_security_group.frontend.id]
   }
 
-  user_data = filebase64("../scripts/aws/user_data.sh")
+  user_data = base64encode(templatefile("../scripts/aws/user_data.sh.tftpl", {
+    aws_region = var.aws_region,
+  }))
 }
 
 resource "aws_autoscaling_group" "frontend" {
