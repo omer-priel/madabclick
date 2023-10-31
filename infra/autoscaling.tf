@@ -34,9 +34,9 @@ resource "aws_launch_template" "frontend" {
 resource "aws_autoscaling_group" "frontend" {
   name = "frontend"
 
-  desired_capacity = 2
-  min_size         = 2
-  max_size         = 2
+  desired_capacity = 3
+  min_size         = 3
+  max_size         = 3
 
   vpc_zone_identifier = [aws_subnet.prod_a.id, aws_subnet.prod_b.id]
 
@@ -65,5 +65,13 @@ resource "aws_autoscaling_policy" "frontend_target_tracking" {
     }
 
     target_value = 70.0
+  }
+}
+
+resource "aws_eip" "frontend_eip_for_dev" {
+  instance = "i-04dd1fe9f7356a868"
+
+  tags = {
+    Name = "frontend"
   }
 }

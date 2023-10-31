@@ -9,7 +9,7 @@ SSM_TAGS=$(echo $($AWS ssm get-parameters-by-path --with-decryption --path /fron
 for key in $(echo $SSM_TAGS | /usr/bin/jq -r ".[][].Name"); do
     value=$(echo $SSM_TAGS | /usr/bin/jq -r ".[][] | select(.Name==\"$key\") | .Value");
     key=$(echo "$(basename "$key")" | /usr/bin/tr ':' '_' | /usr/bin/tr '-' '_' | /usr/bin/tr '[:lower:]' '[:upper:]');
-    echo export "$key=\"$value\""
+    export "$key=$value"
 done
 
 # Restart the server
