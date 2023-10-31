@@ -1,5 +1,5 @@
 
-echo before-install.sh >> /var/log/frontend-deployment.txt
+echo before-install.sh > /var/log/frontend-deployment.txt
 date >> /var/log/frontend-deployment.txt
 
 # Stop the simple http server
@@ -16,9 +16,12 @@ fi
 
 # Delete the previous version
 if [ -d "/var/frontend" ]; then
-    echo "Delete fronend previous version" >> /var/log/frontend-deployment.txt
+    echo "Stop fronend previous version" >> /var/log/frontend-deployment.txt
     cd /var/frontend
     pm2 delete ecosystem.config.js
+    echo "Delete fronend previous version" >> /var/log/frontend-deployment.txt
     cd /
     rm -rf /var/frontend
 fi
+
+echo '' >> /var/log/frontend-deployment.txt
