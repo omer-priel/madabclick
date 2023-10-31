@@ -21,13 +21,9 @@ resource "aws_launch_template" "frontend" {
   }
 
   network_interfaces {
-    device_index = 0
-
-    associate_public_ip_address = true
+    security_groups = [aws_security_group.frontend.id]
 
     delete_on_termination = true
-
-    security_groups = [aws_security_group.frontend.id]
   }
 
   user_data = base64encode(templatefile("../scripts/aws/user_data.sh.tftpl", {

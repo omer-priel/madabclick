@@ -1,7 +1,7 @@
 resource "aws_lb" "frontend_application" {
   name               = "frontend-application"
   load_balancer_type = "application"
-  internal           = false
+  internal           = true
   subnets            = [aws_subnet.prod_a.id, aws_subnet.prod_b.id]
   security_groups    = [aws_security_group.frontend.id]
 
