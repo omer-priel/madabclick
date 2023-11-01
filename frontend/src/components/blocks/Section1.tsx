@@ -7,7 +7,7 @@ export default function Section1() {
   const t = useTranslations();
 
   return (
-    <div className='relative w-full h-[50vw]'>
+    <div className='relative w-full h-[50vw] min-w-[850px] min-h-[730px]'>
       <Image
         className='absolute z-0 w-full h-full left-0 top-0 object-cover'
         alt=''
