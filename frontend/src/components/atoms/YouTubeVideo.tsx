@@ -45,7 +45,11 @@ export default function YouTubeVideo({ content, overlayText }: Props) {
         <iframe
           className='absolute inset-0 w-full h-full'
           title={content.title}
-          src={`https://www.youtube.com/embed/${content.youtubeVideo.id}?autoplay=1`}
+          src={
+            content.youtubePlaylist
+              ? `https://www.youtube.com/embed/${content.youtubeVideo.id}?list=${content.youtubePlaylist.id}&autoplay=1`
+              : `https://www.youtube.com/embed/${content.youtubeVideo.id}?autoplay=1`
+          }
           allow='autoplay'
           allowFullScreen
         ></iframe>
