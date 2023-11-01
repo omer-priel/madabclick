@@ -1,3 +1,9 @@
+interface Thumbnail {
+  url: string;
+  width: number | null;
+  height: number | null;
+}
+
 export interface Content {
   index: number;
 
@@ -13,26 +19,17 @@ export interface Content {
 
   youtubeVideo: {
     id: string;
-    playlistId: string | null;
     title: string | null;
     description: string | null;
 
-    thumbnail: {
-      url: string;
-      width: number | null;
-      height: number | null;
-    };
+    thumbnail: Thumbnail;
   } | null;
   youtubePlaylist: {
     id: string;
     title: string | null;
     description: string | null;
 
-    thumbnail: {
-      url: string;
-      width: number | null;
-      height: number | null;
-    } | null;
+    thumbnail: Thumbnail | null;
   } | null;
 }
 

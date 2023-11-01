@@ -126,7 +126,6 @@ function getContent(
     if (videoID) {
       content.youtubeVideo = {
         id: videoID,
-        playlistId: playlistID,
         title: null,
         description: null,
         thumbnail: {
@@ -135,13 +134,19 @@ function getContent(
           height: null,
         },
       };
-    } else if (playlistID) {
+    }
+
+    if (playlistID) {
       content.youtubePlaylist = {
         id: playlistID,
         title: null,
         description: null,
         thumbnail: null,
       };
+
+      if (content.youtubeVideo) {
+        content.youtubePlaylist.thumbnail = content.youtubeVideo.thumbnail;
+      }
     }
   }
 
