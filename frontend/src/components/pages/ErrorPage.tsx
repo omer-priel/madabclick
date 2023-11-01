@@ -21,17 +21,14 @@ export default function ErrorPage({ error, reset, locale }: Props) {
       <Header locale={locale} />
       <Section1 />
       <div className='w-full'>
-        <div
-          className='w-fit h-fit mx-auto mt-[0.5vw] text-black text-[2.08vw]/[3.125vw] text-left font-black'
-          style={{ direction: 'ltr' }}
-        >
+        <div className='w-fit h-fit mx-auto mt-[0.5vw] text-black text-[40px]/[60px] text-left font-black' style={{ direction: 'ltr' }}>
           Something went wrong!
           <div className='w-[3.125vw] h-[0.416vw] bg-[#81B826]' />
         </div>
-        <div className='w-fit h-fit mx-auto text-black text-[1.04vw]/[1.562vw] text-left font-normal' style={{ direction: 'ltr' }}>
+        <div className='w-fit h-fit mx-auto text-black text-[20px]/[30px] text-left font-normal' style={{ direction: 'ltr' }}>
           Message: {error.message}
         </div>
-        <div className='w-fit h-fit mx-auto text-black text-[1.04vw]/[1.562vw] text-left font-black' style={{ direction: 'ltr' }}>
+        <div className='w-fit h-fit mx-auto text-black text-[20px]/[30px] text-left font-black' style={{ direction: 'ltr' }}>
           <button className='w-fit h-[3.125vw] mt-[0.52vw] px-[1.041vw] mx-auto bg-[#81B826] rounded-[2.604vw]' onClick={reset}>
             Try again
           </button>

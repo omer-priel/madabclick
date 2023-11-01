@@ -23,13 +23,13 @@ export default function Header({ locale }: Props) {
             width='35'
             height='35'
           />
-          <div className='h-[1.25vw] ml-[1.875vw] my-auto text-right text-[0.833vw]/[1.25vw] font-normal'>
+          <div className='h-[1.25vw] ml-[1.875vw] my-auto text-right text-[16px]/[24px] font-normal'>
             <Link href='/he' label='עברית' active={locale == 'he'} />
           </div>
-          <div className='h-[1.25vw] ml-[1.875vw] my-auto text-right text-[0.833vw]/[1.25vw] font-normal'>
+          <div className='h-[1.25vw] ml-[1.875vw] my-auto text-right text-[16px]/[24px] font-normal'>
             <Link href='/en' label='English' active={locale == 'en'} />
           </div>
-          <div className='h-[1.25vw] my-auto text-right text-[0.833vw]/[1.25vw] font-normal'>
+          <div className='h-[1.25vw] my-auto text-right text-[16px]/[24px] font-normal'>
             <Link href='/ar' label='عربي' active={locale == 'ar'} />
           </div>
         </div>

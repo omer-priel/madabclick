@@ -60,12 +60,12 @@ export default function HomePage({ data, locale }: Props) {
           </div>
         </div>
         <div className='absolute w-full h-[29.375vw] left-0 top-[18.072vw]'>
-          <div className='w-fit h-[3.125vw] mx-auto text-white text-[2.083vw]/[3.125vw] font-black'>{t('section-3-title')}</div>
+          <div className='w-fit h-[3.125vw] mx-auto text-white text-[40px]/[60px] font-black'>{t('section-3-title')}</div>
           <div className='w-fit mx-auto mt-[1.25vw]'>{!!recommendedContent && <RecommendedContentCard content={recommendedContent} />}</div>
         </div>
       </div>
       <div className='w-full mt-[4.218vw]'>
-        <div className='w-fit h-[3.125vw] mx-auto text-black text-[2.083vw]/[3.125vw] text-right font-black'>
+        <div className='w-fit h-[3.125vw] mx-auto text-black text-[40px]/[60px] text-right font-black'>
           {t('contents-section-title')}
           <div className='w-[3.125vw] h-[0.416vw] mx-auto mt-[1.093vw] bg-[#81B826]' />
         </div>
@@ -91,7 +91,7 @@ export default function HomePage({ data, locale }: Props) {
               'w-full mb-[5.104vw] ' + (contents.find((content) => content.domain == domain && showContentCard(content)) ? '' : ' hidden')
             }
           >
-            <div className='w-fit h-[1.875vw] mx-auto text-black text-[1.25vw]/[1.875vw] text-right font-black'>{domain}</div>
+            <div className='w-fit h-[1.875vw] mx-auto text-black text-[24px]/[36px] text-right font-black'>{domain}</div>
             <div className='flex flex-nowrap mt-[1.718vw] overflow-x-scroll'>
               <div className='flex h-fit mx-auto'>
                 {contents

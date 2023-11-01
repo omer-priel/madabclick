@@ -8,7 +8,7 @@ interface Props {
 
 export default function LabelLink({ href, label, active }: Props) {
   return (
-    <a href={href} className={'text-black hover:text-yellowgreen-200' + (active ? ' text-yellowgreen-200' : '')}>
+    <a href={href} className={(active ? 'text-[#04C2FF]' : 'text-black') + ' hover:text-[#04C2FF]'}>
       {label}
     </a>
   );

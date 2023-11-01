@@ -11,10 +11,7 @@ export default function LoadingPage({ locale }: Props) {
       <Header locale={locale} />
       <Section1 />
       <div className='w-full'>
-        <div
-          className='w-fit h-fit mx-auto mt-[0.5vw] text-black text-[2.08vw]/[3.125vw] text-left font-black'
-          style={{ direction: 'ltr' }}
-        >
+        <div className='w-fit h-fit mx-auto mt-[0.5vw] text-black text-[40px]/[60px] text-left font-black' style={{ direction: 'ltr' }}>
           Loading...
           <div className='w-[3.125vw] h-[0.416vw] bg-[#81B826]' />
         </div>
