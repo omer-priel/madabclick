@@ -35,6 +35,17 @@ echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' | tee -a /etc/bashrc
 echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' | tee -a /etc/bashrc
 echo 'nvm use default' | tee -a /etc/bashrc
 
+# Add loading of Environment Variables from SSM
+echo '' | tee -a /etc/bashrc
+echo 'AWS=`which aws`' | tee -a /etc/bashrc
+echo 'SSM_TAGS=$(echo $($AWS ssm get-parameters-by-path --with-decryption --path /frontend/env))' | tee -a /etc/bashrc
+
+echo 'for key in $(echo $SSM_TAGS | /usr/bin/jq -r ".[][].Name"); do' | tee -a /etc/bashrc
+echo '    value=$(echo $SSM_TAGS | /usr/bin/jq -r ".[][] | select(.Name==\"$key\") | .Value");' | tee -a /etc/bashrc
+echo '    key=$(echo "$(basename "$key")" | /usr/bin/tr ':' '_' | /usr/bin/tr '-' '_' | /usr/bin/tr '[:lower:]' '[:upper:]');' | tee -a /etc/bashrc
+echo '    export "$key=$value"' | tee -a /etc/bashrc
+echo 'done' | tee -a /etc/bashrc
+
 # Install yarn
 npm install --global yarn
 

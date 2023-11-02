@@ -1,69 +1,69 @@
-# resource "aws_launch_template" "frontend" {
-#   name                   = "frontend"
-#   description            = "frontend"
-#   image_id               = tolist(aws_imagebuilder_image.frontend.output_resources[0].amis)[0].image
-#   instance_type          = "t2.micro"
-#   update_default_version = true
+resource "aws_launch_template" "frontend" {
+  name                   = "frontend"
+  description            = "frontend"
+  image_id               = tolist(aws_imagebuilder_image.frontend.output_resources[0].amis)[0].image
+  instance_type          = "t2.micro"
+  update_default_version = true
 
-#   tags = {
-#     Name = "frontend"
-#   }
+  tags = {
+    Name = "frontend"
+  }
 
-#   tag_specifications {
-#     resource_type = "instance"
-#     tags = {
-#       Name = "frontend"
-#     }
-#   }
+  tag_specifications {
+    resource_type = "instance"
+    tags = {
+      Name = "frontend"
+    }
+  }
 
-#   iam_instance_profile {
-#     name = aws_iam_instance_profile.prod_image_builder.name
-#   }
+  iam_instance_profile {
+    name = aws_iam_instance_profile.prod_image_builder.name
+  }
 
-#   network_interfaces {
-#     security_groups = [aws_security_group.frontend.id]
+  network_interfaces {
+    security_groups = [aws_security_group.frontend.id]
 
-#     delete_on_termination = true
-#   }
+    associate_public_ip_address = true
 
-#   user_data = base64encode(templatefile("../scripts/aws/user_data.sh.tftpl", {
-#     aws_region = var.aws_region,
-#   }))
-# }
+    delete_on_termination = true
+  }
 
-# resource "aws_autoscaling_group" "frontend" {
-#   name = "frontend"
+  user_data = base64encode(file("../scripts/aws/user_data.sh"))
+}
 
-#   desired_capacity = 0
-#   min_size         = 0
-#   max_size         = 0
+resource "aws_autoscaling_group" "frontend" {
+  name = "frontend"
 
-#   vpc_zone_identifier = [aws_subnet.frontend_private_a.id, aws_subnet.frontend_private_b.id]
+  desired_capacity = 3
+  min_size         = 3
+  max_size         = 3
 
-#   target_group_arns = [aws_lb_target_group.frontend_application.arn]
+  vpc_zone_identifier = [aws_subnet.frontend_a.id, aws_subnet.frontend_b.id]
 
-#   tag {
-#     key                 = "Name"
-#     value               = "frontend"
-#     propagate_at_launch = true
-#   }
+  target_group_arns = [aws_lb_target_group.frontend_application.arn]
 
-#   launch_template {
-#     id      = aws_launch_template.frontend.id
-#     version = "$Latest"
-#   }
-# }
+  tag {
+    key                 = "Name"
+    value               = "frontend"
+    propagate_at_launch = true
+  }
 
-# resource "aws_autoscaling_policy" "frontend_target_tracking" {
-#   name                   = "frontend_target_tracking"
-#   policy_type            = "TargetTrackingScaling"
-#   autoscaling_group_name = aws_autoscaling_group.frontend.name
+  launch_template {
+    id      = aws_launch_template.frontend.id
+    version = "$Latest"
+  }
+}
 
-#   target_tracking_configuration {
-#     predefined_metric_specification {
-#       predefined_metric_type = "ASGAverageCPUUtilization"
-#     }
+resource "aws_autoscaling_policy" "frontend_target_tracking" {
+  name                   = "frontend_target_tracking"
+  policy_type            = "TargetTrackingScaling"
+  autoscaling_group_name = aws_autoscaling_group.frontend.name
 
-#     target_value = 70.0
-#   }
-# }
+  target_tracking_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ASGAverageCPUUtilization"
+    }
+
+    target_value = 70.0
+  }
+}
