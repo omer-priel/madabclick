@@ -32,7 +32,7 @@ flowchart TB
     PR[Pull Request / Push] --> GA[GitHub Actions] --> GInstall[Install] --> GLint[Lint] --> GBuild[Build] 
   end
 
-  ClientRequest[Client HTTP Request] --> Domain --> EIP
+  ClientRequest[Client HTTP Request] --> Domain --> NLB
 
   subgraph AWS
     subgraph Image Building
@@ -49,8 +49,7 @@ flowchart TB
     Image --> LT[Lanch Template]
     ASG[Auto Scalling Group] --> LT ---> EC2
     ASG --> Deployment
-    EIP[Elastic IP] --> NLB[Network Load Balancer]
-    NLB --> ALB[Appliction Load Balancer] --> EC2
+    NLB[Network Load Balancer] --> ALB[Appliction Load Balancer] --> EC2
     ALB <--> ASG
     SG[Security Group] --> EC2
   end
@@ -62,19 +61,35 @@ Using Full AWS Networking Infrastructure
 
 ```mermaid
 flowchart TB
-  ClientRequest[Client HTTP Request] --> Domain --> EIP
+  ClientRequest[Client HTTP Request] --> Domain --> NLB
   subgraph AWS
     subgraph VPC
-      subgraph Public Subnet
-        EIP[Elastic IP] --> NLB[Network Load Balancer]
+      NLB[Network Load Balancer]
+      ALB[Appliction Load Balancer]
+      ASG[Auto Scalling Group]
+      NG[NAT Gateway]
+
+      NLB --> ALB --> ASG
+
+      ALB --> EC2A
+      ASG --> EC2A
+            
+      ASG --> EC2B
+      ALB --> EC2B
+      
+      subgraph Private Subnet A
+        EC2A[Group of EC2 instances]
       end
-      subgraph Private Subnet
-        ASG[Auto Scalling Group] --> EC2[Group of EC2 instances]
-        NLB --> ALB[Appliction Load Balancer] --> EC2
-        ALB <--> ASG
+      subgraph Private Subnet B
+        EC2B[Group of EC2 instances]
       end
+
+      EC2A --> NG
+      EC2B --> NG
     end
   end
+
+  NG --> GoogleAPI[Google API]
 ```
 
 
