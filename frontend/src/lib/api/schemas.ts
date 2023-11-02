@@ -17,8 +17,12 @@ export interface Content {
 
   title: string; // will be displayed
 
+  allowed: boolean;
+  notAllowedReason: string;
+
   youtubeVideo: {
     id: string;
+    loaded: boolean;
     title: string | null;
     description: string | null;
 
@@ -26,6 +30,7 @@ export interface Content {
   } | null;
   youtubePlaylist: {
     id: string;
+    loaded: boolean;
     title: string | null;
     description: string | null;
 
@@ -41,8 +46,12 @@ export interface ContentsSchema {
   durations: string[];
   languages: string[];
 
+  contentsFromDBTotal: number;
   contentsTotal: number;
+  notAllowedContentsTotal: number;
 
   recommendedContent: Content | null;
   contents: Content[];
+
+  notAllowedContents: Content[];
 }

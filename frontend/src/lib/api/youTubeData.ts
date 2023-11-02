@@ -3,27 +3,41 @@ import { google } from 'googleapis';
 import { config } from '@/config';
 
 type VideosData = {
-  [videoID: string]: {
-    title: string;
-    description: string;
-    thumbnail: {
-      url: string;
-      width: number;
-      height: number;
-    };
-  };
+  [videoID: string]:
+    | {
+        allowd: true;
+
+        title: string;
+        description: string;
+        thumbnail: {
+          url: string;
+          width: number;
+          height: number;
+        } | null;
+      }
+    | {
+        allowd: false;
+        notAllowedReason: string;
+      };
 };
 
 type PlaylistsData = {
-  [playlistID: string]: {
-    title: string;
-    description: string;
-    thumbnail: {
-      url: string;
-      width: number;
-      height: number;
-    } | null;
-  };
+  [playlistID: string]:
+    | {
+        allowd: true;
+
+        title: string;
+        description: string;
+        thumbnail: {
+          url: string;
+          width: number;
+          height: number;
+        } | null;
+      }
+    | {
+        allowd: false;
+        notAllowedReason: string;
+      };
 };
 
 export async function getYouTubeVideosData(videoIDs: string[]): Promise<VideosData> {
@@ -42,18 +56,48 @@ export async function getYouTubeVideosData(videoIDs: string[]): Promise<VideosDa
       const response = await youtube.videos.list({
         key: config.GOOGLE_API_KEY,
         id: videoIDs.slice(0, 50),
-        part: ['snippet'],
+        part: ['snippet', 'status'],
         maxResults: 50,
       });
 
       videoIDs = videoIDs.slice(50);
 
       response.data.items?.forEach((item) => {
-        if (!item.id || !item.snippet || !item.snippet.thumbnails) {
+        if (!item.id || !item.snippet || !item.status) {
           return;
         }
 
-        if (!(item.snippet.title || item.snippet.title === '') || !(item.snippet.description || item.snippet.description === '')) {
+        if (!item.status.embeddable) {
+          videos[item.id] = {
+            allowd: false,
+            notAllowedReason: 'The video is not embeddable',
+          };
+          return;
+        }
+
+        if (item.status.privacyStatus === 'private') {
+          videos[item.id] = {
+            allowd: false,
+            notAllowedReason: 'The video is private',
+          };
+          return;
+        }
+
+        if (!item.snippet.title) {
+          videos[item.id] = {
+            allowd: false,
+            notAllowedReason: 'The video do not have title',
+          };
+          return;
+        }
+
+        if (!item.snippet.thumbnails) {
+          videos[item.id] = {
+            allowd: true,
+            title: item.snippet.title,
+            description: item.snippet.description ? item.snippet.description : '',
+            thumbnail: null,
+          };
           return;
         }
 
@@ -70,8 +114,9 @@ export async function getYouTubeVideosData(videoIDs: string[]): Promise<VideosDa
 
         if (thumbnails.length > 0 && thumbnails[0] && thumbnails[0]?.url && thumbnails[0].width && thumbnails[0].height) {
           videos[item.id] = {
+            allowd: true,
             title: item.snippet.title,
-            description: item.snippet.description,
+            description: item.snippet.description ? item.snippet.description : '',
             thumbnail: {
               url: thumbnails[0].url,
               width: thumbnails[0].width,
@@ -104,18 +149,30 @@ export async function getYouTubePlaylistsData(playlistIDs: string[]): Promise<Pl
       const response = await youtube.playlists.list({
         key: config.GOOGLE_API_KEY,
         id: playlistIDs.slice(0, 50),
-        part: ['snippet'],
+        part: ['snippet', 'status'],
         maxResults: 50,
       });
 
       playlistIDs = playlistIDs.slice(50);
 
       response.data.items?.forEach((item) => {
-        if (!item.id || !item.snippet) {
+        if (!item.id || !item.snippet || !item.status) {
           return;
         }
 
-        if (!(item.snippet.title || item.snippet.title === '') || !(item.snippet.description || item.snippet.description === '')) {
+        if (!item.snippet.title) {
+          playlists[item.id] = {
+            allowd: false,
+            notAllowedReason: 'The playlist do not have title',
+          };
+          return;
+        }
+
+        if (item.status.privacyStatus === 'private') {
+          playlists[item.id] = {
+            allowd: false,
+            notAllowedReason: 'The playlist is private',
+          };
           return;
         }
 
@@ -143,8 +200,9 @@ export async function getYouTubePlaylistsData(playlistIDs: string[]): Promise<Pl
         }
 
         playlists[item.id] = {
+          allowd: true,
           title: item.snippet.title,
-          description: item.snippet.description,
+          description: item.snippet.description ? item.snippet.description : '',
           thumbnail,
         };
       });
