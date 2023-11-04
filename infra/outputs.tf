@@ -7,13 +7,5 @@ output "frontend_ami" {
 }
 
 output "frontend_public_dns_name" {
-  value = aws_lb.frontend_network.dns_name
-}
-
-output "frontend_public_eip_a" {
-  value = aws_eip.frontend_a.public_ip
-}
-
-output "frontend_public_eip_b" {
-  value = aws_eip.frontend_b.public_ip
+  value = aws_lb.frontend.dns_name
 }

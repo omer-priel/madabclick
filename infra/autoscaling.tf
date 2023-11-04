@@ -42,7 +42,7 @@ resource "aws_autoscaling_group" "frontend" {
 
   vpc_zone_identifier = [aws_subnet.frontend_a.id, aws_subnet.frontend_b.id]
 
-  target_group_arns = [aws_lb_target_group.frontend_application.arn]
+  target_group_arns = [aws_lb_target_group.frontend.arn]
 
   tag {
     key                 = "Name"

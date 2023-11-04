@@ -61,14 +61,11 @@ Using Full AWS Networking Infrastructure
 
 ```mermaid
 flowchart TB
-  ClientRequest[Client HTTP Request] --> Domain --> NLB
+  ClientRequest[Client HTTP Request] --> Domain --> ALB
   subgraph AWS
     subgraph VPC
-      NLB[Network Load Balancer]
       ALB[Appliction Load Balancer]
       ASG[Auto Scalling Group]
-
-      NLB --> ALB
 
       ALB ---> EC2A
       ASG <--> EC2A

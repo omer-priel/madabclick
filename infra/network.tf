@@ -7,18 +7,6 @@ resource "aws_vpc" "prod" {
   }
 }
 
-resource "aws_eip" "frontend_a" {
-  tags = {
-    Name = "frontend"
-  }
-}
-
-resource "aws_eip" "frontend_b" {
-  tags = {
-    Name = "frontend"
-  }
-}
-
 resource "aws_internet_gateway" "prod" {
   vpc_id = aws_vpc.prod.id
 
