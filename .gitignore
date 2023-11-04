@@ -12,6 +12,9 @@ yarn.lock
 # env
 .env
 
+# infra
+infra/keys
+
 # frontend
 frontend/out
 frontend/build

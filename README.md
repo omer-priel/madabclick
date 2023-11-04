@@ -67,29 +67,25 @@ flowchart TB
       NLB[Network Load Balancer]
       ALB[Appliction Load Balancer]
       ASG[Auto Scalling Group]
-      NG[NAT Gateway]
 
-      NLB --> ALB --> ASG
+      NLB --> ALB
 
-      ALB --> EC2A
-      ASG --> EC2A
+      ALB ---> EC2A
+      ASG <--> EC2A
             
-      ASG --> EC2B
-      ALB --> EC2B
+      ASG <--> EC2B
+      ALB ---> EC2B
       
-      subgraph Private Subnet A
+      subgraph Public Subnet A
         EC2A[Group of EC2 instances]
       end
-      subgraph Private Subnet B
+      subgraph Public Subnet B
         EC2B[Group of EC2 instances]
       end
-
-      EC2A --> NG
-      EC2B --> NG
     end
   end
 
-  NG --> GoogleAPI[Google API]
+  EC2A & EC2B --> GoogleAPI[Google API]
 ```
 
 
@@ -102,6 +98,11 @@ flowchart TB
 | GOOGLE_SPREADSHEET_ID_CONTENTS | Google Spreadsheet ID of contents sheet |
 
 In local developemt. Create '.env' file in frontent that will contain the Environment Variables.
+
+## SSL Keys
+
+TODO \
+ssh-keygen -t rsa -b 4096 -f infra/keys/frontend
 
 ## Requirements
 

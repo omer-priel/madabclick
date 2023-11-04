@@ -11,7 +11,9 @@ resource "aws_imagebuilder_component" "frontend" {
         name   = "image-component-build"
         action = "ExecuteBash"
         inputs = {
-          commands = split("\n", chomp(file("../scripts/aws/image-component-build.sh")))
+          commands = split("\n", chomp(templatefile("../scripts/aws/image-component-build.sh.tftpl", {
+            aws_region = var.aws_region
+          })))
         }
       }]
     }]
@@ -61,15 +63,6 @@ resource "aws_imagebuilder_image_recipe" "frontend" {
 
   component {
     component_arn = aws_imagebuilder_component.frontend.arn
-  }
-}
-
-resource "aws_iam_instance_profile" "prod_image_builder" {
-  name = "prod_image_builder"
-  role = aws_iam_role.prod_image_builder.name
-
-  tags = {
-    "Name" : "production"
   }
 }
 

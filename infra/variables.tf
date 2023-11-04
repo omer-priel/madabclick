@@ -25,3 +25,8 @@ variable "aws_availability_zone_b" {
   type        = string
   default     = "eu-central-1b"
 }
+
+variable "frontend_public_key" {
+  description = "Public SSL Key for frontend key pair"
+  type        = string
+}
