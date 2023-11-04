@@ -1,45 +1,66 @@
-# resource "aws_lb" "frontend_application" {
-#   name               = "frontend-application"
-#   load_balancer_type = "application"
-#   internal           = false
-#   subnets            = [aws_subnet.frontend_a.id, aws_subnet.frontend_b.id]
-#   security_groups    = [aws_security_group.frontend.id]
+resource "aws_lb" "frontend_application" {
+  name                       = "frontend-application"
+  load_balancer_type         = "application"
+  internal                   = true
+  subnets                    = [aws_subnet.frontend_a.id, aws_subnet.frontend_b.id]
+  security_groups            = [aws_security_group.frontend.id]
+  enable_deletion_protection = false
 
-#   tags = {
-#     Name = "frontend"
-#   }
-# }
+  tags = {
+    Name = "frontend"
+  }
+}
 
-# resource "aws_lb_target_group" "frontend_application" {
-#   name        = "frontend-application"
-#   target_type = "instance"
-#   vpc_id      = aws_vpc.prod.id
-#   protocol    = "HTTP"
-#   port        = 80
+resource "aws_lb_target_group" "frontend_application" {
+  name        = "frontend-application"
+  target_type = "instance"
+  vpc_id      = aws_vpc.prod.id
+  protocol    = "HTTP"
+  port        = 80
 
-#   tags = {
-#     Name = "frontend"
-#   }
+  tags = {
+    Name = "frontend"
+  }
 
-#   health_check {
-#     path                = "/api/health-check/"
-#     port                = 80
-#     protocol            = "HTTP"
-#     healthy_threshold   = 2
-#     unhealthy_threshold = 4
-#     timeout             = 60
-#     interval            = 120
-#   }
-# }
+  health_check {
+    path                = "/api/health-check/"
+    port                = 80
+    protocol            = "HTTP"
+    healthy_threshold   = 2
+    unhealthy_threshold = 4
+    timeout             = 60
+    interval            = 120
+  }
+}
 
-# resource "aws_lb_listener" "frontend_application" {
+resource "aws_lb_listener" "frontend_application_http" {
+  load_balancer_arn = aws_lb.frontend_application.arn
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.frontend_application.arn
+  }
+
+  tags = {
+    Name = "frontend"
+  }
+}
+
+# resource "aws_lb_listener" "frontend_application_https" {
 #   load_balancer_arn = aws_lb.frontend_application.arn
-#   port              = "80"
-#   protocol          = "HTTP"
+#   port              = "443"
+#   protocol          = "HTTPS"
 
 #   default_action {
-#     type             = "forward"
-#     target_group_arn = aws_lb_target_group.frontend_application.arn
+#     type = "fixed-response"
+
+#     fixed_response {
+#       content_type = "text/html"
+#       status_code  = "200"
+#       message_body = "HTTPS-MISSING"
+#     }
 #   }
 
 #   tags = {
@@ -47,66 +68,67 @@
 #   }
 # }
 
-# resource "aws_lb" "frontend_network" {
-#   name               = "frontend-network"
-#   load_balancer_type = "network"
-#   internal           = false
-#   security_groups    = [aws_security_group.frontend.id]
+resource "aws_lb" "frontend_network" {
+  name                       = "frontend-network"
+  load_balancer_type         = "network"
+  internal                   = false
+  security_groups            = [aws_security_group.frontend.id]
+  enable_deletion_protection = true
 
-#   tags = {
-#     Name = "frontend"
-#   }
+  tags = {
+    Name = "frontend"
+  }
 
-#   subnet_mapping {
-#     subnet_id     = aws_subnet.frontend_a.id
-#     allocation_id = aws_eip.frontend_a.id
-#   }
+  subnet_mapping {
+    subnet_id     = aws_subnet.frontend_a.id
+    allocation_id = aws_eip.frontend_a.id
+  }
 
-#   subnet_mapping {
-#     subnet_id     = aws_subnet.frontend_b.id
-#     allocation_id = aws_eip.frontend_b.id
-#   }
-# }
+  subnet_mapping {
+    subnet_id     = aws_subnet.frontend_b.id
+    allocation_id = aws_eip.frontend_b.id
+  }
+}
 
-# resource "aws_lb_target_group" "frontend_network" {
-#   name        = "frontend-network"
-#   target_type = "alb"
-#   vpc_id      = aws_vpc.prod.id
-#   protocol    = "TCP"
-#   port        = 80
+resource "aws_lb_target_group" "frontend_network" {
+  name        = "frontend-network"
+  target_type = "alb"
+  vpc_id      = aws_vpc.prod.id
+  protocol    = "TCP"
+  port        = 80
 
-#   tags = {
-#     Name = "frontend"
-#   }
+  tags = {
+    Name = "frontend"
+  }
 
-#   health_check {
-#     path                = "/api/health-check/"
-#     port                = 80
-#     protocol            = "HTTP"
-#     healthy_threshold   = 2
-#     unhealthy_threshold = 4
-#     timeout             = 60
-#     interval            = 120
-#   }
-# }
+  health_check {
+    path                = "/api/health-check/"
+    port                = 80
+    protocol            = "HTTP"
+    healthy_threshold   = 2
+    unhealthy_threshold = 4
+    timeout             = 60
+    interval            = 120
+  }
+}
 
-# resource "aws_lb_listener" "frontend_network" {
-#   load_balancer_arn = aws_lb.frontend_network.arn
-#   port              = "80"
-#   protocol          = "TCP"
+resource "aws_lb_listener" "frontend_network" {
+  load_balancer_arn = aws_lb.frontend_network.arn
+  port              = "80"
+  protocol          = "TCP"
 
-#   default_action {
-#     type             = "forward"
-#     target_group_arn = aws_lb_target_group.frontend_network.arn
-#   }
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.frontend_network.arn
+  }
 
-#   tags = {
-#     Name = "frontend"
-#   }
-# }
+  tags = {
+    Name = "frontend"
+  }
+}
 
-# resource "aws_lb_target_group_attachment" "frontend_network" {
-#   target_group_arn = aws_lb_target_group.frontend_network.arn
-#   target_id        = aws_lb.frontend_application.arn
-#   port             = 80
-# }
+resource "aws_lb_target_group_attachment" "frontend_network" {
+  target_group_arn = aws_lb_target_group.frontend_network.arn
+  target_id        = aws_lb.frontend_application.arn
+  port             = 80
+}

@@ -6,13 +6,9 @@ output "frontend_ami" {
   value = tolist(aws_imagebuilder_image.frontend.output_resources[0].amis)[0].image
 }
 
-# output "frontend_public_app_dns_name" {
-#   value = aws_lb.frontend_application.dns_name
-# }
-
-# output "frontend_public_net_dns_name" {
-#   value = aws_lb.frontend_network.dns_name
-# }
+output "frontend_public_dns_name" {
+  value = aws_lb.frontend_network.dns_name
+}
 
 output "frontend_public_eip_a" {
   value = aws_eip.frontend_a.public_ip
