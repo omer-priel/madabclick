@@ -1,37 +1,37 @@
-# resource "aws_launch_template" "frontend" {
-#   name                   = "frontend"
-#   description            = "frontend"
-#   image_id               = tolist(aws_imagebuilder_image.frontend.output_resources[0].amis)[0].image
-#   instance_type          = "t2.micro"
-#   update_default_version = true
+resource "aws_launch_template" "frontend" {
+  name                   = "frontend"
+  description            = "frontend"
+  image_id               = tolist(aws_imagebuilder_image.frontend.output_resources[0].amis)[0].image
+  instance_type          = "t2.micro"
+  update_default_version = true
 
-#   tags = {
-#     Name = "frontend"
-#   }
+  tags = {
+    Name = "frontend"
+  }
 
-#   tag_specifications {
-#     resource_type = "instance"
-#     tags = {
-#       Name = "frontend"
-#     }
-#   }
+  tag_specifications {
+    resource_type = "instance"
+    tags = {
+      Name = "frontend"
+    }
+  }
 
-#   iam_instance_profile {
-#     name = aws_iam_instance_profile.frontend_instance.name
-#   }
+  iam_instance_profile {
+    name = aws_iam_instance_profile.frontend_instance.name
+  }
 
-#   key_name = aws_key_pair.frontend.key_name
+  key_name = aws_key_pair.frontend.key_name
 
-#   network_interfaces {
-#     security_groups = [aws_security_group.frontend.id]
+  network_interfaces {
+    security_groups = [aws_security_group.frontend.id]
 
-#     associate_public_ip_address = true
+    associate_public_ip_address = true
 
-#     delete_on_termination = true
-#   }
+    delete_on_termination = true
+  }
 
-#   user_data = base64encode(templatefile("../scripts/aws/user_data.sh.tftpl", {}))
-# }
+  user_data = base64encode(templatefile("../scripts/aws/user_data.sh.tftpl", {}))
+}
 
 # resource "aws_autoscaling_group" "frontend" {
 #   name = "frontend"
