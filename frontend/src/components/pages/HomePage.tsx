@@ -18,7 +18,7 @@ export default function HomePage({ data, currentLanguage }: Props) {
       <Header currentLanguage={currentLanguage} />
       <Section1 />
       <Section2 recommendedContent={data.recommendedContent} />
-      {/* <SectionContents data={data} /> */}
+      <SectionContents data={data} />
       <Footer />
     </div>
   );
