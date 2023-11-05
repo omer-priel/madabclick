@@ -1,7 +1,3 @@
-data "aws_ssm_parameter" "frontend_env_app_revalidate" {
-  name = "/frontend/env/app_revalidate"
-}
-
 data "aws_ssm_parameter" "frontend_env_google_api_key" {
   name = "/frontend/env/google_api_key"
 }

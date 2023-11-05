@@ -3,6 +3,10 @@
 # Restart the server
 if [ -d "/var/frontend" ]; then
     cd "/var/frontend"
+
+    echo GOOGLE_API_KEY=$GOOGLE_API_KEY > .env.local
+    echo GOOGLE_SPREADSHEET_ID_CONTENTS=$GOOGLE_SPREADSHEET_ID_CONTENTS >> .env.local
+
     pm2 delete all
     pm2 --name fronend start "node_modules/next/dist/bin/next start --port 80"
 else
