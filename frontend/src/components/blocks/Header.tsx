@@ -5,11 +5,13 @@ import Image from 'next/image';
 
 import Link from '@/components/atoms/Link';
 
+import { Language } from '@/translation';
+
 interface Props {
-  locale: string;
+  currentLanguage: Language;
 }
 
-export default function Header({ locale }: Props) {
+export default function Header({ currentLanguage }: Props) {
   const t = useTranslations();
 
   return (
@@ -24,13 +26,13 @@ export default function Header({ locale }: Props) {
             height='35'
           />
           <div className='h-[1.25vw] ml-[1.875vw] my-auto text-right text-[16px]/[24px] font-normal'>
-            <Link href='/he' label='עברית' active={locale == 'he'} />
+            <Link href='/he' label='עברית' active={currentLanguage.locale == 'he'} />
           </div>
           <div className='h-[1.25vw] ml-[1.875vw] my-auto text-right text-[16px]/[24px] font-normal'>
-            <Link href='/en' label='English' active={locale == 'en'} />
+            <Link href='/en' label='English' active={currentLanguage.locale == 'en'} />
           </div>
           <div className='h-[1.25vw] my-auto text-right text-[16px]/[24px] font-normal'>
-            <Link href='/ar' label='عربي' active={locale == 'ar'} />
+            <Link href='/ar' label='عربي' active={currentLanguage.locale == 'ar'} />
           </div>
         </div>
       </div>

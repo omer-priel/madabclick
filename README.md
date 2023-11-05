@@ -24,7 +24,8 @@ flowchart TD
   
   GA --> Amplify
 ```
-Using Full AWS Infrastructure
+
+AWS Infrastructure
 
 ```mermaid
 flowchart TB
@@ -32,9 +33,11 @@ flowchart TB
     PR[Pull Request / Push] --> GA[GitHub Actions] --> GInstall[Install] --> GLint[Lint] --> GBuild[Build] 
   end
 
-  ClientRequest[Client HTTP Request] --> Domain --> EIP
+  GBuild --> CodeDeploy
 
-  subgraph AWS
+  ClientRequest[Client HTTP Request] --> Domain --> ALB
+
+  subgraph AWS 
     subgraph Image Building
       subgraph BuildInstance
         ImageComponentBuild[Component Build Step]
@@ -45,37 +48,54 @@ flowchart TB
       ImageComponentBuild --> ImageComponentTest --> Image
     end
 
-    CodeDeploy[CodeDeploy Deployment Group] --> Deployment[CodeDeploy Deployment] --> EC2[Group of EC2 instances]
+    ALB[Appliction Load Balancer]
+    ASG[Auto Scalling Group]
+    EC2[Group of EC2 instances]
+
     Image --> LT[Lanch Template]
-    ASG[Auto Scalling Group] --> LT ---> EC2
-    ASG --> Deployment
-    EIP[Elastic IP] --> NLB[Network Load Balancer]
-    NLB --> ALB[Appliction Load Balancer] --> EC2
-    ALB <--> ASG
-    SG[Security Group] --> EC2
-  end
     
-  GBuild --> CodeDeploy
+    ASG --> LT --> EC2
+
+    ALB --> EC2
+
+    CodeDeploy[CodeDeploy Deployment Group] --> Deployment[CodeDeploy Deployment] --> EC2
+
+    ASG --> Deployment
+
+    ASG <--> EC2
+  end
+
+  EC2 --> GoogleAPI[Google API]    
 ```
 
-Using Full AWS Networking Infrastructure
+AWS Networking Infrastructure
 
 ```mermaid
 flowchart TB
-  ClientRequest[Client HTTP Request] --> Domain --> EIP
+  ClientRequest[Client HTTP Request] --> Domain --> ALB
   subgraph AWS
     subgraph VPC
-      subgraph Public Subnet
-        EIP[Elastic IP] --> NLB[Network Load Balancer]
+      ALB[Appliction Load Balancer]
+      ASG[Auto Scalling Group]
+
+      ALB ---> EC2A
+      ASG <--> EC2A
+            
+      ASG <--> EC2B
+      ALB ---> EC2B
+      
+      subgraph Public Subnet A
+        EC2A[Group of EC2 instances]
       end
-      subgraph Private Subnet
-        ASG[Auto Scalling Group] --> EC2[Group of EC2 instances]
-        NLB --> ALB[Appliction Load Balancer] --> EC2
-        ALB <--> ASG
+      subgraph Public Subnet B
+        EC2B[Group of EC2 instances]
       end
     end
   end
+
+  EC2A & EC2B --> GoogleAPI[Google API]
 ```
+
 
 ## Environment Variables
 
@@ -87,6 +107,11 @@ flowchart TB
 
 In local developemt. Create '.env' file in frontent that will contain the Environment Variables.
 
+## SSL Keys
+
+TODO \
+ssh-keygen -t rsa -b 4096 -f infra/keys/frontend
+
 ## Requirements
 
 * nvm
@@ -96,6 +121,10 @@ In local developemt. Create '.env' file in frontent that will contain the Enviro
 For install this project run the following commands in the terminal:
 
 ```bash
+nvm install 16.0.0
+
+nvm use
+
 npm install --global yarn
 
 cd frontend

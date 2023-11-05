@@ -2,6 +2,8 @@
 
 set -x #echo on
 
+nvm use 20.9.0
+
 cd frontend
 yarn run next-fix
 yarn run prettier-fix

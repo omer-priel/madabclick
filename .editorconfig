@@ -20,6 +20,16 @@ insert_final_newline = true
 indent_style = space
 indent_size = 2
 
+[*.tf]
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+
+[*.sh]
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+
 [*.{js,ts,jsx,tsx,mdx}]
 indent_style = space
 indent_size = 2

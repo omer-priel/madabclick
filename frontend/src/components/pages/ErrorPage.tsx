@@ -5,20 +5,22 @@ import { useEffect } from 'react';
 import Header from '@/components/blocks/Header';
 import Section1 from '@/components/blocks/Section1';
 
+import { Language } from '@/translation';
+
 interface Props {
   error: Error & { digest?: string };
   reset: () => void;
-  locale: string;
+  currentLanguage: Language;
 }
 
-export default function ErrorPage({ error, reset, locale }: Props) {
+export default function ErrorPage({ error, reset, currentLanguage }: Props) {
   useEffect(() => {
     console.error(error);
   }, [error]);
 
   return (
     <div className='relative w-full mx-auto overflow-x-hidden overflow-y-hidden bg-whitesmoke text-base text-black font-poppins'>
-      <Header locale={locale} />
+      <Header currentLanguage={currentLanguage} />
       <Section1 />
       <div className='w-full'>
         <div className='w-fit h-fit mx-auto mt-[0.5vw] text-black text-[40px]/[60px] text-left font-black' style={{ direction: 'ltr' }}>

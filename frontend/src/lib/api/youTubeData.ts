@@ -1,6 +1,6 @@
 import { google } from 'googleapis';
 
-import { config } from '@/config';
+import { getConfig } from '@/config';
 
 type VideosData = {
   [videoID: string]:
@@ -54,7 +54,7 @@ export async function getYouTubeVideosData(videoIDs: string[]): Promise<VideosDa
   try {
     while (videoIDs.length > 0) {
       const response = await youtube.videos.list({
-        key: config.GOOGLE_API_KEY,
+        key: getConfig().GOOGLE_API_KEY,
         id: videoIDs.slice(0, 50),
         part: ['snippet', 'status'],
         maxResults: 50,
@@ -147,7 +147,7 @@ export async function getYouTubePlaylistsData(playlistIDs: string[]): Promise<Pl
   try {
     while (playlistIDs.length > 0) {
       const response = await youtube.playlists.list({
-        key: config.GOOGLE_API_KEY,
+        key: getConfig().GOOGLE_API_KEY,
         id: playlistIDs.slice(0, 50),
         part: ['snippet', 'status'],
         maxResults: 50,

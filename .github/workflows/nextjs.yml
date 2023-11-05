@@ -1,0 +1,49 @@
+name: Deploy Frontend to AWS CodeDeploy
+
+on:
+  push:
+    branches: ["main"]
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20.9.0"
+      - name: Copy Source
+        uses: actions/checkout@v4
+        with:
+          ref: feature/terraform
+      - name: yarn install
+        run: yarn install
+        working-directory: frontend
+      - name: yarn run next-lint
+        run: yarn run next-lint
+        working-directory: frontend
+      - name: yarn run prettier-lint
+        run: yarn run prettier-lint
+        working-directory: frontend
+      - name: yarn run build
+        run: yarn run build
+        working-directory: frontend
+      - name: AWS CodeDeploy
+        uses: sourcetoad/aws-codedeploy-action@v1
+        with:
+          aws_access_key: ${{ secrets.AWS_SECRET_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+          aws_region: eu-central-1
+          codedeploy_name: frontend
+          codedeploy_group: frontend
+          codedeploy_register_only: false
+          s3_bucket: ${{ secrets.AWS_CODE_DEPLOY_BUCKET }}
+          s3_folder: frontend
+          max_polling_iterations: 0
+          directory: ./

@@ -1,0 +1,20 @@
+version: 0.0
+
+os: linux
+
+files:
+  - source: /frontend/
+    destination: /var/frontend/
+    overwrite: true
+
+file_exists_behavior: OVERWRITE
+
+hooks:
+  BeforeInstall:
+    - location: infra/codedeploy-scripts/before-install.sh
+      timeout: 600
+      runas: root
+  ApplicationStart:
+    - location: infra/codedeploy-scripts/application-start.sh
+      timeout: 600
+      runas: root

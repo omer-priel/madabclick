@@ -1,9 +1,9 @@
 import { google } from 'googleapis';
 
-import { config } from '@/config';
+import { getConfig } from '@/config';
 import { Content, ContentsSchema } from '@/lib/api/schemas';
 import { getYouTubePlaylistsData, getYouTubeVideosData } from '@/lib/api/youTubeData';
-import { LANGUAGES } from '@/translation';
+import { Language } from '@/translation';
 
 interface ContentsMetadata {
   domains: string[];
@@ -16,7 +16,7 @@ interface ContentsMetadata {
   languagesKeys: { [key: string]: string };
 }
 
-function getContentsMetadataFromValues(values: string[][] | null | undefined, locale: string): ContentsMetadata {
+function getContentsMetadataFromValues(values: string[][] | null | undefined, currentLanguage: Language): ContentsMetadata {
   const metadata: ContentsMetadata = {
     domains: [],
     domainsKeys: {},
@@ -29,7 +29,7 @@ function getContentsMetadataFromValues(values: string[][] | null | undefined, lo
   };
 
   let addIndex = 1;
-  switch (locale) {
+  switch (currentLanguage.locale) {
     case 'he':
       addIndex = 1;
       break;
@@ -185,24 +185,24 @@ function getContentsDataFromValues(metadata: ContentsMetadata, values: string[][
   return contents;
 }
 
-export async function getContentsInfo(locale: string): Promise<ContentsSchema> {
+export async function getContentsInfo(currentLanguage: Language): Promise<ContentsSchema> {
   const sheets = google.sheets('v4');
 
-  let metadata = getContentsMetadataFromValues(null, locale);
+  let metadata = getContentsMetadataFromValues(null, currentLanguage);
+  let currentLanguageValue = '';
   let contents: Content[] = [];
-  let currentLanguage = '';
   let recommendedContent = null;
 
   try {
     const translationsResponse = await sheets.spreadsheets.values.get({
-      key: config.GOOGLE_API_KEY,
-      spreadsheetId: config.GOOGLE_SPREADSHEET_ID_CONTENTS,
+      key: getConfig().GOOGLE_API_KEY,
+      spreadsheetId: getConfig().GOOGLE_SPREADSHEET_ID_CONTENTS,
       range: 'translations!A:S',
     });
 
     const contentsResponse = await sheets.spreadsheets.values.get({
-      key: config.GOOGLE_API_KEY,
-      spreadsheetId: config.GOOGLE_SPREADSHEET_ID_CONTENTS,
+      key: getConfig().GOOGLE_API_KEY,
+      spreadsheetId: getConfig().GOOGLE_SPREADSHEET_ID_CONTENTS,
       range: 'contents!A:H',
     });
 
@@ -210,10 +210,10 @@ export async function getContentsInfo(locale: string): Promise<ContentsSchema> {
     const contentsValues = contentsResponse.data.values;
 
     if (translationsValues && contentsValues) {
-      metadata = getContentsMetadataFromValues(translationsValues, locale);
+      metadata = getContentsMetadataFromValues(translationsValues, currentLanguage);
       contents = getContentsDataFromValues(metadata, contentsValues);
 
-      currentLanguage = metadata.languagesKeys[LANGUAGES.filter((language) => language.locale === locale)[0].key];
+      currentLanguageValue = metadata.languagesKeys[currentLanguage.key];
     }
   } catch (err) {
     console.error('Google Sheets API error:', err);
@@ -338,7 +338,7 @@ export async function getContentsInfo(locale: string): Promise<ContentsSchema> {
   }
 
   return {
-    currentLanguage,
+    currentLanguageValue,
 
     domains: metadata.domains,
     ageLevels: metadata.ageLevels,

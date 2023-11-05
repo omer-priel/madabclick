@@ -1,68 +1,64 @@
 import { getTranslator } from 'next-intl/server';
 
+export type LanguageLocale = 'he' | 'en' | 'ar';
+
 export interface Language {
-  locale: 'he' | 'en' | 'ar';
+  locale: LanguageLocale;
   key: string;
   dir: 'ltr' | 'rtl';
-  has: (text: string) => boolean;
 }
 
-export const LANGUAGES: Language[] = [
-  {
+export type Languages = { [key in LanguageLocale]: Language };
+
+export const languages: Languages = {
+  he: {
     locale: 'he',
     key: 'עברית',
     dir: 'rtl',
-    has: (text: string): boolean => {
-      return /[\u0590-\u05FF]/.test(text);
-    },
   },
-  {
+  en: {
     locale: 'en',
     key: 'אנגלית',
     dir: 'ltr',
-    has: (text: string): boolean => {
-      return /[A-Z]/.test(text) || /[a-z]/.test(text);
-    },
   },
-  {
+  ar: {
     locale: 'ar',
     key: 'ערבית',
     dir: 'rtl',
-    has: (text: string): boolean => {
-      return /[\u0600-\u06FF]/.test(text) || /[\u0750-\u077F]/.test(text);
-    },
   },
-];
-
-const gStore = {
-  locale: 'he',
 };
 
-export function setLocale(locale: string): void {
-  gStore.locale = locale;
+const gStore = {
+  language: languages.he,
+};
+
+export function setLanguage(language: Language): void {
+  gStore.language = language;
 }
 
-export function getLocale(): string {
-  return gStore.locale;
+export function getLanguage(): Language {
+  return gStore.language;
+}
+
+export function getLanguages(): Language[] {
+  return Object.values(languages) as Language[];
 }
 
 export async function getTranslation() {
-  return (await getTranslator(gStore.locale)).rich;
-}
-
-export function getLocaleDirection(locale: string): 'ltr' | 'rtl' {
-  const dir = LANGUAGES.find((language) => language.has(locale))?.dir;
-  if (dir) {
-    return dir;
-  }
-
-  return 'rtl';
+  return (await getTranslator(gStore.language.locale)).rich;
 }
 
 export function getTextDirection(text: string): 'ltr' | 'rtl' | null {
-  const dir = LANGUAGES.find((language) => language.has(text))?.dir;
-  if (dir) {
-    return dir;
+  if (/[\u0590-\u05FF]/.test(text)) {
+    return languages.he.dir;
+  }
+
+  if (/[A-Z]/.test(text) || /[a-z]/.test(text)) {
+    return languages.en.dir;
+  }
+
+  if (/[\u0600-\u06FF]/.test(text) || /[\u0750-\u077F]/.test(text)) {
+    return languages.ar.dir;
   }
 
   return null;
