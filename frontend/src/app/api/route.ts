@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 
-import { getConfig } from '@/config';
 import { getContentsInfo } from '@/lib/api/requests';
 import { ContentsSchema } from '@/lib/api/schemas';
 import { LANGUAGES } from '@/translation';
@@ -18,6 +17,5 @@ export async function GET(request: Request) {
 
   return NextResponse.json({
     ...res,
-    getConfig: getConfig(),
   });
 }
