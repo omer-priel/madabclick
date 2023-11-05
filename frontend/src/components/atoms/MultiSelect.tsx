@@ -55,7 +55,7 @@ export default function MultiSelect({ label, options, value, onChange }: Props) 
               width='25'
               height='25'
             />
-            <span className='font-bold text-[0.833vw]/[1.25vw]'>{label}</span>
+            <span className='font-bold text-[16px]/[24px]'>{label}</span>
           </div>
         </div>
         <div
@@ -82,7 +82,7 @@ export default function MultiSelect({ label, options, value, onChange }: Props) 
                   width='18'
                   height='18'
                 />
-                <span className='my-auto text-[0.8333vw]/[1.25vw] font-normal'>{option}</span>
+                <span className='my-auto text-[16px]/[24px] font-normal'>{option}</span>
               </div>
             ))}
           </div>
@@ -94,7 +94,7 @@ export default function MultiSelect({ label, options, value, onChange }: Props) 
               className='flex w-fit h-[1.718vw] mx-[0.416vw] mt-[0.416vw] px-[0.416vw] bg-white
                         rounded-[2.604vw] box-border border-[1px] border-solid border-gray-300'
             >
-              <p className='w-fit h-fit mx-auto my-auto text-right text-[0.8333vw]/[1.25vw] font-normal'>{el}</p>
+              <p className='w-fit h-fit mx-auto my-auto text-right text-[16px]/[24px] font-normal'>{el}</p>
             </div>
           ))}
         </div>

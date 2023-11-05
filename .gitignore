@@ -9,13 +9,13 @@ yarn.lock
 *.tfvars
 *.tfvars.json
 
+# infra
+infra/keys
+
 # env
 .env
 .env.local
 .env.development
-
-# infra
-infra/keys
 
 # frontend
 frontend/out

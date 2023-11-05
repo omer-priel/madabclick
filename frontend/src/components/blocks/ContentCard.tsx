@@ -14,14 +14,14 @@ export default function ContentCard({ content }: Props) {
 
   const links: string[][] = [];
 
-  if (content.youtubeVideo) {
-    links.push([t('link-to-youtube-video'), content.link]);
-
-    if (content.youtubeVideo.playlistId) {
-      links.push([t('link-to-youtube-playlist'), `https://www.youtube.com/playlist?list=${content.youtubeVideo.playlistId}`]);
+  if (content.youtubeVideo || content.youtubePlaylist) {
+    if (content.youtubeVideo) {
+      links.push([t('link-to-youtube-video'), content.link]);
     }
-  } else if (content.youtubePlaylist) {
-    links.push([t('link-to-youtube-playlist'), `https://www.youtube.com/playlist?list=${content.youtubePlaylist.id}`]);
+
+    if (content.youtubePlaylist) {
+      links.push([t('link-to-youtube-playlist'), `https://www.youtube.com/playlist?list=${content.youtubePlaylist.id}`]);
+    }
   } else {
     links.push([t('link-to-website'), content.link]);
   }
@@ -39,7 +39,7 @@ export default function ContentCard({ content }: Props) {
         {contentType == 1 && <YouTubeVideo content={content} />}
         {contentType == 2 && <YouTubePlaylist content={content} />}
       </div>
-      <div className='mt-[0.781vw] text-black text-[0.833vw]/[1.25vw] text-right font-black'>{content.title}</div>
+      <div className='mt-[0.781vw] text-black text-[16px]/[24px] text-right font-black'>{content.title}</div>
     </div>
   );
 }

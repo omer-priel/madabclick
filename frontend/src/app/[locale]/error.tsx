@@ -6,13 +6,11 @@ import { getConfig } from '@/config';
 
 export const revalidate = getConfig().APP_REVALIDATE;
 
-interface PageProps {
+interface Props {
   error: Error & { digest?: string };
   reset: () => void;
-  params?: { locale?: string };
 }
 
-export default function Page({ error, reset, params }: PageProps) {
-  const locale = params?.locale ? params.locale : 'he';
-  return <ErrorPage error={error} reset={reset} locale={locale} />;
+export default function Page({ error, reset }: Props) {
+  return <ErrorPage error={error} reset={reset} locale={document.documentElement.lang} />;
 }

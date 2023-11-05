@@ -36,7 +36,7 @@ export default function YouTubeVideo({ content, overlayText }: Props) {
           {!!overlayText && (
             <div className='absolute w-full h-[5.52vw] bottom-0 left-0 bg-[#04090E]/[.70]'>
               <div className='flex w-full h-full'>
-                <p className='w-fit h-[1.25vw] mx-auto my-auto text-white text-[0.833vw]/[1.25vw] font-black'>{overlayText}</p>
+                <p className='w-fit h-[1.25vw] mx-auto my-auto text-white text-[16px]/[24px] font-black'>{overlayText}</p>
               </div>
             </div>
           )}
@@ -45,7 +45,11 @@ export default function YouTubeVideo({ content, overlayText }: Props) {
         <iframe
           className='absolute inset-0 w-full h-full'
           title={content.title}
-          src={`https://www.youtube.com/embed/${content.youtubeVideo.id}?autoplay=1`}
+          src={
+            content.youtubePlaylist
+              ? `https://www.youtube.com/embed/${content.youtubeVideo.id}?list=${content.youtubePlaylist.id}&autoplay=1`
+              : `https://www.youtube.com/embed/${content.youtubeVideo.id}?autoplay=1`
+          }
           allow='autoplay'
           allowFullScreen
         ></iframe>

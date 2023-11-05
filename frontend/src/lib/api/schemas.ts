@@ -1,3 +1,9 @@
+interface Thumbnail {
+  url: string;
+  width: number | null;
+  height: number | null;
+}
+
 export interface Content {
   index: number;
 
@@ -11,28 +17,24 @@ export interface Content {
 
   title: string; // will be displayed
 
+  allowed: boolean;
+  notAllowedReason: string;
+
   youtubeVideo: {
     id: string;
-    playlistId: string | null;
+    loaded: boolean;
     title: string | null;
     description: string | null;
 
-    thumbnail: {
-      url: string;
-      width: number | null;
-      height: number | null;
-    };
+    thumbnail: Thumbnail;
   } | null;
   youtubePlaylist: {
     id: string;
+    loaded: boolean;
     title: string | null;
     description: string | null;
 
-    thumbnail: {
-      url: string;
-      width: number | null;
-      height: number | null;
-    } | null;
+    thumbnail: Thumbnail | null;
   } | null;
 }
 
@@ -44,8 +46,12 @@ export interface ContentsSchema {
   durations: string[];
   languages: string[];
 
+  contentsFromDBTotal: number;
   contentsTotal: number;
+  notAllowedContentsTotal: number;
 
   recommendedContent: Content | null;
   contents: Content[];
+
+  notAllowedContents: Content[];
 }

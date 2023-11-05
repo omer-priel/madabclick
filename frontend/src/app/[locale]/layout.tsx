@@ -48,7 +48,7 @@ export default async function RootLayout({ children, params: { locale } }: Props
           <link href='https://fonts.googleapis.com/css?family=Poppins&display=optional' rel='stylesheet' />
         }
       </head>
-      <body className='text-left'>
+      <body className='ltr:text-right rtl:text-left'>
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
         </NextIntlClientProvider>

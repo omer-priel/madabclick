@@ -96,6 +96,9 @@ function getContent(
 
     title: name,
 
+    allowed: true,
+    notAllowedReason: '',
+
     youtubeVideo: null,
     youtubePlaylist: null,
   };
@@ -126,7 +129,7 @@ function getContent(
     if (videoID) {
       content.youtubeVideo = {
         id: videoID,
-        playlistId: playlistID,
+        loaded: false,
         title: null,
         description: null,
         thumbnail: {
@@ -135,13 +138,20 @@ function getContent(
           height: null,
         },
       };
-    } else if (playlistID) {
+    }
+
+    if (playlistID) {
       content.youtubePlaylist = {
         id: playlistID,
+        loaded: false,
         title: null,
         description: null,
         thumbnail: null,
       };
+
+      if (content.youtubeVideo) {
+        content.youtubePlaylist.thumbnail = content.youtubeVideo.thumbnail;
+      }
     }
   }
 
@@ -209,50 +219,118 @@ export async function getContentsInfo(locale: string): Promise<ContentsSchema> {
     console.error('Google Sheets API error:', err);
   }
 
-  const mapVideos = Object.fromEntries(
-    contents
-      .filter((content) => content.youtubeVideo !== null)
-      .map((content) => [content.youtubeVideo !== null ? content.youtubeVideo.id : null, content.index])
-  );
+  const mapVideos: { [id: string]: number[] } = {};
+  const mapPlaylists: { [id: string]: number[] } = {};
 
-  const mapPlaylists = Object.fromEntries(
-    contents
-      .filter((content) => content.youtubePlaylist !== null)
-      .map((content) => [content.youtubePlaylist !== null ? content.youtubePlaylist.id : null, content.index])
-  );
+  contents.forEach((content, index) => {
+    if (content.youtubeVideo) {
+      if (mapVideos.hasOwnProperty(content.youtubeVideo.id)) {
+        mapVideos[content.youtubeVideo.id].push(index);
+      } else {
+        mapVideos[content.youtubeVideo.id] = [index];
+      }
+    }
+
+    if (content.youtubePlaylist) {
+      if (mapPlaylists.hasOwnProperty(content.youtubePlaylist.id)) {
+        mapPlaylists[content.youtubePlaylist.id].push(index);
+      } else {
+        mapPlaylists[content.youtubePlaylist.id] = [index];
+      }
+    }
+  });
 
   const videosData = await getYouTubeVideosData(Object.keys(mapVideos));
   const playlistsData = await getYouTubePlaylistsData(Object.keys(mapPlaylists));
 
   Object.keys(videosData).forEach((videoID) => {
-    const content = contents[mapVideos[videoID]];
-    if (content.youtubeVideo) {
-      content.youtubeVideo = {
-        ...content.youtubeVideo,
-        ...videosData[videoID],
-      };
+    mapVideos[videoID].forEach((contentIndex) => {
+      const content = contents[contentIndex];
+      const data = videosData[videoID];
 
-      if (content.youtubeVideo.title) {
-        content.title = content.youtubeVideo.title;
+      if (content.youtubeVideo) {
+        content.youtubeVideo.loaded = true;
       }
-    }
+
+      if (!content.allowed) {
+        return;
+      }
+
+      if (data.allowd === false) {
+        content.allowed = false;
+        content.notAllowedReason = data.notAllowedReason;
+        return;
+      }
+
+      if (content.youtubeVideo) {
+        content.youtubeVideo.title = data.title;
+        content.youtubeVideo.description = data.description;
+
+        if (data.thumbnail) {
+          content.youtubeVideo.thumbnail = data.thumbnail;
+        }
+
+        if (content.youtubeVideo.title) {
+          content.title = content.youtubeVideo.title;
+        }
+      }
+    });
   });
 
   Object.keys(playlistsData).forEach((playlistID) => {
-    const content = contents[mapPlaylists[playlistID]];
-    if (content.youtubePlaylist) {
-      content.youtubePlaylist = {
-        ...content.youtubePlaylist,
-        ...playlistsData[playlistID],
-      };
+    mapPlaylists[playlistID].forEach((contentIndex) => {
+      const content = contents[contentIndex];
+      const data = playlistsData[playlistID];
 
-      if (content.youtubePlaylist.title) {
-        content.title = content.youtubePlaylist.title;
+      if (content.youtubePlaylist) {
+        content.youtubePlaylist.loaded = true;
+      }
+
+      if (!content.allowed) {
+        return;
+      }
+
+      if (data.allowd === false) {
+        content.allowed = false;
+        content.notAllowedReason = data.notAllowedReason;
+        return;
+      }
+
+      if (content.youtubePlaylist) {
+        content.youtubePlaylist.title = data.title;
+        content.youtubePlaylist.description = data.description;
+
+        if (data.thumbnail) {
+          content.youtubePlaylist.thumbnail = data.thumbnail;
+        }
+
+        if (content.youtubePlaylist.title) {
+          content.title = content.youtubePlaylist.title;
+        }
+
+        if (content.youtubePlaylist.title) {
+          content.title = content.youtubePlaylist.title;
+        }
+      }
+    });
+  });
+
+  contents.forEach((content) => {
+    if (content.allowed) {
+      if (content.youtubeVideo && !content.youtubeVideo.loaded) {
+        content.allowed = false;
+        content.notAllowedReason = 'Need response from Google YouTube Data API about the video';
+      } else if (content.youtubePlaylist && !content.youtubePlaylist.loaded) {
+        content.allowed = false;
+        content.notAllowedReason = 'Need response from Google YouTube Data API about the playlist';
       }
     }
   });
 
-  const recommendedContents = contents.filter((content) => content.recommended);
+  const allowedContents = contents.filter((content) => content.allowed);
+  const notAllowedContents = contents.filter((content) => !content.allowed);
+
+  const recommendedContents = allowedContents.filter((content) => content.recommended);
 
   if (recommendedContents.length > 0) {
     const recommendedIndex = Math.floor(Math.random() * recommendedContents.length);
@@ -267,10 +345,14 @@ export async function getContentsInfo(locale: string): Promise<ContentsSchema> {
     durations: metadata.durations,
     languages: metadata.languages,
 
-    contentsTotal: contents.length,
+    contentsFromDBTotal: contents.length,
+    contentsTotal: allowedContents.length,
+    notAllowedContentsTotal: notAllowedContents.length,
 
     recommendedContent,
 
-    contents,
+    contents: allowedContents,
+
+    notAllowedContents: notAllowedContents,
   };
 }
