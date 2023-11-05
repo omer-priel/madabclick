@@ -24,7 +24,8 @@ flowchart TD
   
   GA --> Amplify
 ```
-Using Full AWS Infrastructure
+
+AWS Infrastructure
 
 ```mermaid
 flowchart TB
@@ -32,9 +33,11 @@ flowchart TB
     PR[Pull Request / Push] --> GA[GitHub Actions] --> GInstall[Install] --> GLint[Lint] --> GBuild[Build] 
   end
 
-  ClientRequest[Client HTTP Request] --> Domain --> NLB
+  GBuild --> CodeDeploy
 
-  subgraph AWS
+  ClientRequest[Client HTTP Request] --> Domain --> ALB
+
+  subgraph AWS 
     subgraph Image Building
       subgraph BuildInstance
         ImageComponentBuild[Component Build Step]
@@ -45,19 +48,27 @@ flowchart TB
       ImageComponentBuild --> ImageComponentTest --> Image
     end
 
-    CodeDeploy[CodeDeploy Deployment Group] --> Deployment[CodeDeploy Deployment] --> EC2[Group of EC2 instances]
+    ALB[Appliction Load Balancer]
+    ASG[Auto Scalling Group]
+    EC2[Group of EC2 instances]
+
     Image --> LT[Lanch Template]
-    ASG[Auto Scalling Group] --> LT ---> EC2
-    ASG --> Deployment
-    NLB[Network Load Balancer] --> ALB[Appliction Load Balancer] --> EC2
-    ALB <--> ASG
-    SG[Security Group] --> EC2
-  end
     
-  GBuild --> CodeDeploy
+    ASG --> LT --> EC2
+
+    ALB --> EC2
+
+    CodeDeploy[CodeDeploy Deployment Group] --> Deployment[CodeDeploy Deployment] --> EC2
+
+    ASG --> Deployment
+
+    ASG <--> EC2
+  end
+
+  EC2 --> GoogleAPI[Google API]    
 ```
 
-Using Full AWS Networking Infrastructure
+AWS Networking Infrastructure
 
 ```mermaid
 flowchart TB
