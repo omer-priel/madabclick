@@ -2,9 +2,9 @@
 
 import ErrorPage from '@/components/pages/ErrorPage';
 
-import { config } from '@/config';
+import { getConfig } from '@/config';
 
-export const revalidate = config.APP_REVALIDATE;
+export const revalidate = getConfig().APP_REVALIDATE;
 
 interface PageProps {
   error: Error & { digest?: string };

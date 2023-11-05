@@ -1,8 +1,8 @@
 import LoadingPage from '@/components/pages/LoadingPage';
 
-import { config } from '@/config';
+import { getConfig } from '@/config';
 
-export const revalidate = config.APP_REVALIDATE;
+export const revalidate = getConfig().APP_REVALIDATE;
 
 interface PageProps {
   params?: { locale?: string };
