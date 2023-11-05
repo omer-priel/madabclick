@@ -99,8 +99,7 @@ function getContent(
     allowed: true,
     notAllowedReason: '',
 
-    youtubeVideo: null,
-    youtubePlaylist: null,
+    youtube: null,
   };
 
   if (link.startsWith('https://youtu.be/')) {
@@ -108,16 +107,14 @@ function getContent(
     content.link = link = 'https://www.youtube.com/watch?v=' + videoID;
   }
 
-  if (link.startsWith('https://www.youtube.com/')) {
+  if (link.startsWith('https://www.youtube.com/watch?')) {
     let videoID = null;
     let playlistID = null;
 
-    if (link.startsWith('https://www.youtube.com/watch?')) {
-      if (content.link.includes('?v=')) {
-        videoID = content.link.split('?v=')[1].split('&')[0];
-      } else {
-        videoID = content.link.split('&v=')[1].split('&')[0];
-      }
+    if (content.link.includes('?v=')) {
+      videoID = content.link.split('?v=')[1].split('&')[0];
+    } else {
+      videoID = content.link.split('&v=')[1].split('&')[0];
     }
 
     if (content.link.includes('?list=')) {
@@ -127,7 +124,7 @@ function getContent(
     }
 
     if (videoID) {
-      content.youtubeVideo = {
+      content.youtube = {
         id: videoID,
         loaded: false,
         title: null,
@@ -137,20 +134,17 @@ function getContent(
           width: null,
           height: null,
         },
-      };
-    }
-
-    if (playlistID) {
-      content.youtubePlaylist = {
-        id: playlistID,
-        loaded: false,
-        title: null,
-        description: null,
-        thumbnail: null,
+        playlist: null,
       };
 
-      if (content.youtubeVideo) {
-        content.youtubePlaylist.thumbnail = content.youtubeVideo.thumbnail;
+      if (playlistID) {
+        content.youtube.playlist = {
+          id: playlistID,
+          loaded: false,
+          title: null,
+          description: null,
+          thumbnail: null,
+        };
       }
     }
   }
@@ -223,19 +217,19 @@ export async function getContentsInfo(currentLanguage: Language): Promise<Conten
   const mapPlaylists: { [id: string]: number[] } = {};
 
   contents.forEach((content, index) => {
-    if (content.youtubeVideo) {
-      if (mapVideos.hasOwnProperty(content.youtubeVideo.id)) {
-        mapVideos[content.youtubeVideo.id].push(index);
+    if (content.youtube) {
+      if (mapVideos.hasOwnProperty(content.youtube.id)) {
+        mapVideos[content.youtube.id].push(index);
       } else {
-        mapVideos[content.youtubeVideo.id] = [index];
+        mapVideos[content.youtube.id] = [index];
       }
-    }
 
-    if (content.youtubePlaylist) {
-      if (mapPlaylists.hasOwnProperty(content.youtubePlaylist.id)) {
-        mapPlaylists[content.youtubePlaylist.id].push(index);
-      } else {
-        mapPlaylists[content.youtubePlaylist.id] = [index];
+      if (content.youtube.playlist) {
+        if (mapPlaylists.hasOwnProperty(content.youtube.playlist.id)) {
+          mapPlaylists[content.youtube.playlist.id].push(index);
+        } else {
+          mapPlaylists[content.youtube.playlist.id] = [index];
+        }
       }
     }
   });
@@ -248,30 +242,32 @@ export async function getContentsInfo(currentLanguage: Language): Promise<Conten
       const content = contents[contentIndex];
       const data = videosData[videoID];
 
-      if (content.youtubeVideo) {
-        content.youtubeVideo.loaded = true;
+      if (!content.youtube) {
+        return;
       }
+
+      content.youtube.loaded = true;
 
       if (!content.allowed) {
         return;
       }
 
-      if (data.allowd === false) {
+      if (!data.allowd) {
         content.allowed = false;
         content.notAllowedReason = data.notAllowedReason;
         return;
       }
 
-      if (content.youtubeVideo) {
-        content.youtubeVideo.title = data.title;
-        content.youtubeVideo.description = data.description;
+      if (content.youtube) {
+        content.youtube.title = data.title;
+        content.youtube.description = data.description;
 
         if (data.thumbnail) {
-          content.youtubeVideo.thumbnail = data.thumbnail;
+          content.youtube.thumbnail = data.thumbnail;
         }
 
-        if (content.youtubeVideo.title) {
-          content.title = content.youtubeVideo.title;
+        if (content.youtube.title) {
+          content.title = content.youtube.title;
         }
       }
     });
@@ -282,45 +278,37 @@ export async function getContentsInfo(currentLanguage: Language): Promise<Conten
       const content = contents[contentIndex];
       const data = playlistsData[playlistID];
 
-      if (content.youtubePlaylist) {
-        content.youtubePlaylist.loaded = true;
+      if (!content.youtube?.playlist) {
+        return;
       }
+
+      content.youtube.playlist.loaded = true;
 
       if (!content.allowed) {
         return;
       }
 
-      if (data.allowd === false) {
+      if (!data.allowd) {
         content.allowed = false;
         content.notAllowedReason = data.notAllowedReason;
         return;
       }
 
-      if (content.youtubePlaylist) {
-        content.youtubePlaylist.title = data.title;
-        content.youtubePlaylist.description = data.description;
+      content.youtube.playlist.title = data.title;
+      content.youtube.playlist.description = data.description;
 
-        if (data.thumbnail) {
-          content.youtubePlaylist.thumbnail = data.thumbnail;
-        }
-
-        if (content.youtubePlaylist.title) {
-          content.title = content.youtubePlaylist.title;
-        }
-
-        if (content.youtubePlaylist.title) {
-          content.title = content.youtubePlaylist.title;
-        }
+      if (data.thumbnail) {
+        content.youtube.playlist.thumbnail = data.thumbnail;
       }
     });
   });
 
   contents.forEach((content) => {
     if (content.allowed) {
-      if (content.youtubeVideo && !content.youtubeVideo.loaded) {
+      if (content.youtube && !content.youtube.loaded) {
         content.allowed = false;
         content.notAllowedReason = 'Need response from Google YouTube Data API about the video';
-      } else if (content.youtubePlaylist && !content.youtubePlaylist.loaded) {
+      } else if (content.youtube?.playlist && !content.youtube.playlist.loaded) {
         content.allowed = false;
         content.notAllowedReason = 'Need response from Google YouTube Data API about the playlist';
       }
