@@ -13,20 +13,21 @@ import RecommendedContentCard from '@/components/blocks/RecommendedContentCard';
 import Section1 from '@/components/blocks/Section1';
 
 import { Content, ContentsSchema } from '@/lib/api/schemas';
+import { Language } from '@/translation';
 
 interface Props {
   data: ContentsSchema;
-  locale: string;
+  currentLanguage: Language;
 }
 
-export default function HomePage({ data, locale }: Props) {
-  const { currentLanguage, languages, domains, ageLevels, durations, recommendedContent, contents } = data;
+export default function HomePage({ data, currentLanguage }: Props) {
+  const { currentLanguageValue, languages, domains, ageLevels, durations, recommendedContent, contents } = data;
 
   const t = useTranslations();
 
   const [selectedAgeLevels, setSelectedAgeLevels] = useState<string[]>([]);
   const [selectedDurations, setSelectedDurations] = useState<string[]>([]);
-  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([currentLanguage]);
+  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([currentLanguageValue]);
   const [searchText, setSearchText] = useState<string>('');
 
   const searchValue = searchText.trim().length > 2 ? searchText.trim().toLowerCase() : '';
@@ -42,7 +43,7 @@ export default function HomePage({ data, locale }: Props) {
 
   return (
     <div className='relative w-full mx-auto overflow-x-hidden overflow-y-hidden bg-whitesmoke text-base text-black font-poppins'>
-      <Header locale={locale} />
+      <Header currentLanguage={currentLanguage} />
       <Section1 />
       <div className='relative w-full h-[68.177vw] bg-[#F1F1F1]'>
         <div className='absolute w-[51.041vw] right-[20.156vw] top-[6.041vw]'>

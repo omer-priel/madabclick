@@ -39,7 +39,7 @@ export interface Content {
 }
 
 export interface ContentsSchema {
-  currentLanguage: string;
+  currentLanguageValue: string;
 
   domains: string[];
   ageLevels: string[];

@@ -1,8 +1,9 @@
 import { ReactNode } from 'react';
 
 import { NextIntlClientProvider } from 'next-intl';
+import { redirect } from 'next/navigation';
 
-import { LANGUAGES, getTranslation, setLocale } from '@/translation';
+import { getLanguages, getTranslation, setLanguage } from '@/translation';
 
 import '@/styles/globals.css';
 
@@ -17,7 +18,11 @@ interface Props extends PageProps {
 }
 
 export async function generateMetadata({ params }: PageProps) {
-  setLocale(params.locale);
+  const language = getLanguages().find((lang) => lang.locale == params.locale);
+
+  if (language) {
+    setLanguage(language);
+  }
 
   const t = await getTranslation();
 
@@ -27,21 +32,19 @@ export async function generateMetadata({ params }: PageProps) {
   };
 }
 
-export function generateStaticParams() {
-  return Array.from(
-    LANGUAGES.map((language) => {
-      return { locale: language.locale };
-    })
-  );
-}
-
 export default async function RootLayout({ children, params: { locale } }: Props) {
-  const messages = (await import(`@/messages/${locale}.json`)).default;
+  const language = getLanguages().find((lang) => lang.locale == locale);
 
-  setLocale(locale);
+  if (!language) {
+    redirect('/he');
+  }
+
+  const messages = (await import(`@/messages/${language.locale}.json`)).default;
+
+  setLanguage(language);
 
   return (
-    <html lang={locale} dir={LANGUAGES.find((language) => language.locale == locale)?.dir}>
+    <html lang={language.locale} dir={language.dir}>
       <head>
         {
           // eslint-disable-next-line @next/next/no-page-custom-font
@@ -49,7 +52,7 @@ export default async function RootLayout({ children, params: { locale } }: Props
         }
       </head>
       <body className='ltr:text-right rtl:text-left'>
-        <NextIntlClientProvider locale={locale} messages={messages}>
+        <NextIntlClientProvider locale={language.locale} messages={messages}>
           {children}
         </NextIntlClientProvider>
       </body>
