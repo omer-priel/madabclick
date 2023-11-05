@@ -16,9 +16,11 @@
 
   "section-contents-title": "סרטונים בקליק",
 
-  "all": "הכל",
-
   "search": "מה מסקרן אותך היום?",
+
+  "section-contents-filters-label": "בחירת ההעדפות שלכם",
+
+  "all": "הכל",
 
   "filter-age-level": "באיזו כיתה אתם?",
   "filter-duration": "כמה דקות תוכלו להתרכז?",

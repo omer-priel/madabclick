@@ -38,31 +38,25 @@ export default function SectionContents({ data }: Props) {
   };
 
   return (
-    <div className='relative w-full h-fit' style={{ background: 'linear-gradient(180deg, #088EB8 56%, #04C2FF 100%)' }}>
-      <div className='w-[31.25vw] mx-auto pt-[6.458vw]'>
+    <div className='relative w-full h-fit pt-[6.458vw]' style={{ background: 'linear-gradient(180deg, #088EB8 56%, #04C2FF 100%)' }}>
+      <div className='w-[31.25vw] mx-auto'>
         <SearchBox placeholder={t('search')} value={searchText} onChange={setSearchText} />
       </div>
-      <div className='w-fit h-fit mx-auto pt-[4.27vw]'>
+      <div className='w-fit h-fit mx-auto mt-[4.27vw]'>
         <Image className='w-[114px] h-[80px]' alt='' src='/cat-3.svg' width='114' height='80' />
       </div>
       <div className='relative w-fit h-[60px] top-[-20px] mx-auto text-white text-[40px]/[60px] text-right font-black'>
         {t('section-contents-title')}
       </div>
-      <div className='w-fit h-[60px] mx-auto text-white text-[40px]/[60px] text-right font-black'>
-         ש
-      </div>
-      {/* <div className='w-full mt-[4.218vw]'>
-        <div className='w-fit h-[3.125vw] mx-auto text-black text-[40px]/[60px] text-right font-black'>
-          {t('contents-section-title')}
-          <div className='w-[3.125vw] h-[0.416vw] mx-auto mt-[1.093vw] bg-[#81B826]' />
-        </div>
-      </div>
-      <div className='w-full mt-[3.593vw]'>
+      <div className='w-full mt-[36px]'>
         <div className='flex w-fit mx-auto'>
-          <div className='w-fit ml-[3.437vw]'>
+          <div className='w-fit ml-[34px] text-white text-[16px]/[24px] text-right font-light'>
+            {t('section-contents-filters-label')}
+          </div>
+          <div className='w-fit ml-[34px]'>
             <MultiSelect label={t('filter-age-level')} options={ageLevels} value={selectedAgeLevels} onChange={setSelectedAgeLevels} />
           </div>
-          <div className='w-fit ml-[3.437vw]'>
+          <div className='w-fit ml-[34px]'>
             <MultiSelect label={t('filter-duration')} options={durations} value={selectedDurations} onChange={setSelectedDurations} />
           </div>
           <div className='w-fit'>
