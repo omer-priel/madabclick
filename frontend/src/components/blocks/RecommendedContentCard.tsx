@@ -29,9 +29,11 @@ export default function RecommendedContentCard({ content }: Props) {
   }
 
   return (
-    <div className='relative w-[38.125vw] h-[24.583vw]'>
-      <div className='absolute w-[38.125vw] h-[21.145vw] right-0 top-0'>{contentType == 1 && <YouTubeVideo content={content} />}</div>
-      <div className='absolute w-[38.125vw] h-[36px] right-0 bottom-0 text-white text-[24px]/[36px] text-right font-black'>
+    <div className='w-fit h-fit'>
+      <div className='w-[732px] h-[406px]'>
+        {contentType == 1 && <YouTubeVideo content={content} width={732} height={406} />}
+      </div>
+      <div className='w-[732px] h-[36px] mt-[30px] text-white text-[24px]/[36px] text-right font-black'>
         {content.title}
       </div>
     </div>

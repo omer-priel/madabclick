@@ -6,57 +6,90 @@ import Image from 'next/image';
 import YouTube from 'react-youtube';
 
 import { Content } from '@/lib/api/schemas';
+import { getActive, setActive, clearActive } from '@/playersManager';
 
 interface Props {
   content: Content;
-  overlayText?: string | null;
+  width: number;
+  height: number;
 }
 
-export default function YouTubeVideo({ content, overlayText }: Props) {
+export default function YouTubeVideo({ content, width, height }: Props) {
   const [show, setShow] = useState(false);
 
   if (!content.youtube) {
     return <></>;
   }
 
+  // autoplay: 1,
+  const playerVars: any = {
+    width,
+    height,
+    enablejsapi: 1,
+    origin: null
+  };
+
+  if (content.youtube.playlist) {
+    playerVars.list = content.youtube.playlist.id;
+  }
+
   return (
-    <>
+    <div style={{ width: `${width}px`, height: `${height}px` }}>
       {!show ? (
-        <button type='button' onClick={() => setShow(true)}>
+        <button className='w-full h-full bg-transparent' type='button' onClick={() => setShow(true)}>
           {content.youtube.thumbnail.width && content.youtube.thumbnail.height ? (
             <Image
-              className='absolute inset-0 w-full h-full rounded-[10px]'
+              className='w-full h-full rounded-[10px]'
               src={content.youtube.thumbnail.url}
               alt={content.title}
               width={content.youtube.thumbnail.width}
               height={content.youtube.thumbnail.height}
             />
           ) : (
-            <Image className='absolute inset-0 w-full h-full rounded-[10px]' src={content.youtube.thumbnail.url} alt={content.title} fill />
-          )}
-          {!!overlayText && (
-            <div className='absolute w-full h-[5.52vw] bottom-0 left-0 bg-[#04090E]/[.70]'>
-              <div className='flex w-full h-full'>
-                <p className='w-fit h-[1.25vw] mx-auto my-auto text-white text-[16px]/[24px] font-black'>{overlayText}</p>
-              </div>
-            </div>
+            <Image className='w-full h-full rounded-[10px]' src={content.youtube.thumbnail.url} alt={content.title} fill />
           )}
         </button>
-      ) : content.youtube.playlist ? (
-        <YouTube
-          iframeClassName='absolute inset-0 w-full h-full rounded-[10px]'
-          title={content.title}
-          videoId={content.youtube.id}
-          opts={{ playerVars: { autoplay: 1 } }}
-        />
       ) : (
         <YouTube
-          iframeClassName='absolute inset-0 w-full h-full rounded-[10px]'
-          title={content.title}
-          videoId={content.youtube.id}
-          opts={{ playerVars: { autoplay: 1 } }}
-        />
+        className='w-full h-full rounded-[10px] bg-transparent'
+        iframeClassName='w-full h-full rounded-[10px]'
+        title={content.title}
+        videoId={content.youtube.id}
+        opts={{ playerVars }}
+        onReady={(e) => {
+          e.target.playVideo();
+        }}
+        onPlay={(e) => {
+          const last = getActive();
+          if (last.activePlayer && last.activeContentIndex != content.index) {
+            last.activePlayer.stopVideo();
+          }
+
+          setActive(e.target, content.index);
+        }}
+        onPause={(e) => {
+          clearActive();
+        }}
+        onEnd={(e) => {
+          setShow(false);
+        }}
+        onStateChange={(e) => {
+          // start new video
+          if (e.data === 1) {
+            if (e.target.getVideoData().video_id == content.youtube?.id) {
+              return;
+            }
+            if (e.target.getPlaylistId() == content.youtube?.playlist?.id) {
+              return;
+            }
+
+            e.target.stopVideo();
+            clearActive();
+            setShow(false);
+          }
+        }}
+      />
       )}
-    </>
+    </div>
   );
 }

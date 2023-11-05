@@ -47,14 +47,15 @@ export default function Section2({ recommendedContent }: Props) {
               width='1435'
               height='712'
             />
-            <div
-              className='absolute w-[287px] h-[60px] right-[29.895vw] top-[3.697vw]
-          text-white text-[40px]/[60px] text-right font-black'
-            >
-              {t('section-2-recommended-label')}
+            <div className='absolute w-full h-[60px] top-[3.697vw]'>
+              <div className='w-fit h-fit mx-auto text-white text-[40px]/[60px] text-right font-black'>
+                {t('section-2-recommended-label')}
+              </div>
             </div>
-            <div className='absolute w-[38.125vw] h-[21.145vw] right-[18.307vw] top-[7.968vw]'>
-              <RecommendedContentCard content={recommendedContent} />
+            <div className='absolute w-full top-[7.968vw]'>
+              <div className='w-fit h-fit mx-auto text-white text-[40px]/[60px] text-right font-black'>
+                <RecommendedContentCard content={recommendedContent} />
+              </div>
             </div>
           </div>
         </div>
