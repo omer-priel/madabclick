@@ -1,9 +1,9 @@
 import HomePage from '@/components/pages/HomePage';
 
-import { config } from '@/config';
+import { getConfig } from '@/config';
 import { getContentsInfo } from '@/lib/api/requests';
 
-export const revalidate = config.APP_REVALIDATE;
+export const revalidate = getConfig().APP_REVALIDATE;
 
 interface PageProps {
   params: { locale: string };

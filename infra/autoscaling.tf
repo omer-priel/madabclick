@@ -30,7 +30,7 @@ resource "aws_launch_template" "frontend" {
     delete_on_termination = true
   }
 
-  user_data = base64encode(templatefile("../scripts/aws/user_data.sh.tftpl", {}))
+  user_data = base64encode(templatefile("./tf-templates/user_data.sh.tftpl", {}))
 }
 
 resource "aws_autoscaling_group" "frontend" {

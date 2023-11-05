@@ -11,10 +11,10 @@ file_exists_behavior: OVERWRITE
 
 hooks:
   BeforeInstall:
-    - location: scripts/aws/before-install.sh
+    - location: infra/codedeploy-scripts/before-install.sh
       timeout: 600
       runas: root
   ApplicationStart:
-    - location: scripts/aws/application-start.sh
+    - location: infra/codedeploy-scripts/application-start.sh
       timeout: 600
       runas: root

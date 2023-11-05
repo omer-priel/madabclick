@@ -40,11 +40,13 @@ export default async function RootLayout({ children, params: { locale } }: Props
 
   setLocale(locale);
 
-  // render layout
   return (
     <html lang={locale} dir={LANGUAGES.find((language) => language.locale == locale)?.dir}>
       <head>
-        <link href='https://fonts.googleapis.com/css?family=Poppins&display=optional' rel='stylesheet' />
+        {
+          // eslint-disable-next-line @next/next/no-page-custom-font
+          <link href='https://fonts.googleapis.com/css?family=Poppins&display=optional' rel='stylesheet' />
+        }
       </head>
       <body className='text-left'>
         <NextIntlClientProvider locale={locale} messages={messages}>

@@ -1,6 +1,6 @@
 import { google } from 'googleapis';
 
-import { config } from '@/config';
+import { getConfig } from '@/config';
 import { Content, ContentsSchema } from '@/lib/api/schemas';
 import { getYouTubePlaylistsData, getYouTubeVideosData } from '@/lib/api/youTubeData';
 import { LANGUAGES } from '@/translation';
@@ -185,14 +185,14 @@ export async function getContentsInfo(locale: string): Promise<ContentsSchema> {
 
   try {
     const translationsResponse = await sheets.spreadsheets.values.get({
-      key: config.GOOGLE_API_KEY,
-      spreadsheetId: config.GOOGLE_SPREADSHEET_ID_CONTENTS,
+      key: getConfig().GOOGLE_API_KEY,
+      spreadsheetId: getConfig().GOOGLE_SPREADSHEET_ID_CONTENTS,
       range: 'translations!A:S',
     });
 
     const contentsResponse = await sheets.spreadsheets.values.get({
-      key: config.GOOGLE_API_KEY,
-      spreadsheetId: config.GOOGLE_SPREADSHEET_ID_CONTENTS,
+      key: getConfig().GOOGLE_API_KEY,
+      spreadsheetId: getConfig().GOOGLE_SPREADSHEET_ID_CONTENTS,
       range: 'contents!A:H',
     });
 

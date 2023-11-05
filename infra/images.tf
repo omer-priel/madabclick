@@ -11,7 +11,7 @@ resource "aws_imagebuilder_component" "frontend" {
         name   = "image-component-build"
         action = "ExecuteBash"
         inputs = {
-          commands = split("\n", chomp(templatefile("../scripts/aws/image-component-build.sh.tftpl", {
+          commands = split("\n", chomp(templatefile("./tf-templates/image-component-build.sh.tftpl", {
             aws_region = var.aws_region
           })))
         }
