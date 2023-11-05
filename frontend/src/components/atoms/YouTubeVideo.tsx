@@ -47,7 +47,7 @@ export default function YouTubeVideo({ content, overlayText }: Props) {
           iframeClassName='absolute inset-0 w-full h-full rounded-[10px]'
           title={content.title}
           videoId={content.youtube.id}
-          opts={{ playerVars: { autoplay: 1, list: content.youtube.playlist.id } }}
+          opts={{ playerVars: { autoplay: 1 } }}
         />
       ) : (
         <YouTube

@@ -9,7 +9,7 @@ export default function Section1() {
   return (
     <div className='relative w-full h-[50vw] min-w-[850px] min-h-[730px]'>
       <Image
-        className='absolute z-0 w-full h-full left-0 top-0 object-cover'
+        className='absolute z-0 w-auto h-auto left-0 top-0 object-cover'
         alt=''
         src='/section-1-background.png'
         width='1920'
