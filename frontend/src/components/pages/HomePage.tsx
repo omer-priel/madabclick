@@ -55,7 +55,7 @@ export default function HomePage({ data, currentLanguage }: Props) {
               width='120'
               height='180'
             />
-            <div className='absolute w-[200px] h-[60px] right-[183px] top-[0px] text-black text-[40px]/[60px] text-right font-black	'>
+            <div className='absolute w-[200px] h-[60px] right-[183px] top-[0px] text-black text-[40px]/[60px] text-right font-black'>
               {t('section-2-title')}
             </div>
             <div className='absolute w-[732px] h-[150px] right-[183px] top-[71px] text-black text-[20px]/[30px] text-right font-normal'>
@@ -63,6 +63,41 @@ export default function HomePage({ data, currentLanguage }: Props) {
             </div>
           </div>
         </div>
+        {!!recommendedContent && (
+          <div className='absolute w-[74.739vw] h-[37.083vw] right-[12.708vw] top-[24.427vw]'>
+            <div className='relative'>
+              <div
+                className='absolute w-[74.739vw] h-[37.083vw] right-[-1.041vw] top-[-1.041vw] object-cover
+              bg-[#088EB8] border-[1.041vw] border-[#088EB8] border-solid rounded-[0.52vw]'
+              ></div>
+              <Image
+                className='absolute w-[74.739vw] h-[37.083vw] right-0 top-0 object-cover'
+                alt=''
+                src='/recommended-background.svg'
+                width='1435'
+                height='712'
+              />
+              <div
+                className='absolute w-[287px] h-[60px] right-[29.895vw] top-[3.697vw]
+              text-white text-[40px]/[60px] text-right font-black'
+              >
+                {t('recommended-label')}
+              </div>
+              <div className='absolute w-[38.125vw] h-[21.145vw] right-[18.307vw] top-[7.968vw]'>
+                <RecommendedContentCard content={recommendedContent} />
+              </div>
+            </div>
+          </div>
+        )}
+        {!!recommendedContent && (
+          <Image
+            className='absolute w-[10.677vw] h-[4.166vw] right-[75.468vw] top-[19.791vw]'
+            alt=''
+            src='/cat-2.svg'
+            width='205'
+            height='80'
+          />
+        )}
       </div>
       <div className='relative w-full h-[52.76vw]'>
         <Image
@@ -76,10 +111,6 @@ export default function HomePage({ data, currentLanguage }: Props) {
           <div className='w-[33.541vw] mx-auto'>
             <SearchBox placeholder={t('search')} value={searchText} onChange={setSearchText} />
           </div>
-        </div>
-        <div className='absolute w-full h-[29.375vw] left-0 top-[18.072vw]'>
-          <div className='w-fit h-[3.125vw] mx-auto text-white text-[40px]/[60px] font-black'>{t('section-3-title')}</div>
-          <div className='w-fit mx-auto mt-[1.25vw]'>{!!recommendedContent && <RecommendedContentCard content={recommendedContent} />}</div>
         </div>
       </div>
       <div className='w-full mt-[4.218vw]'>
