@@ -2,7 +2,7 @@ name: Deploy Frontend to AWS CodeDeploy
 
 on:
   push:
-    branches: ["feature/terraform"]
+    branches: ["main"]
 
   workflow_dispatch:
 
