@@ -11,13 +11,13 @@ interface Props {
 export default function SearchBox({ placeholder, value, onChange }: Props) {
   return (
     <div
-      className='flex justify-left h-[2.864vw] px-[0.625vw] bg-white
-                rounded-[2.604vw] box-border border-[1px] border-solid border-gray-300 text-right'
+      className='flex justify-left h-[64px] bg-white
+                rounded-[5px] box-border border-[0.1px] border-solid border-[#00000040] text-right'
     >
-      <Image className='w-[2.864vw] h-[2.864vw] mx-[0.625vw]' alt='' src='/search-icon.svg' width='55' height='55' />
+      <Image className='w-[55px] h-[55px] pr-[42.92px]' alt='' src='/search-icon.svg' width='55' height='55' />
       <input
         type='text'
-        className='w-full h-[1.302vw] mx-[0.625vw] my-[0.781vw] text-[20px]/[26px] font-light placeholder:text-[#00000080]'
+        className='w-full h-[26px] mx-[26.96px] my-[19px] text-[20px]/[26px] font-light placeholder:text-[#00000080]'
         style={{ outline: 'none' }}
         value={value}
         placeholder={placeholder}
