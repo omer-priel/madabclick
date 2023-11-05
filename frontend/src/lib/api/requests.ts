@@ -330,7 +330,7 @@ export async function getContentsInfo(currentLanguage: Language): Promise<Conten
   const allowedContents = contents.filter((content) => content.allowed);
   const notAllowedContents = contents.filter((content) => !content.allowed);
 
-  const recommendedContents = allowedContents.filter((content) => content.recommended);
+  const recommendedContents = allowedContents.filter((content) => content.recommended && content.language == currentLanguageValue);
 
   if (recommendedContents.length > 0) {
     const recommendedIndex = Math.floor(Math.random() * recommendedContents.length);

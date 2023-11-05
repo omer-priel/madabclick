@@ -37,7 +37,7 @@ const config: Config = {
     },
     fontFamily: {
       ...defaultTheme.fontFamily,
-      poppins: ['Poppins', ...defaultTheme.fontFamily.sans],
+      poppins: ['Poppins'],
     },
   },
   plugins: [],
