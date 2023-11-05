@@ -24,14 +24,19 @@ export default function YouTubeVideo({ content, overlayText }: Props) {
         <button type='button' onClick={() => setShow(true)}>
           {content.youtubeVideo.thumbnail.width && content.youtubeVideo.thumbnail.height ? (
             <Image
-              className='absolute inset-0 w-full h-full'
+              className='absolute inset-0 w-full h-full rounded-[10px]'
               src={content.youtubeVideo.thumbnail.url}
               alt={content.title}
               width={content.youtubeVideo.thumbnail.width}
               height={content.youtubeVideo.thumbnail.height}
             />
           ) : (
-            <Image className='absolute inset-0 w-full h-full' src={content.youtubeVideo.thumbnail.url} alt={content.title} fill />
+            <Image
+              className='absolute inset-0 w-full h-full rounded-[10px]'
+              src={content.youtubeVideo.thumbnail.url}
+              alt={content.title}
+              fill
+            />
           )}
           {!!overlayText && (
             <div className='absolute w-full h-[5.52vw] bottom-0 left-0 bg-[#04090E]/[.70]'>
@@ -43,7 +48,7 @@ export default function YouTubeVideo({ content, overlayText }: Props) {
         </button>
       ) : (
         <iframe
-          className='absolute inset-0 w-full h-full'
+          className='absolute inset-0 w-full h-full rounded-[10px]'
           title={content.title}
           src={
             content.youtubePlaylist

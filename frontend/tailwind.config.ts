@@ -9,7 +9,7 @@ const config: Config = {
     extend: {
       colors: {
         black: '#000',
-        white: '#fff'
+        white: '#fff',
       },
       spacing: {},
       fontFamily: {

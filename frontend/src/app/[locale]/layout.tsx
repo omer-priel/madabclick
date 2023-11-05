@@ -48,7 +48,10 @@ export default async function RootLayout({ children, params: { locale } }: Props
       <head>
         {
           // eslint-disable-next-line @next/next/no-page-custom-font
-          <link href='https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap' rel='stylesheet' />
+          <link
+            href='https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap'
+            rel='stylesheet'
+          />
         }
       </head>
       <body className='ltr:text-right rtl:text-left'>

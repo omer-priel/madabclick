@@ -2,13 +2,12 @@
 
 import { useState } from 'react';
 
-import Image from 'next/image';
-
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 
 import MultiSelect from '@/components/atoms/MultiSelect';
 import SearchBox from '@/components/atoms/SearchBox';
-import ContentCard from '@/components/blocks/ContentCard';
+import ContentGallery from '@/components/blocks/ContentGallery';
 
 import { Content, ContentsSchema } from '@/lib/api/schemas';
 
@@ -50,41 +49,32 @@ export default function SectionContents({ data }: Props) {
       </div>
       <div className='w-full mt-[36px]'>
         <div className='flex w-fit mx-auto'>
-          <div className='w-fit ml-[34px] text-white text-[16px]/[24px] text-right font-light'>
-            {t('section-contents-filters-label')}
+          <div className='w-fit ml-[34px] text-white text-[16px]/[24px] text-right font-light'>{t('section-contents-filters-label')}</div>
+          <div className='w-fit ml-[34px]'>
+            <MultiSelect label={t('filter-age-level')} options={ageLevels} values={selectedAgeLevels} onChange={setSelectedAgeLevels} />
           </div>
           <div className='w-fit ml-[34px]'>
-            <MultiSelect label={t('filter-age-level')} options={ageLevels} value={selectedAgeLevels} onChange={setSelectedAgeLevels} />
-          </div>
-          <div className='w-fit ml-[34px]'>
-            <MultiSelect label={t('filter-duration')} options={durations} value={selectedDurations} onChange={setSelectedDurations} />
+            <MultiSelect label={t('filter-duration')} options={durations} values={selectedDurations} onChange={setSelectedDurations} />
           </div>
           <div className='w-fit'>
-            <MultiSelect label={t('filter-language')} options={languages} value={selectedLanguages} onChange={setSelectedLanguages} />
+            <MultiSelect label={t('filter-language')} options={languages} values={selectedLanguages} onChange={setSelectedLanguages} />
           </div>
         </div>
       </div>
-      {domains.map((domain) => (
-        <div
-          key={domain}
-          className={
-            'w-full mb-[5.104vw] ' + (contents.find((content) => content.domain == domain && showContentCard(content)) ? '' : ' hidden')
-          }
-        >
-          <div className='w-fit h-[1.875vw] mx-auto text-black text-[24px]/[36px] text-right font-black'>{domain}</div>
-          <div className='flex flex-nowrap mt-[1.718vw] overflow-x-scroll'>
-            <div className='flex h-fit mx-auto'>
-              {contents
-                .filter((content) => content.domain == domain)
-                .map((content) => (
-                  <div key={content.index} className={'ml-[1.822vw] ' + (showContentCard(content) ? '' : ' hidden')}>
-                    <ContentCard content={content} />
-                  </div>
-                ))}
-            </div>
+      <div className='w-full h-fit pb-[138px]'>
+        {domains.map((domain) => (
+          <div
+            key={domain}
+            className={
+              'relative w-full mt-[81px]' +
+              (contents.find((content) => content.domain == domain && showContentCard(content)) ? '' : ' hidden')
+            }
+          >
+            <div className='w-fit h-[1.875vw] mx-auto text-white text-[24px]/[36px] text-right font-black'>{domain}</div>
+            <ContentGallery contents={contents} domain={domain} showContentCard={showContentCard} />
           </div>
-        </div>
-      ))} */}
+        ))}
+      </div>
     </div>
   );
 }

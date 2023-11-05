@@ -1,8 +1,8 @@
+import Footer from '@/components/blocks/Footer';
 import Header from '@/components/blocks/Header';
 import Section1 from '@/components/blocks/Section1';
 import Section2 from '@/components/blocks/Section2';
 import SectionContents from '@/components/blocks/SectionContents';
-import Footer from '@/components/blocks/Footer';
 
 import { ContentsSchema } from '@/lib/api/schemas';
 import { Language } from '@/translation';

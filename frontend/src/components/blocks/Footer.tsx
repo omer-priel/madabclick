@@ -1,4 +1,4 @@
-import { getTranslation } from "@/translation";
+import { getTranslation } from '@/translation';
 
 export default async function Footer() {
   const t = await getTranslation();

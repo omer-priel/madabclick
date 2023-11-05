@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
 import { useOnLeaveElement, useOnPageResized } from '@/hooks';
@@ -9,11 +10,13 @@ import { useOnLeaveElement, useOnPageResized } from '@/hooks';
 interface Props {
   label: string;
   options: string[];
-  value: string[];
+  values: string[];
   onChange: (value: string[]) => void;
 }
 
-export default function MultiSelect({ label, options, value, onChange }: Props) {
+export default function MultiSelect({ label, options, values, onChange }: Props) {
+  const t = useTranslations();
+
   const [opened, setOpened] = useState(false);
   const [labelWidth, setLabelWidth] = useState<number>(0);
 
@@ -40,22 +43,15 @@ export default function MultiSelect({ label, options, value, onChange }: Props) 
     <>
       <div ref={containerRef} className='relative'>
         <div className='flex justify-center' onClick={() => setOpened((prevOpend) => !prevOpend)}>
-          <div ref={labelRef}>
+          <div ref={labelRef} className='flex justify-center'>
             <Image
-              className={'w-[1.302vw] h-[1.302vw] rtl:pl-[0.364vw] ltr:pr-[0.364vw]' + (!opened ? '' : ' hidden')}
+              className={'w-[25px] h-[25px]' + (!opened ? '' : ' rotate-180')}
               alt={label}
               src={'/select-down.svg'}
               width='25'
               height='25'
             />
-            <Image
-              className={'w-[1.302vw] h-[1.302vw] rtl:pl-[0.364vw] ltr:pr-[0.364vw]' + (opened ? '' : ' hidden')}
-              alt={label}
-              src={'/select-up.svg'}
-              width='25'
-              height='25'
-            />
-            <span className='font-bold text-[16px]/[24px]'>{label}</span>
+            <div className='text-white font-bold text-[16px]/[24px]'>{label}</div>
           </div>
         </div>
         <div
@@ -68,17 +64,17 @@ export default function MultiSelect({ label, options, value, onChange }: Props) 
                 key={option}
                 className='flex justify-left w-[10.104vw] px-[0.526vw] py-[0.52vw] rounded-[0.26vw] hover:bg-gainsboro'
                 onClick={() => {
-                  if (value.includes(option)) {
-                    onChange(value.filter((el) => el != option));
+                  if (values.includes(option)) {
+                    onChange(values.filter((el) => el != option));
                   } else {
-                    onChange([...value, option]);
+                    onChange([...values, option]);
                   }
                 }}
               >
                 <Image
                   className='w-[0.937vw] h-[0.937vw] p-[0.526vw]'
                   alt={option}
-                  src={value.includes(option) ? '/select-selected.svg' : '/select-not-selected.svg'}
+                  src={values.includes(option) ? '/select-selected.svg' : '/select-not-selected.svg'}
                   width='18'
                   height='18'
                 />
@@ -88,13 +84,23 @@ export default function MultiSelect({ label, options, value, onChange }: Props) 
           </div>
         </div>
         <div className='flex flex-wrap min-h-[2.135vw] mx-auto' style={labelWidth ? { width: `${labelWidth}px` } : {}}>
-          {value.map((el) => (
+          {values.map((value) => (
             <div
-              key={el}
-              className='flex w-fit h-[1.718vw] mx-[0.416vw] mt-[0.416vw] px-[0.416vw] bg-white
-                        rounded-[2.604vw] box-border border-[1px] border-solid border-gray-300'
+              key={value}
+              className='flex justify-left w-fit h-[24px] mx-[8px] mt-[4px] px-[4px]
+                        rounded-[5px] box-border border-[1px] border-white border-solid'
             >
-              <p className='w-fit h-fit mx-auto my-auto text-right text-[16px]/[24px] font-normal'>{el}</p>
+              <Image
+                className='w-[10px] h-[9px] mx-[4px] my-auto'
+                alt={t('remove')}
+                src={'/close.svg'}
+                width='10'
+                height='9'
+                onClick={() => {
+                  onChange(values.filter((el) => el != value));
+                }}
+              />
+              <div className='w-fit h-fit mx-[4px] my-auto text-white text-right text-[16px]/[24px] font-light'>{value}</div>
             </div>
           ))}
         </div>
