@@ -21,7 +21,7 @@ jobs:
       - name: Copy Source
         uses: actions/checkout@v4
         with:
-          ref: feature/terraform
+          ref: main
       - name: yarn install
         run: yarn install
         working-directory: frontend
