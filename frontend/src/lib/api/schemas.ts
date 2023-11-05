@@ -20,21 +20,22 @@ export interface Content {
   allowed: boolean;
   notAllowedReason: string;
 
-  youtubeVideo: {
+  youtube: {
     id: string;
     loaded: boolean;
     title: string | null;
     description: string | null;
 
     thumbnail: Thumbnail;
-  } | null;
-  youtubePlaylist: {
-    id: string;
-    loaded: boolean;
-    title: string | null;
-    description: string | null;
 
-    thumbnail: Thumbnail | null;
+    playlist: {
+      id: string;
+      loaded: boolean;
+      title: string | null;
+      description: string | null;
+
+      thumbnail: Thumbnail | null;
+    } | null;
   } | null;
 }
 

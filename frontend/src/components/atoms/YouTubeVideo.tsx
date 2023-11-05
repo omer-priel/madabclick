@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import Image from 'next/image';
+import YouTube from 'react-youtube';
 
 import { Content } from '@/lib/api/schemas';
 
@@ -14,7 +15,7 @@ interface Props {
 export default function YouTubeVideo({ content, overlayText }: Props) {
   const [show, setShow] = useState(false);
 
-  if (!content.youtubeVideo) {
+  if (!content.youtube) {
     return <></>;
   }
 
@@ -22,21 +23,16 @@ export default function YouTubeVideo({ content, overlayText }: Props) {
     <>
       {!show ? (
         <button type='button' onClick={() => setShow(true)}>
-          {content.youtubeVideo.thumbnail.width && content.youtubeVideo.thumbnail.height ? (
+          {content.youtube.thumbnail.width && content.youtube.thumbnail.height ? (
             <Image
               className='absolute inset-0 w-full h-full rounded-[10px]'
-              src={content.youtubeVideo.thumbnail.url}
+              src={content.youtube.thumbnail.url}
               alt={content.title}
-              width={content.youtubeVideo.thumbnail.width}
-              height={content.youtubeVideo.thumbnail.height}
+              width={content.youtube.thumbnail.width}
+              height={content.youtube.thumbnail.height}
             />
           ) : (
-            <Image
-              className='absolute inset-0 w-full h-full rounded-[10px]'
-              src={content.youtubeVideo.thumbnail.url}
-              alt={content.title}
-              fill
-            />
+            <Image className='absolute inset-0 w-full h-full rounded-[10px]' src={content.youtube.thumbnail.url} alt={content.title} fill />
           )}
           {!!overlayText && (
             <div className='absolute w-full h-[5.52vw] bottom-0 left-0 bg-[#04090E]/[.70]'>
@@ -46,18 +42,20 @@ export default function YouTubeVideo({ content, overlayText }: Props) {
             </div>
           )}
         </button>
-      ) : (
-        <iframe
-          className='absolute inset-0 w-full h-full rounded-[10px]'
+      ) : content.youtube.playlist ? (
+        <YouTube
+          iframeClassName='absolute inset-0 w-full h-full rounded-[10px]'
           title={content.title}
-          src={
-            content.youtubePlaylist
-              ? `https://www.youtube.com/embed/${content.youtubeVideo.id}?list=${content.youtubePlaylist.id}&autoplay=1`
-              : `https://www.youtube.com/embed/${content.youtubeVideo.id}?autoplay=1`
-          }
-          allow='autoplay'
-          allowFullScreen
-        ></iframe>
+          videoId={content.youtube.id}
+          opts={{ playerVars: { autoplay: 1 } }}
+        />
+      ) : (
+        <YouTube
+          iframeClassName='absolute inset-0 w-full h-full rounded-[10px]'
+          title={content.title}
+          videoId={content.youtube.id}
+          opts={{ playerVars: { autoplay: 1 } }}
+        />
       )}
     </>
   );
