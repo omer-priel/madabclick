@@ -55,7 +55,7 @@ export default function HomePage({ data, currentLanguage }: Props) {
               width='120'
               height='180'
             />
-            <div className='absolute w-[200px] h-[60px] right-[183px] top-[0px] text-black text-[40px]/[60px] text-right font-black'>
+            <div className='absolute w-[200px] h-[60px] right-[183px] top-[0px] text-black text-[40px]/[60px] text-right font-black	'>
               {t('section-2-title')}
             </div>
             <div className='absolute w-[732px] h-[150px] right-[183px] top-[71px] text-black text-[20px]/[30px] text-right font-normal'>
