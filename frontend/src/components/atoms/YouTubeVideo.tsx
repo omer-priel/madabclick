@@ -57,9 +57,11 @@ export default function YouTubeVideo({ content, width, height }: Props) {
         videoId={content.youtube.id}
         opts={{ playerVars }}
         onReady={(e) => {
+          console.log("onReady", e);
           e.target.playVideo();
         }}
         onPlay={(e) => {
+          console.log("onPlay", e);
           const last = getActive();
           if (last.activePlayer && last.activeContentIndex != content.index) {
             last.activePlayer.stopVideo();
@@ -68,12 +70,16 @@ export default function YouTubeVideo({ content, width, height }: Props) {
           setActive(e.target, content.index);
         }}
         onPause={(e) => {
+          console.log("onPause", e);
           clearActive();
         }}
         onEnd={(e) => {
+          console.log("onEnd", e);
           setShow(false);
         }}
         onStateChange={(e) => {
+          console.log("onStateChange", e);
+
           // start new video
           if (e.data === 1) {
             if (e.target.getVideoData().video_id == content.youtube?.id) {
