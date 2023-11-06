@@ -42,6 +42,7 @@ export default function YouTubeVideo({ playerId, content, width, height }: Props
     height,
     enablejsapi: 1,
     origin: null,
+    modestbranding: 1,
   };
 
   if (content.youtube.playlist) {
