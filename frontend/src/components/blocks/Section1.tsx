@@ -8,13 +8,7 @@ export default function Section1() {
 
   return (
     <div className='relative w-full h-[50vw] min-w-[850px] min-h-[730px]'>
-      <Image
-        className='absolute z-0 w-auto h-auto left-0 top-0 object-cover'
-        alt=''
-        src='/section-1-background.png'
-        width='1920'
-        height='960'
-      />
+      <Image className='absolute z-0 w-auto h-auto left-0 top-0 object-cover' alt='' src='/section-1-background.png' fill />
       <div
         className='absolute z-1 w-full h-full left-0 top-0'
         style={{ background: 'linear-gradient(284deg, rgba(0, 0, 0, 0.50) 28%, rgba(0, 0, 0, 0) 97%)' }}

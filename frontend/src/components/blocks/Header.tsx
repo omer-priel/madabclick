@@ -16,33 +16,23 @@ export default function Header({ currentLanguage }: Props) {
 
   return (
     <div className='relative w-full h-[8.22vw]'>
-      <div className='absolute w-[13vw] h-[35vw] top-[1.82vw] right-[2.7vw]'>
+      <div className='absolute w-fit h-fit top-[45px] right-[62px]'>
         <div className='flex ltr:flex-row-reverse'>
-          <Image
-            className='w-[1.822vw] h-[1.822vw] ml-[1.875vw]'
-            alt={t('choose-language')}
-            src={'/choose-language.svg'}
-            width='35'
-            height='35'
-          />
-          <div className='h-[1.25vw] ml-[1.875vw] my-auto text-right text-[16px]/[24px] font-normal'>
+          <Image className='w-[35px] h-[35px] ml-[36px]' alt={t('choose-language')} src={'/choose-language.svg'} width='35' height='35' />
+          <div className='h-[24px] ml-[36px] my-auto text-right text-[16px]/[24px] font-normal'>
             <Link href='/he' label='עברית' active={currentLanguage.locale == 'he'} />
           </div>
-          <div className='h-[1.25vw] ml-[1.875vw] my-auto text-right text-[16px]/[24px] font-normal'>
+          <div className='h-[24px] ml-[36px] my-auto text-right text-[16px]/[24px] font-normal'>
             <Link href='/en' label='English' active={currentLanguage.locale == 'en'} />
           </div>
-          <div className='h-[1.25vw] my-auto text-right text-[16px]/[24px] font-normal'>
+          <div className='h-[24px] my-auto text-right text-[16px]/[24px] font-normal'>
             <Link href='/ar' label='عربي' active={currentLanguage.locale == 'ar'} />
           </div>
         </div>
       </div>
-      <Image
-        className='absolute w-[14.58vw] h-[5.05vw] top-[1.5625vw] left-[calc(50%_-_7.29vw)]'
-        alt=''
-        src='/full-logo.svg'
-        width='280'
-        height='97'
-      />
+      <div className='absolute w-[10.781vw] h-[3.75vw] right-[calc(50%_-_7.29vw)] top-[2.03vw]'>
+        <Image alt='' src='/full-logo.svg' fill />
+      </div>
     </div>
   );
 }
