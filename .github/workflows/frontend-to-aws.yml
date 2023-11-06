@@ -51,5 +51,5 @@ jobs:
           codedeploy_register_only: false
           s3_bucket: ${{ secrets.AWS_CODE_DEPLOY_BUCKET }}
           s3_folder: frontend
-          max_polling_iterations: -1 -1 # Disable polling
-          directory: ./frontend
+          max_polling_iterations: -1 # Disable polling
+          directory: ./

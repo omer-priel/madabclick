@@ -10,7 +10,7 @@ resource "aws_codedeploy_app" "frontend" {
 resource "aws_codedeploy_deployment_group" "frontend" {
   app_name               = aws_codedeploy_app.frontend.name
   deployment_group_name  = "frontend"
-  deployment_config_name = "CodeDeployDefault.AllAtOnce"
+  deployment_config_name = "CodeDeployDefault.HalfAtATime"
   service_role_arn       = aws_iam_role.prod_codedeploy.arn
   autoscaling_groups     = [aws_autoscaling_group.frontend.id]
 
