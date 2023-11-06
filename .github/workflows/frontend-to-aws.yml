@@ -2,7 +2,8 @@ name: Deploy Frontend to AWS CodeDeploy
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - main
 
   workflow_dispatch:
 
@@ -34,6 +35,11 @@ jobs:
       - name: yarn run build
         run: yarn run build
         working-directory: frontend
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
       - name: AWS CodeDeploy
         uses: sourcetoad/aws-codedeploy-action@v1
         with:
@@ -46,4 +52,4 @@ jobs:
           s3_bucket: ${{ secrets.AWS_CODE_DEPLOY_BUCKET }}
           s3_folder: frontend
           max_polling_iterations: -1 -1 # Disable polling
-          directory: ./
+          directory: ./frontend
