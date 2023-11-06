@@ -6,24 +6,8 @@ const config: Config = {
     preflight: false,
   },
   theme: {
-    extend: {
-      colors: {
-        black: '#000',
-        white: '#fff',
-      },
-      spacing: {},
-      fontFamily: {
-        'running-text-light': 'Poppins',
-      },
-    },
-    fontSize: {
-      base: '16px',
-      xl: '20px',
-      '77xl': '96px',
-      inherit: 'inherit',
-    },
     fontFamily: {
-      poppins: ['Poppins'],
+      poppins: ['Poppins', 'sans-serif'],
     },
   },
   plugins: [],

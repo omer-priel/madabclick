@@ -5,16 +5,17 @@ import { useState } from 'react';
 import Image from 'next/image';
 import YouTube from 'react-youtube';
 
+import { getAppStore } from '@/appStore';
 import { Content } from '@/lib/api/schemas';
-import { clearActive, getActive, setActive } from '@/playersManager';
 
 interface Props {
+  playerId: number;
   content: Content;
   width: number;
   height: number;
 }
 
-export default function YouTubeVideo({ content, width, height }: Props) {
+export default function YouTubeVideo({ playerId, content, width, height }: Props) {
   const [show, setShow] = useState(false);
 
   if (!content.youtube) {
@@ -57,41 +58,40 @@ export default function YouTubeVideo({ content, width, height }: Props) {
           videoId={content.youtube.id}
           opts={{ playerVars }}
           onReady={(e) => {
-            console.log('onReady', e);
             e.target.playVideo();
           }}
-          onPlay={(e) => {
-            console.log('onPlay', e);
-            const last = getActive();
-            if (last.activePlayer && last.activeContentIndex != content.index) {
-              last.activePlayer.stopVideo();
-            }
-
-            setActive(e.target, content.index);
-          }}
-          onPause={(e) => {
-            console.log('onPause', e);
-            clearActive();
-          }}
-          onEnd={(e) => {
-            console.log('onEnd', e);
+          onEnd={() => {
             setShow(false);
           }}
           onStateChange={(e) => {
-            console.log('onStateChange', e);
+            const lastActive = getAppStore().activeYouTubeContent;
+            if (lastActive && lastActive.playerId != playerId) {
+              lastActive.player.pauseVideo();
+            }
 
-            // start new video
+            getAppStore().activeYouTubeContent = {
+              playerId: playerId,
+              player: e.target,
+            };
+
             if (e.data === 1) {
+              // playing
               if (e.target.getVideoData().video_id == content.youtube?.id) {
                 return;
               }
+
               if (e.target.getPlaylistId() == content.youtube?.playlist?.id) {
                 return;
               }
 
               e.target.stopVideo();
-              clearActive();
+
+              getAppStore().activeYouTubeContent = null;
+
               setShow(false);
+            } else if (e.data == 2) {
+              // paused
+              getAppStore().activeYouTubeContent = null;
             }
           }}
         />

@@ -8,6 +8,8 @@ import ContentCard from '@/components/blocks/ContentCard';
 
 import { Content } from '@/lib/api/schemas';
 
+const CONTENT_BLOCK_WIDTH = 395 + 31.81;
+
 interface Props {
   contents: Content[];
   domain: string;
@@ -15,58 +17,95 @@ interface Props {
 }
 
 export default function ContentGallery({ contents, domain, showContentCard }: Props) {
-  const [intervalHandler, setIntervalHandler] = useState<NodeJS.Timeout | null>(null);
+  const [scrollInterval, setScrollInterval] = useState<NodeJS.Timeout | null>(null);
 
   const refGallery = useRef<HTMLDivElement>(null);
 
-  const stopScroll = () => {
-    if (intervalHandler) {
-      clearInterval(intervalHandler);
+  const scrollTo = (target: number) => {
+    if (scrollInterval) {
+      clearInterval(scrollInterval);
     }
 
-    setIntervalHandler(null);
+    const handler = setInterval(() => {
+      if (!refGallery.current) {
+        return;
+      }
+
+      if (Math.abs(refGallery.current.scrollLeft - target) <= 3) {
+        refGallery.current.scrollLeft = target;
+
+        clearInterval(handler);
+        setScrollInterval(null);
+
+        return;
+      }
+
+      if (refGallery.current.scrollLeft > target) {
+        refGallery.current.scrollLeft -= 3;
+      } else {
+        refGallery.current.scrollLeft += 3;
+      }
+    }, 1);
+
+    setScrollInterval(handler);
   };
 
   const scrollLeft = () => {
-    if (intervalHandler) {
-      clearInterval(intervalHandler);
+    if (scrollInterval) {
+      return;
     }
 
-    const handler = setInterval(() => {
-      if (!refGallery.current) {
-        return;
-      }
+    if (!refGallery.current) {
+      return;
+    }
 
-      refGallery.current.scrollLeft -= 3;
-    }, 1);
+    const end = refGallery.current.clientWidth - refGallery.current.scrollWidth;
 
-    setIntervalHandler(handler);
+    if (refGallery.current.scrollLeft == end) {
+      return;
+    }
+
+    const blocksInWindow = Math.floor(refGallery.current.clientWidth / CONTENT_BLOCK_WIDTH);
+    const target = refGallery.current.scrollLeft - blocksInWindow * CONTENT_BLOCK_WIDTH;
+
+    if (target > end) {
+      scrollTo(target);
+    } else {
+      scrollTo(end);
+    }
   };
 
   const scrollRight = () => {
-    if (intervalHandler) {
-      clearInterval(intervalHandler);
+    if (scrollInterval) {
+      return;
     }
 
-    const handler = setInterval(() => {
-      if (!refGallery.current) {
-        return;
-      }
+    if (!refGallery.current) {
+      return;
+    }
 
-      refGallery.current.scrollLeft += 3;
-    }, 1);
+    if (refGallery.current.scrollLeft == 0) {
+      return;
+    }
 
-    setIntervalHandler(handler);
+    const blocksInWindow = Math.floor(refGallery.current.clientWidth / CONTENT_BLOCK_WIDTH);
+    const target = refGallery.current.scrollLeft + blocksInWindow * CONTENT_BLOCK_WIDTH;
+
+    if (target < 0) {
+      scrollTo(target);
+    } else {
+      scrollTo(0);
+    }
   };
 
   return (
     <>
       <div className='flex flex-nowrap mt-[44px]'>
-        <div ref={refGallery} className='flex h-fit mx-auto overflow-x-hidden'>
+        <div ref={refGallery} className='flex h-fit mx-auto overflow-x-hidden pl-[31.81px]'>
           {contents
             .filter((content) => content.domain == domain)
             .map((content) => (
-              <div key={content.index} className={'ml-[31.81px] ' + (showContentCard(content) ? '' : ' hidden')}>
+              <div key={content.index} className={'w-[395px] mr-[31.81px]' + (showContentCard(content) ? '' : ' hidden')}>
                 <ContentCard content={content} />
               </div>
             ))}
@@ -78,8 +117,7 @@ export default function ContentGallery({ contents, domain, showContentCard }: Pr
         src={'/contents-sidebar-right-arrow.svg'}
         width='100'
         height='100'
-        onMouseOver={() => scrollLeft()}
-        onMouseOut={() => stopScroll()}
+        onClick={() => scrollLeft()}
       />
       <Image
         className='absolute w-[100px] h-[100px] right-0 top-[140px] rotate-180'
@@ -87,8 +125,7 @@ export default function ContentGallery({ contents, domain, showContentCard }: Pr
         src={'/contents-sidebar-right-arrow.svg'}
         width='100'
         height='100'
-        onMouseOver={() => scrollRight()}
-        onMouseOut={() => stopScroll()}
+        onClick={() => scrollRight()}
       />
     </>
   );
