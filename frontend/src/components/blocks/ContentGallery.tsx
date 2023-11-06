@@ -9,6 +9,7 @@ import ContentCard from '@/components/blocks/ContentCard';
 import { Content } from '@/lib/api/schemas';
 
 const CONTENT_BLOCK_WIDTH = 395 + 31.81;
+const SCROLL_SPEED = 9;
 
 interface Props {
   contents: Content[];
@@ -33,7 +34,7 @@ export default function ContentGallery({ contents, domain, showContentCard }: Pr
         return;
       }
 
-      if (Math.abs(refGallery.current.scrollLeft - target) <= 3) {
+      if (Math.abs(refGallery.current.scrollLeft - target) <= SCROLL_SPEED) {
         refGallery.current.scrollLeft = target;
 
         clearInterval(handler);
@@ -57,9 +58,9 @@ export default function ContentGallery({ contents, domain, showContentCard }: Pr
       }
 
       if (refGallery.current.scrollLeft > target) {
-        refGallery.current.scrollLeft -= 3;
+        refGallery.current.scrollLeft -= SCROLL_SPEED;
       } else {
-        refGallery.current.scrollLeft += 3;
+        refGallery.current.scrollLeft += SCROLL_SPEED;
       }
     }, 1);
 
@@ -129,7 +130,7 @@ export default function ContentGallery({ contents, domain, showContentCard }: Pr
   return (
     <>
       <div className='flex flex-nowrap mt-[44px]'>
-        <div ref={refGallery} className='flex h-fit mx-auto overflow-x-hidden pl-[31.81px]'>
+        <div ref={refGallery} className='flex ltr:flex-row-reverse h-fit mx-auto overflow-x-hidden pl-[31.81px]'>
           {contents
             .filter((content) => content.domain == domain)
             .map((content) => (

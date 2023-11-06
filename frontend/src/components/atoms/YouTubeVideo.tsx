@@ -50,9 +50,8 @@ export default function YouTubeVideo({ playerId, content, width, height }: Props
   }
 
   return (
-    <div style={{ width: `${width}px`, height: `${height}px` }}>
-      {!active ? (
-        <button className='w-full h-full bg-transparent' type='button' onClick={() => onActive()}>
+    <div className='relative' style={{ width: `${width}px`, height: `${height}px` }}>
+      <button className='absolute w-full h-full top-0 right-0 bg-transparent' type='button' onClick={() => onActive()}>
           {content.youtube.thumbnail.width && content.youtube.thumbnail.height ? (
             <Image
               className='w-full h-full rounded-[10px]'
@@ -62,12 +61,12 @@ export default function YouTubeVideo({ playerId, content, width, height }: Props
               height={content.youtube.thumbnail.height}
             />
           ) : (
-            <Image className='w-full h-full rounded-[10px]' src={content.youtube.thumbnail.url} alt={content.title} fill />
+            <Image className='absolute w-full h-full top-0 right-0 rounded-[10px]' src={content.youtube.thumbnail.url} alt={content.title} fill />
           )}
         </button>
-      ) : (
+        { active && (
         <YouTube
-          className='w-full h-full rounded-[10px] bg-transparent'
+          className='absolute w-full h-full top-0 right-0 rounded-[10px] bg-transparent'
           iframeClassName='w-full h-full rounded-[10px]'
           title={content.title}
           videoId={content.youtube.id}
@@ -107,7 +106,7 @@ export default function YouTubeVideo({ playerId, content, width, height }: Props
             }
           }}
         />
-      )}
+        )}
     </div>
   );
 }
