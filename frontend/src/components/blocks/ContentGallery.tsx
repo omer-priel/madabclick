@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import Image from 'next/image';
 
@@ -18,6 +18,8 @@ interface Props {
 
 export default function ContentGallery({ contents, domain, showContentCard }: Props) {
   const [scrollInterval, setScrollInterval] = useState<NodeJS.Timeout | null>(null);
+  const [leftArrowVisible, setLeftArrowVisible] = useState<boolean>(true);
+  const [rightArrowVisible, setRightArrowVisible] = useState<boolean>(true);
 
   const refGallery = useRef<HTMLDivElement>(null);
 
@@ -37,7 +39,21 @@ export default function ContentGallery({ contents, domain, showContentCard }: Pr
         clearInterval(handler);
         setScrollInterval(null);
 
+        if (target === 0) {
+          setRightArrowVisible(false);
+        } else if (target == refGallery.current.clientWidth - refGallery.current.scrollWidth) {
+          setLeftArrowVisible(false);
+        }
+
         return;
+      }
+
+      if (!rightArrowVisible) {
+        setRightArrowVisible(true);
+      }
+
+      if (!leftArrowVisible) {
+        setLeftArrowVisible(true);
       }
 
       if (refGallery.current.scrollLeft > target) {
@@ -98,6 +114,18 @@ export default function ContentGallery({ contents, domain, showContentCard }: Pr
     }
   };
 
+  useEffect(() => {
+    if (!refGallery.current) {
+      return;
+    }
+
+    if (refGallery.current.scrollLeft === 0) {
+      setRightArrowVisible(false);
+    } else if (refGallery.current.scrollLeft == refGallery.current.clientWidth - refGallery.current.scrollWidth) {
+      setLeftArrowVisible(false);
+    }
+  }, [refGallery, setLeftArrowVisible, setRightArrowVisible]);
+
   return (
     <>
       <div className='flex flex-nowrap mt-[44px]'>
@@ -112,17 +140,17 @@ export default function ContentGallery({ contents, domain, showContentCard }: Pr
         </div>
       </div>
       <Image
-        className='absolute w-[100px] h-[100px] left-0 top-[140px]'
+        className={'absolute w-[100px] h-[100px] left-0 top-[140px]' + (leftArrowVisible ? '' : ' hidden')}
         alt=''
-        src={'/contents-sidebar-right-arrow.svg'}
+        src={'/contents-sidebar-left-arrow.svg'}
         width='100'
         height='100'
         onClick={() => scrollLeft()}
       />
       <Image
-        className='absolute w-[100px] h-[100px] right-0 top-[140px] rotate-180'
+        className={'absolute w-[100px] h-[100px] right-0 top-[140px] rotate-180' + (rightArrowVisible ? '' : ' hidden')}
         alt=''
-        src={'/contents-sidebar-right-arrow.svg'}
+        src={'/contents-sidebar-left-arrow.svg'}
         width='100'
         height='100'
         onClick={() => scrollRight()}
