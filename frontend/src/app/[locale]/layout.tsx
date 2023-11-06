@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 import { NextIntlClientProvider } from 'next-intl';
 import { redirect } from 'next/navigation';
 
+import { ReduxProvider } from '@/store/provider';
 import { getLanguages, getTranslation, setLanguage } from '@/translation';
 
 import '@/styles/globals.css';
@@ -47,9 +48,11 @@ export default async function RootLayout({ children, params: { locale } }: Props
     <html lang={language.locale} dir={language.dir}>
       <head></head>
       <body className='ltr:text-right rtl:text-left'>
-        <NextIntlClientProvider locale={language.locale} messages={messages}>
-          {children}
-        </NextIntlClientProvider>
+        <ReduxProvider>
+          <NextIntlClientProvider locale={language.locale} messages={messages}>
+            {children}
+          </NextIntlClientProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

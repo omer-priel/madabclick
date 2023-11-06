@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
-
 import Image from 'next/image';
 import YouTube from 'react-youtube';
 
 import { getAppStore } from '@/appStore';
 import { Content } from '@/lib/api/schemas';
+import { useAppDispatch, useAppSelector } from '@/store';
+import { activatePlayer, deactivatePlayer } from '@/store/features/playersSlice';
 
 interface Props {
   playerId: number;
@@ -16,7 +16,21 @@ interface Props {
 }
 
 export default function YouTubeVideo({ playerId, content, width, height }: Props) {
-  const [show, setShow] = useState(false);
+  const dispatch = useAppDispatch();
+
+  const active = useAppSelector((state) => state.players.active === playerId);
+
+  const onActive = () => {
+    dispatch(
+      activatePlayer({
+        playerId,
+      })
+    );
+  };
+
+  const onClose = () => {
+    dispatch(deactivatePlayer());
+  };
 
   if (!content.youtube) {
     return <></>;
@@ -36,8 +50,8 @@ export default function YouTubeVideo({ playerId, content, width, height }: Props
 
   return (
     <div style={{ width: `${width}px`, height: `${height}px` }}>
-      {!show ? (
-        <button className='w-full h-full bg-transparent' type='button' onClick={() => setShow(true)}>
+      {!active ? (
+        <button className='w-full h-full bg-transparent' type='button' onClick={() => onActive()}>
           {content.youtube.thumbnail.width && content.youtube.thumbnail.height ? (
             <Image
               className='w-full h-full rounded-[10px]'
@@ -61,7 +75,7 @@ export default function YouTubeVideo({ playerId, content, width, height }: Props
             e.target.playVideo();
           }}
           onEnd={() => {
-            setShow(false);
+            onClose();
           }}
           onStateChange={(e) => {
             const lastActive = getAppStore().activeYouTubeContent;
@@ -88,10 +102,7 @@ export default function YouTubeVideo({ playerId, content, width, height }: Props
 
               getAppStore().activeYouTubeContent = null;
 
-              setShow(false);
-            } else if (e.data == 2) {
-              // paused
-              getAppStore().activeYouTubeContent = null;
+              onClose();
             }
           }}
         />
