@@ -63,10 +63,6 @@ resource "aws_security_group" "frontend" {
   description = "frontend"
   vpc_id      = aws_vpc.prod.id
 
-  tags = {
-    Name = "frontend"
-  }
-
   ingress {
     from_port   = 68
     to_port     = 68
@@ -113,5 +109,9 @@ resource "aws_security_group" "frontend" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
     description = "All traffic"
+  }
+
+  tags = {
+    Name = "frontend"
   }
 }

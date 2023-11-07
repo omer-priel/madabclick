@@ -18,10 +18,6 @@ resource "aws_lb_target_group" "frontend" {
   protocol    = "HTTP"
   port        = 80
 
-  tags = {
-    Name = "frontend"
-  }
-
   health_check {
     path                = "/api/health-check/"
     port                = 80
@@ -30,6 +26,10 @@ resource "aws_lb_target_group" "frontend" {
     unhealthy_threshold = 4
     timeout             = 60
     interval            = 120
+  }
+
+  tags = {
+    Name = "frontend"
   }
 }
 

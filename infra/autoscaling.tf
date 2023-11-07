@@ -5,10 +5,6 @@ resource "aws_launch_template" "frontend" {
   instance_type          = "t2.micro"
   update_default_version = true
 
-  tags = {
-    Name = "frontend"
-  }
-
   tag_specifications {
     resource_type = "instance"
     tags = {
@@ -31,6 +27,10 @@ resource "aws_launch_template" "frontend" {
   }
 
   user_data = base64encode(templatefile("./tf-templates/user_data.sh.tftpl", {}))
+
+  tags = {
+    Name = "frontend"
+  }
 }
 
 resource "aws_autoscaling_group" "frontend" {

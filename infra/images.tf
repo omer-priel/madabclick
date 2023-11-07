@@ -31,10 +31,6 @@ resource "aws_imagebuilder_image_recipe" "frontend" {
   version           = "1.0.0"
   working_directory = "/tmp"
 
-  tags = {
-    Name = "frontend"
-  }
-
   block_device_mapping {
     device_name = "/dev/xvda"
 
@@ -64,6 +60,10 @@ resource "aws_imagebuilder_image_recipe" "frontend" {
   component {
     component_arn = aws_imagebuilder_component.frontend.arn
   }
+
+  tags = {
+    Name = "frontend"
+  }
 }
 
 resource "aws_imagebuilder_infrastructure_configuration" "frontend" {
@@ -73,25 +73,21 @@ resource "aws_imagebuilder_infrastructure_configuration" "frontend" {
   instance_types                = ["t2.micro"]
   terminate_instance_on_failure = true
 
-  tags = {
-    Name = "frontend"
-  }
-
   logging {
     s3_logs {
       s3_bucket_name = aws_s3_bucket.prod.bucket
       s3_key_prefix  = "logs"
     }
   }
+
+  tags = {
+    Name = "frontend"
+  }
 }
 
 resource "aws_imagebuilder_distribution_configuration" "frontend" {
   name        = "frontend"
   description = "frontend"
-
-  tags = {
-    Name = "frontend"
-  }
 
   distribution {
     region = var.aws_region
@@ -104,6 +100,10 @@ resource "aws_imagebuilder_distribution_configuration" "frontend" {
         Name = "frontend"
       }
     }
+  }
+
+  tags = {
+    Name = "frontend"
   }
 }
 
