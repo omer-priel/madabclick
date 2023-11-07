@@ -96,6 +96,93 @@ flowchart TB
   EC2A & EC2B --> GoogleAPI[Google API]
 ```
 
+AWS Infrastructure + DB \
+TODO
+
+```mermaid
+flowchart TB
+  subgraph GitHub
+    PR[Pull Request / Push] --> GA[GitHub Actions] --> GInstall[Install] --> GLint[Lint] --> GBuild[Build] 
+  end
+
+  GBuild --> CodeDeploy
+
+  ClientRequest[Client HTTP Request] --> Domain --> ALB
+
+  subgraph AWS 
+    subgraph Image Building
+      subgraph BuildInstance
+        ImageComponentBuild[Component Build Step]
+      end
+      subgraph TestInstance
+        ImageComponentTest[Component Test Step]
+      end
+      ImageComponentBuild --> ImageComponentTest --> Image
+    end
+
+    ALB[Appliction Load Balancer]
+    ASG[Auto Scalling Group]
+    EC2[Group of EC2 instances]
+
+    Image --> LT[Lanch Template]
+    
+    ASG --> LT --> EC2
+
+    ALB --> EC2
+
+    CodeDeploy[CodeDeploy Deployment Group] --> Deployment[CodeDeploy Deployment] --> EC2
+
+    ASG --> Deployment
+
+    ASG <--> EC2
+  end
+
+  EC2 --> GoogleAPI[Google API]    
+```
+
+AWS Networking Infrastructure + DB
+
+```mermaid
+flowchart TB
+  ClientRequest[Client HTTP Request] --> Domain --> WebALB
+  subgraph AWS
+    subgraph VPC
+      WebALB[Frontend Appliction Load Balancer]
+      WebASG[Frontend Auto Scalling Group]
+
+      MongoALB[DB Appliction Load Balancer]
+      MongoASG[DB Auto Scalling Group]
+      MongoEBSData[DB Storage]
+
+      WebALB ---> WebEC2A
+      WebASG <--> WebEC2A
+            
+      WebASG <--> WebEC2B
+      WebALB ---> WebEC2B
+
+      MongoALB ---> MongoEC2A
+      MongoASG <--> MongoEC2A
+            
+      MongoASG <--> MongoEC2B
+      MongoALB ---> MongoEC2B
+      
+      subgraph Public Subnet A
+        WebEC2A[Frontend group of EC2 instances]
+        MongoEC2A[Frontend group of EC2 instances]
+      end
+      subgraph Public Subnet B
+        WebEC2B[DB group of EC2 instances]
+        MongoEC2B[DB group of EC2 instances]
+      end
+
+      WebEC2A & WebEC2B --> MongoALB
+      MongoEC2A & MongoEC2B --> MongoEBSData
+    end
+  end
+
+  WebEC2A & WebEC2B --> GoogleAPI[Google API]
+```
+
 
 ## Environment Variables
 
