@@ -3,3 +3,11 @@ resource "aws_s3_bucket" "prod" {
     Name = "production"
   }
 }
+
+resource "aws_s3_bucket_versioning" "prod" {
+  bucket = aws_s3_bucket.prod.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
