@@ -168,10 +168,10 @@ flowchart TB
       
       subgraph Public Subnet A
         WebEC2A[Frontend group of EC2 instances]
-        MongoEC2A[Frontend group of EC2 instances]
+        MongoEC2A[DB group of EC2 instances]
       end
       subgraph Public Subnet B
-        WebEC2B[DB group of EC2 instances]
+        WebEC2B[Frontend group of EC2 instances]
         MongoEC2B[DB group of EC2 instances]
       end
 
