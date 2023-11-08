@@ -56,14 +56,28 @@ resource "aws_autoscaling_group" "frontend" {
   }
 }
 
-resource "aws_autoscaling_policy" "frontend_target_tracking" {
-  name                   = "frontend_target_tracking"
+resource "aws_autoscaling_policy" "frontend_average_network_in" {
+  name                   = "frontend_average_network_in"
   policy_type            = "TargetTrackingScaling"
   autoscaling_group_name = aws_autoscaling_group.frontend.name
 
   target_tracking_configuration {
     predefined_metric_specification {
-      predefined_metric_type = "ASGAverageCPUUtilization"
+      predefined_metric_type = "ASGAverageNetworkIn"
+    }
+
+    target_value = 70.0
+  }
+}
+
+resource "aws_autoscaling_policy" "frontend_average_network_out" {
+  name                   = "frontend_average_network_out"
+  policy_type            = "TargetTrackingScaling"
+  autoscaling_group_name = aws_autoscaling_group.frontend.name
+
+  target_tracking_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ASGAverageNetworkOut"
     }
 
     target_value = 70.0
