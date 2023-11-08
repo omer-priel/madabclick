@@ -50,13 +50,6 @@ jobs:
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_KEY }};
           aws configure set default.region eu-central-1;
         shell: bash
-      - name: Waiting for the deployments that in progress to end
-        run: >-
-          while [ "$( aws deploy list-deployments --application-name frontend --deployment-group-name frontend --include-only-statuses Queued InProgress | jq -r '.deployments')" != "[]" ]; do
-            echo -e "Waiting for the deployments that in progress to end. Sleeping 60 seconds";
-            sleep 60s;
-          done;
-        shell: bash
       - name: aws s3 cp
         run: >-
           aws s3 cp ${{ github.run_id }}-${{ github.sha }}.zip
