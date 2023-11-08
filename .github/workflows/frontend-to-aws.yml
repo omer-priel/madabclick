@@ -61,7 +61,7 @@ jobs:
           --application-name frontend
           --deployment-group-name frontend
           --description "$${{ github.ref_name }} - ${{ github.sha }}"
-          -s3-location bucket=${{ secrets.AWS_CODE_DEPLOY_BUCKET }},key=frontend-build/${{ github.run_id }}-${{ github.sha }}.zip,bundleType=zip
+          --s3-location bucket=${{ secrets.AWS_CODE_DEPLOY_BUCKET }},key=frontend-build/${{ github.run_id }}-${{ github.sha }}.zip,bundleType=zip
         shell: bash
       - name: aws deploy register-application-revision
         run: >-
