@@ -11,7 +11,7 @@ permissions:
   id-token: write
 
 jobs:
-  test-aws-cli-install:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: install-aws-cli
@@ -21,10 +21,6 @@ jobs:
           version: 2
       - run: aws --version
         shell: bash
-
-  build:
-    runs-on: ubuntu-latest
-    steps:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
@@ -45,16 +41,45 @@ jobs:
       - name: yarn run build
         run: yarn run build
         working-directory: frontend
-      - name: AWS CodeDeploy
-        uses: sourcetoad/aws-codedeploy-action@v1
-        with:
-          aws_access_key: ${{ secrets.AWS_SECRET_ID }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-          aws_region: eu-central-1
-          codedeploy_name: frontend
-          codedeploy_group: frontend
-          codedeploy_register_only: false
-          s3_bucket: ${{ secrets.AWS_CODE_DEPLOY_BUCKET }}
-          s3_folder: frontend
-          max_polling_iterations: "0"
-          directory: ./
+      - name: aws configure
+        run: >-
+          aws configure set aws_access_key_id ${{ secrets.AWS_SECRET_ID }};
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_KEY }};
+          aws configure set default.region eu-central-1;
+        shell: bash
+      - name: zip "${{ github.run_id }}-${{ github.sha }}.zip"
+        run: zip -r --quiet "${{ github.run_id }}-${{ github.sha }}.zip" .
+        shell: bash
+      - name: aws s3 cp
+        run: >-
+          aws s3 cp ${{ github.run_id }}-${{ github.sha }}.zip
+          "s3://${{ secrets.AWS_CODE_DEPLOY_BUCKET }}/frontend-build/${{ github.run_id }}-${{ github.sha }}.zip"
+        shell: bash
+      - name: aws deploy create-deployment
+        run: >-
+          aws deploy create-deployment
+          --application-name frontend
+          --deployment-group-name frontend
+          --description "$${{ github.ref_name }} - ${{ github.sha }}"
+          -s3-location bucket=${{ secrets.AWS_CODE_DEPLOY_BUCKET }},key=frontend-build/${{ github.run_id }}-${{ github.sha }}.zip,bundleType=zip
+        shell: bash
+      - name: aws deploy register-application-revision
+        run: >-
+          aws deploy register-application-revision
+          --application-name frontend
+          --description "$${{ github.ref_name }} - ${{ github.sha }}"
+          --s3-location bucket=${{ secrets.AWS_CODE_DEPLOY_BUCKET }},key=frontend-build/${{ github.run_id }}-${{ github.sha }}.zip,bundleType=zip
+        shell: bash
+      # - name: AWS CodeDeploy
+      #   uses: sourcetoad/aws-codedeploy-action@v1
+      #   with:
+      #     aws_access_key: ${{ secrets.AWS_SECRET_ID }}
+      #     aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+      #     aws_region: eu-central-1
+      #     codedeploy_name: frontend
+      #     codedeploy_group: frontend
+      #     codedeploy_register_only: false
+      #     s3_bucket: ${{ secrets.AWS_CODE_DEPLOY_BUCKET }}
+      #     s3_folder: frontend
+      #     max_polling_iterations: "0"
+      #     directory: ./
