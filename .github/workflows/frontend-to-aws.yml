@@ -13,6 +13,9 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
     steps:
       - name: install-aws-cli
         id: install-aws-cli
@@ -31,16 +34,12 @@ jobs:
           ref: main
       - name: yarn install
         run: yarn install
-        working-directory: frontend
       - name: yarn run next-lint
         run: yarn run next-lint
-        working-directory: frontend
       - name: yarn run prettier-lint
         run: yarn run prettier-lint
-        working-directory: frontend
       - name: yarn run build
         run: yarn run build
-        working-directory: frontend
       - name: zip "${{ github.run_id }}-${{ github.sha }}.zip"
         run: zip -r --quiet "${{ github.run_id }}-${{ github.sha }}.zip" .
         shell: bash
