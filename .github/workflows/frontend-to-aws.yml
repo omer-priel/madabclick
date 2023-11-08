@@ -70,16 +70,3 @@ jobs:
           --description "$${{ github.ref_name }} - ${{ github.sha }}"
           --s3-location bucket=${{ secrets.AWS_CODE_DEPLOY_BUCKET }},key=frontend-build/${{ github.run_id }}-${{ github.sha }}.zip,bundleType=zip
         shell: bash
-      # - name: AWS CodeDeploy
-      #   uses: sourcetoad/aws-codedeploy-action@v1
-      #   with:
-      #     aws_access_key: ${{ secrets.AWS_SECRET_ID }}
-      #     aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-      #     aws_region: eu-central-1
-      #     codedeploy_name: frontend
-      #     codedeploy_group: frontend
-      #     codedeploy_register_only: false
-      #     s3_bucket: ${{ secrets.AWS_CODE_DEPLOY_BUCKET }}
-      #     s3_folder: frontend
-      #     max_polling_iterations: "0"
-      #     directory: ./

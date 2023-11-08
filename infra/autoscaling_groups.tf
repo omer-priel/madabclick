@@ -38,7 +38,7 @@ resource "aws_autoscaling_group" "frontend" {
 
   desired_capacity = 4
   min_size         = 4
-  max_size         = 8
+  max_size         = 4
 
   vpc_zone_identifier = [aws_subnet.frontend_a.id, aws_subnet.frontend_b.id]
 
@@ -56,28 +56,14 @@ resource "aws_autoscaling_group" "frontend" {
   }
 }
 
-resource "aws_autoscaling_policy" "frontend_average_network_in" {
-  name                   = "frontend_average_network_in"
+resource "aws_autoscaling_policy" "frontend_average_cpu_utilization" {
+  name                   = "frontend_average_cpu_utilization"
   policy_type            = "TargetTrackingScaling"
   autoscaling_group_name = aws_autoscaling_group.frontend.name
 
   target_tracking_configuration {
     predefined_metric_specification {
-      predefined_metric_type = "ASGAverageNetworkIn"
-    }
-
-    target_value = 70.0
-  }
-}
-
-resource "aws_autoscaling_policy" "frontend_average_network_out" {
-  name                   = "frontend_average_network_out"
-  policy_type            = "TargetTrackingScaling"
-  autoscaling_group_name = aws_autoscaling_group.frontend.name
-
-  target_tracking_configuration {
-    predefined_metric_specification {
-      predefined_metric_type = "ASGAverageNetworkOut"
+      predefined_metric_type = "ASGAverageCPUUtilization"
     }
 
     target_value = 70.0
