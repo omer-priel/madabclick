@@ -41,14 +41,27 @@ jobs:
       - name: yarn run build
         run: yarn run build
         working-directory: frontend
+      - name: zip "${{ github.run_id }}-${{ github.sha }}.zip"
+        run: zip -r --quiet "${{ github.run_id }}-${{ github.sha }}.zip" .
+        shell: bash
       - name: aws configure
         run: >-
           aws configure set aws_access_key_id ${{ secrets.AWS_SECRET_ID }};
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_KEY }};
           aws configure set default.region eu-central-1;
         shell: bash
-      - name: zip "${{ github.run_id }}-${{ github.sha }}.zip"
-        run: zip -r --quiet "${{ github.run_id }}-${{ github.sha }}.zip" .
+      - name: Waiting for the deployments that in progress to end
+        run: >-
+          function getActiveDeployments() {
+            aws deploy list-deployments
+              --application-name frontend
+              --deployment-group-name frontend
+              --include-only-statuses "Queued" "InProgress" | jq -r '.deployments';
+          }
+          while [ "$(getActiveDeployments)" != "[]" ]; do
+            echo -e "Waiting for the deployments that in progress to end. Sleeping 60 seconds";
+            sleep 60s;
+          done;
         shell: bash
       - name: aws s3 cp
         run: >-
