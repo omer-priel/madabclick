@@ -52,13 +52,7 @@ jobs:
         shell: bash
       - name: Waiting for the deployments that in progress to end
         run: >-
-          function getActiveDeployments() {
-            aws deploy list-deployments
-              --application-name frontend
-              --deployment-group-name frontend
-              --include-only-statuses "Queued" "InProgress" | jq -r '.deployments';
-          };
-          while [ "$(getActiveDeployments)" != "[]" ]; do
+          while [ "$( aws deploy list-deployments --application-name frontend --deployment-group-name frontend --include-only-statuses Queued InProgress | jq -r '.deployments')" != "[]" ]; do
             echo -e "Waiting for the deployments that in progress to end. Sleeping 60 seconds";
             sleep 60s;
           done;
