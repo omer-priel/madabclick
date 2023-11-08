@@ -75,10 +75,10 @@ export async function getYouTubeVideosData(videoIDs: string[]): Promise<VideosDa
           return;
         }
 
-        if (item.status.privacyStatus === 'private') {
+        if (item.status.privacyStatus !== 'public') {
           videos[item.id] = {
             allowd: false,
-            notAllowedReason: 'The video is private',
+            notAllowedReason: `The video is ${item.status.privacyStatus}`,
           };
           return;
         }
@@ -168,10 +168,10 @@ export async function getYouTubePlaylistsData(playlistIDs: string[]): Promise<Pl
           return;
         }
 
-        if (item.status.privacyStatus === 'private') {
+        if (item.status.privacyStatus !== 'public') {
           playlists[item.id] = {
             allowd: false,
-            notAllowedReason: 'The playlist is private',
+            notAllowedReason: `The playlist is ${item.status.privacyStatus}`,
           };
           return;
         }
