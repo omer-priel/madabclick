@@ -9,19 +9,27 @@ const gStore: GStore = {
 };
 
 export function findDevice(userAgent: string | null): Device {
-  let device: Device = 'desktop';
-
-  if (userAgent) {
-    if (userAgent.includes('WhatsApp')) {
-      device = 'whatsapp';
-    } else if (userAgent.includes('Android') || userAgent.includes('iOS') || userAgent.includes('Mobile')) {
-      device = 'mobile';
-    } else if (userAgent.includes('Googlebot')) {
-      device = 'googlebot';
-    }
+  if (!userAgent) {
+    return 'desktop';
   }
 
-  return device;
+  if (userAgent.includes('Googlebot')) {
+    return 'googlebot';
+  }
+
+  if (userAgent.includes('WhatsApp')) {
+    return 'whatsapp';
+  }
+
+  if (userAgent.includes('Twitterbot')) {
+    return 'twitterbot';
+  }
+
+  if (userAgent.includes('Android') || userAgent.includes('iOS') || userAgent.includes('Mobile')) {
+    return 'mobile';
+  }
+
+  return 'desktop';
 }
 
 export function setDevice(device: Device): void {
