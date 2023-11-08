@@ -10,6 +10,7 @@ import SearchBox from '@/components/atoms/SearchBox';
 import ContentGallery from '@/components/blocks/ContentGallery';
 
 import { Content, ContentsSchema } from '@/lib/api/schemas';
+import cat3Icon from '@/public/cat-3.svg';
 
 interface Props {
   data: ContentsSchema;
@@ -42,7 +43,7 @@ export default function SectionContents({ data }: Props) {
         <SearchBox placeholder={t('search')} value={searchText} onChange={setSearchText} />
       </div>
       <div className='w-fit h-fit mx-auto mt-[4.27vw]'>
-        <Image className='w-[114px] h-[80px]' alt='' src='/cat-3.svg' width='114' height='80' />
+        <Image className='w-[114px] h-[80px]' alt='' src={cat3Icon} width='114' height='80' />
       </div>
       <div className='relative w-fit h-[60px] top-[-20px] mx-auto text-white text-[40px]/[60px] text-right font-black'>
         {t('section-contents-title')}

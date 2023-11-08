@@ -7,6 +7,7 @@ import Image from 'next/image';
 import ContentCard from '@/components/blocks/ContentCard';
 
 import { Content } from '@/lib/api/schemas';
+import contentsSidebarLeftArrowIcon from '@/public/contents-sidebar-left-arrow.svg';
 
 const CONTENT_BLOCK_WIDTH = 395 + 31.81;
 const SCROLL_SPEED = 9;
@@ -143,7 +144,7 @@ export default function ContentGallery({ contents, domain, showContentCard }: Pr
       <Image
         className={'absolute w-[100px] h-[100px] left-0 top-[140px]' + (leftArrowVisible ? '' : ' hidden')}
         alt=''
-        src={'/contents-sidebar-left-arrow.svg'}
+        src={contentsSidebarLeftArrowIcon}
         width='100'
         height='100'
         onClick={() => scrollLeft()}
@@ -151,7 +152,7 @@ export default function ContentGallery({ contents, domain, showContentCard }: Pr
       <Image
         className={'absolute w-[100px] h-[100px] right-0 top-[140px] rotate-180' + (rightArrowVisible ? '' : ' hidden')}
         alt=''
-        src={'/contents-sidebar-left-arrow.svg'}
+        src={contentsSidebarLeftArrowIcon}
         width='100'
         height='100'
         onClick={() => scrollRight()}

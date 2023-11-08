@@ -6,6 +6,10 @@ import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
 import { useOnLeaveElement, useOnPageResized } from '@/hooks';
+import closeIcon from '@/public/close.svg';
+import selectDownIcon from '@/public/select-down.svg';
+import selectNotSelectedIcon from '@/public/select-not-selected.svg';
+import selectSelectedIcon from '@/public/select-selected.svg';
 
 interface Props {
   label: string;
@@ -47,7 +51,7 @@ export default function MultiSelect({ label, options, values, onChange }: Props)
             <Image
               className={'w-[25px] h-[25px]' + (!opened ? '' : ' rotate-180')}
               alt={label}
-              src={'/select-down.svg'}
+              src={selectDownIcon}
               width='25'
               height='25'
             />
@@ -74,7 +78,7 @@ export default function MultiSelect({ label, options, values, onChange }: Props)
                 <Image
                   className='w-[0.937vw] h-[0.937vw] p-[0.526vw]'
                   alt={option}
-                  src={values.includes(option) ? '/select-selected.svg' : '/select-not-selected.svg'}
+                  src={values.includes(option) ? selectSelectedIcon : selectNotSelectedIcon}
                   width='18'
                   height='18'
                 />
@@ -93,7 +97,7 @@ export default function MultiSelect({ label, options, values, onChange }: Props)
               <Image
                 className='w-[10px] h-[9px] mx-[4px] my-auto'
                 alt={t('remove')}
-                src={'/close.svg'}
+                src={closeIcon}
                 width='10'
                 height='9'
                 onClick={() => {
