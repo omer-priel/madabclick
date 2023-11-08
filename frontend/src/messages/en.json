@@ -1,33 +1,33 @@
 {
-  "site-title": "מדע בקליק",
-  "site-description": "תוכן לילדים סקרנים",
+  "site-title": "a click of science"
+  "site-description": "content for curious children",
 
-  "choose-language": "בחר שפה",
+  "choose-language": "choose language",
 
-  "footer-copyright": "כל הזכויות שמורות למדע בקליק",
+  "footer-copyright": "all rights reserved Madabclick",
 
-  "section-1-title": "שלום לכל מדעני העתיד",
-  "section-1-body": "למה יש עונות? כיצד השמש בוערת ללא חמצן? רוצים לגלות את סודות היקום?  מוזמנים לחקור אותו יחד איתי דרך  המשקפיים של בוגרי תוכנית אסכולה, שאספו עבורכם סרטונים מרתקים.רק אל תשכחו מה הסקרנות עשתה לחתול . . .",
+  "section-1-title": "Hello to All Future Scientists! ",
+  "section-1-body": "Why are there distinct seasons ? Why do we have seasons? How can the sun burn without oxygen? Would you like to discover the secrets of the universe? We invite you to explore all these and more with us through the eyes of the Ascola Alumni Network members, who collected fascinating videos for you. But let's not forget what curiosity did to the cat... ",
 
-  "section-2-title": "קצת עלינו",
-  "section-2-body": "האתר מדע בקליק נותן מענה לילדים סקרנים בשל היעדר לימודים פרונטליים בימי המלחמה הקשים, ע\"י צפייה קלילה ומהנה בתכנים מדעיים מעשירים ומפתחי חשיבה. את המיזם הקימו קבוצה של חברי רשת אסכולה בגילאי 20-30, שבתור ילדים נהנו לצפות בסרטונים מדעיים ונרתמו כדי לאסוף ולבדוק סרטונים מומלצים למען הדור הבא של המדענים. הסרטונים אינם מחליפים את תוכנית הלימודים אלא מוסיפים פן חוויתי ומעניין.",
+  "section-2-title": "About us",
+  "section-2-body": "The 'Science in a Click' website provides answers to curious children, who cannot join frontal classes during the difficult days of the war, via engaging and educational science videos that are both enjoyable and enriching. The project was founded by a group of Ascola Alumni Network members aged 20-30, who as children enjoyed watching science videos and they joined forces in this project to collect and review recommended videos for the next generation of scientists. These videos are not a substitute for the official school curriculum; rather, they offer an engaging and supplementary educational experience.",
 
-  "section-2-recommended-label": "המלצת הבוגרים",
+  "section-2-recommended-label": "The staff's recommendation",
 
-  "section-contents-title": "סרטונים בקליק",
+  "section-contents-title": "Videos within a click",
 
-  "search": "מה מסקרן אותך היום?",
+  "search": "What are you curious about ?",
 
-  "section-contents-filters-label": "בחירת ההעדפות שלכם",
+  "section-contents-filters-label": "choose your preferences",
 
-  "all": "הכל",
-  "remove": "הסר",
+  "all": "All",
+  "remove": "Remove",
 
-  "filter-age-level": "באיזו כיתה אתם?",
-  "filter-duration": "כמה דקות תוכלו להתרכז?",
-  "filter-language": "באיזו שפה תרצו לחקור?",
+  "filter-age-level": "How old are you ?",
+  "filter-duration": "How much time do you have ?",
+  "filter-language": "What is your prefered language ?",
 
-  "link-to-youtube-video": "קישור לסירטון",
-  "link-to-youtube-playlist": "קישור לרשימה",
-  "link-to-website": "קישור לאתר"
+  "link-to-youtube-video": "link to video",
+  "link-to-youtube-playlist": "link to playlist",
+  "link-to-website": "link to website"
 }
