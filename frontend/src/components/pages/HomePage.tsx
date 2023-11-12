@@ -12,7 +12,10 @@ interface Props {
 
 export default function HomePage({ data }: Props) {
   return (
-    <div className='relative w-full mx-auto overflow-x-hidden overflow-y-hidden bg-whitesmoke text-base text-black font-poppins'>
+    <div
+      className='relative w-full mx-auto overflow-x-hidden overflow-y-hidden bg-whitesmoke text-base text-black font-poppins
+    rtl:text-right ltr:text-left'
+    >
       <Header />
       <Section1 />
       <Section2 recommendedContent={data.recommendedContent} />

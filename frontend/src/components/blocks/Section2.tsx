@@ -19,19 +19,25 @@ export default function Section2({ recommendedContent }: Props) {
 
   return (
     <div className='relative w-full h-[68.177vw] bg-[#F1F1F1]'>
-      <div className='absolute w-[51.041vw] right-[20.156vw] top-[6.041vw]'>
+      <div className='absolute w-[51.041vw] rtl:right-[20.156vw] ltr:left-[20.156vw] top-[6.041vw]'>
         <div className='relative'>
           <Image
-            className='absolute w-[120px] h-[180px] right-[0px] top-[20px] object-cover'
+            className='absolute w-[120px] h-[180px] rtl:right-[0px] ltr:left-[0px] top-[20px] object-cover ltr:scale-x-[-1]'
             alt=''
             src={cat1Icon}
             width='120'
             height='180'
           />
-          <div className='absolute w-[200px] h-[60px] right-[183px] top-[0px] text-black text-[40px]/[60px] text-right font-black'>
+          <div
+            className='absolute w-[200px] h-[60px] rtl:right-[183px] ltr:left-[183px] top-[0px]
+          text-black text-[40px]/[60px] font-black'
+          >
             {t('section-2-title')}
           </div>
-          <div className='absolute w-[732px] h-[150px] right-[183px] top-[71px] text-black text-[20px]/[30px] text-right font-normal'>
+          <div
+            className='absolute w-[732px] h-[150px] rtl:right-[183px] ltr:left-[183px] top-[71px]
+          text-black text-[20px]/[30px] font-normal'
+          >
             {t('section-2-body')}
           </div>
         </div>
@@ -47,12 +53,10 @@ export default function Section2({ recommendedContent }: Props) {
               <Image alt='' src={recommendedBackgroundIcon} fill />
             </div>
             <div className='absolute w-full h-[60px] top-[3.697vw]'>
-              <div className='w-fit h-fit mx-auto text-white text-[40px]/[60px] text-right font-black'>
-                {t('section-2-recommended-label')}
-              </div>
+              <div className='w-fit h-fit mx-auto text-white text-[40px]/[60px] font-black'>{t('section-2-recommended-label')}</div>
             </div>
             <div className='absolute w-full top-[7.968vw]'>
-              <div className='w-fit h-fit mx-auto text-white text-[40px]/[60px] text-right font-black'>
+              <div className='w-fit h-fit mx-auto text-white text-[40px]/[60px] font-black'>
                 <RecommendedContentCard content={recommendedContent} />
               </div>
             </div>
@@ -61,7 +65,7 @@ export default function Section2({ recommendedContent }: Props) {
       )}
       {!!recommendedContent && (
         <Image
-          className='absolute w-[10.677vw] h-[4.166vw] right-[75.468vw] top-[19.791vw]'
+          className='absolute w-[10.677vw] h-[4.166vw] rtl:right-[75.468vw] ltr:left-[75.468vw] top-[19.791vw]'
           alt=''
           src={cat2Icon}
           width='205'

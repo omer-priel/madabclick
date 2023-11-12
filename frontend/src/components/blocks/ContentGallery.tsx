@@ -12,6 +12,15 @@ import contentsSidebarLeftArrowIcon from '@/public/contents-sidebar-left-arrow.s
 const CONTENT_BLOCK_WIDTH = 395 + 31.81;
 const SCROLL_SPEED = 9;
 
+function getGalleryBounds(el: HTMLDivElement) {
+  const right = document.dir === 'rtl' ? 0 : el.scrollWidth - el.clientWidth;
+  const left = document.dir === 'rtl' ? el.clientWidth - el.scrollWidth : 0;
+  return {
+    right,
+    left,
+  };
+}
+
 interface Props {
   contents: Content[];
   domain: string;
@@ -41,9 +50,11 @@ export default function ContentGallery({ contents, domain, showContentCard }: Pr
         clearInterval(handler);
         setScrollInterval(null);
 
-        if (target === 0) {
+        const { right, left } = getGalleryBounds(refGallery.current);
+
+        if (target === right) {
           setRightArrowVisible(false);
-        } else if (target == refGallery.current.clientWidth - refGallery.current.scrollWidth) {
+        } else if (target == left) {
           setLeftArrowVisible(false);
         }
 
@@ -77,19 +88,19 @@ export default function ContentGallery({ contents, domain, showContentCard }: Pr
       return;
     }
 
-    const end = refGallery.current.clientWidth - refGallery.current.scrollWidth;
+    const left = getGalleryBounds(refGallery.current).left;
 
-    if (refGallery.current.scrollLeft == end) {
+    if (refGallery.current.scrollLeft == left) {
       return;
     }
 
     const blocksInWindow = Math.floor(refGallery.current.clientWidth / CONTENT_BLOCK_WIDTH);
     const target = refGallery.current.scrollLeft - blocksInWindow * CONTENT_BLOCK_WIDTH;
 
-    if (target > end) {
+    if (target > left) {
       scrollTo(target);
     } else {
-      scrollTo(end);
+      scrollTo(left);
     }
   };
 
@@ -102,17 +113,19 @@ export default function ContentGallery({ contents, domain, showContentCard }: Pr
       return;
     }
 
-    if (refGallery.current.scrollLeft == 0) {
+    const right = getGalleryBounds(refGallery.current).right;
+
+    if (refGallery.current.scrollLeft == right) {
       return;
     }
 
     const blocksInWindow = Math.floor(refGallery.current.clientWidth / CONTENT_BLOCK_WIDTH);
     const target = refGallery.current.scrollLeft + blocksInWindow * CONTENT_BLOCK_WIDTH;
 
-    if (target < 0) {
+    if (target < right) {
       scrollTo(target);
     } else {
-      scrollTo(0);
+      scrollTo(right);
     }
   };
 
@@ -121,9 +134,11 @@ export default function ContentGallery({ contents, domain, showContentCard }: Pr
       return;
     }
 
-    if (refGallery.current.scrollLeft === 0) {
+    const { right, left } = getGalleryBounds(refGallery.current);
+
+    if (refGallery.current.scrollLeft === right) {
       setRightArrowVisible(false);
-    } else if (refGallery.current.scrollLeft == refGallery.current.clientWidth - refGallery.current.scrollWidth) {
+    } else if (refGallery.current.scrollLeft == left) {
       setLeftArrowVisible(false);
     }
   }, [refGallery, setLeftArrowVisible, setRightArrowVisible]);
@@ -131,11 +146,14 @@ export default function ContentGallery({ contents, domain, showContentCard }: Pr
   return (
     <>
       <div className='flex flex-nowrap mt-[44px]'>
-        <div ref={refGallery} className='flex ltr:flex-row-reverse h-fit mx-auto overflow-x-hidden pl-[31.81px]'>
+        <div ref={refGallery} className='flex rtl h-fit mx-auto overflow-x-hidden rtl:pl-[31.81px] ltr:pr-[31.81px]'>
           {contents
             .filter((content) => content.domain == domain)
             .map((content) => (
-              <div key={content.index} className={'w-[395px] mr-[31.81px]' + (showContentCard(content) ? '' : ' hidden')}>
+              <div
+                key={content.index}
+                className={'w-[395px] rtl:mr-[31.81px] ltr:ml-[31.81px]' + (showContentCard(content) ? '' : ' hidden')}
+              >
                 <ContentCard content={content} />
               </div>
             ))}

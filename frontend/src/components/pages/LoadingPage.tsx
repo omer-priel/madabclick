@@ -3,7 +3,10 @@ import Section1 from '@/components/blocks/Section1';
 
 export default function LoadingPage() {
   return (
-    <div className='relative w-full mx-auto overflow-x-hidden overflow-y-hidden bg-whitesmoke text-base text-black font-poppins'>
+    <div
+      className='relative w-full mx-auto overflow-x-hidden overflow-y-hidden bg-whitesmoke text-base text-black font-poppins
+    rtl:text-right ltr:text-left'
+    >
       <Header />
       <Section1 />
       <div className='w-full'>
