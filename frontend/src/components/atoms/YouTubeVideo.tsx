@@ -5,8 +5,7 @@ import YouTube from 'react-youtube';
 
 import { getAppStore } from '@/appStore';
 import { Content } from '@/lib/api/schemas';
-import { useAppDispatch, useAppSelector } from '@/store';
-import { activatePlayer, deactivatePlayer } from '@/store/features/playersSlice';
+import { useStore } from '@/store';
 
 interface Props {
   playerId: number;
@@ -16,20 +15,16 @@ interface Props {
 }
 
 export default function YouTubeVideo({ playerId, content, width, height }: Props) {
-  const dispatch = useAppDispatch();
-
-  const active = useAppSelector((state) => state.players.active === playerId);
+  const active = useStore((state) => state.activePlayer === playerId);
+  const activatePlayer = useStore((state) => state.activatePlayer);
+  const deactivatePlayer = useStore((state) => state.deactivatePlayer);
 
   const onActive = () => {
-    dispatch(
-      activatePlayer({
-        playerId,
-      })
-    );
+    activatePlayer(playerId);
   };
 
   const onClose = () => {
-    dispatch(deactivatePlayer());
+    deactivatePlayer();
   };
 
   if (!content.youtube) {

@@ -5,8 +5,8 @@ import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 import { findDevice, setDevice } from '@/devicesManager';
-import { ReduxProvider } from '@/store/provider';
-import { getLanguages, setLanguage } from '@/translation';
+import { useStore } from '@/store';
+import { findLanguage } from '@/translation';
 
 import '@/styles/globals.css';
 
@@ -25,7 +25,7 @@ export default async function RootLayout({ children, params: { locale } }: Props
   const device = findDevice(userAgent);
   setDevice(device);
 
-  const language = getLanguages().find((lang) => lang.locale == locale);
+  const language = findLanguage(locale);
 
   if (!language) {
     redirect('/he');
@@ -33,7 +33,9 @@ export default async function RootLayout({ children, params: { locale } }: Props
 
   const messages = (await import(`@/messages/${language.locale}.json`)).default;
 
-  setLanguage(language);
+  useStore.setState({
+    language: language,
+  });
 
   if (device === 'whatsapp' || device === 'twitterbot') {
     return (
@@ -72,11 +74,9 @@ export default async function RootLayout({ children, params: { locale } }: Props
         <meta name='twitter:card' content='summary' />
       </head>
       <body className='ltr:text-right rtl:text-left'>
-        <ReduxProvider>
-          <NextIntlClientProvider locale={language.locale} messages={messages}>
-            {children}
-          </NextIntlClientProvider>
-        </ReduxProvider>
+        <NextIntlClientProvider locale={language.locale} messages={messages}>
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );

@@ -1,7 +1,10 @@
+import { useStore } from '@/store';
 import { getTranslation } from '@/translation';
 
 export default async function Footer() {
-  const t = await getTranslation();
+  const language = useStore.getState().language;
+
+  const t = await getTranslation(language.locale);
 
   return (
     <div className='flex w-full h-[8.125vw]'>

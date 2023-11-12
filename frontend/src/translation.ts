@@ -28,24 +28,22 @@ export const languages: Languages = {
   },
 };
 
-const gStore = {
-  language: languages.he,
-};
-
-export function setLanguage(language: Language): void {
-  gStore.language = language;
+export function getLanguages(): Languages {
+  return languages;
 }
 
-export function getLanguage(): Language {
-  return gStore.language;
+export function findLanguage(locale: string): Language | null {
+  const language = Object.values(languages).find((value) => value.locale === locale);
+
+  if (language) {
+    return language;
+  }
+
+  return null;
 }
 
-export function getLanguages(): Language[] {
-  return Object.values(languages) as Language[];
-}
-
-export async function getTranslation() {
-  return (await getTranslator(gStore.language.locale)).rich;
+export async function getTranslation(locale: LanguageLocale) {
+  return (await getTranslator(locale)).rich;
 }
 
 export function getTextDirection(text: string): 'ltr' | 'rtl' | null {
