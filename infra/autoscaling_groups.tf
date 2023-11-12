@@ -38,7 +38,7 @@ resource "aws_autoscaling_group" "frontend" {
 
   desired_capacity = 4
   min_size         = 4
-  max_size         = 8
+  max_size         = 4
 
   vpc_zone_identifier = [aws_subnet.frontend_a.id, aws_subnet.frontend_b.id]
 

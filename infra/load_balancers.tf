@@ -58,10 +58,9 @@ resource "aws_iam_server_certificate" "frontend_https" {
   }
 }
 
-resource "aws_acm_certificate" "frontend_https" {
-  domain_name       = aws_lb.frontend.dns_name
-  validation_method = "DNS"
-  private_key       = aws_iam_server_certificate.frontend_https.private_key
+resource "aws_acm_certificate" "frontend_madabclick" {
+  domain_name       = "madabclick.madaney.net"
+  validation_method = "EMAIL"
 
   tags = {
     Name = "frontend"
