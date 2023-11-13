@@ -58,18 +58,6 @@ resource "aws_iam_server_certificate" "frontend_https" {
   }
 }
 
-resource "aws_acm_certificate" "frontend_madabclick" {
-  domain_name       = "madabclick.madaney.net"
-  validation_method = "EMAIL"
-
-  tags = {
-    Name = "frontend"
-  }
-
-  lifecycle {
-    create_before_destroy = true
-  }
-}
 
 resource "aws_lb_listener" "frontend_https" {
   load_balancer_arn = aws_lb.frontend.arn
