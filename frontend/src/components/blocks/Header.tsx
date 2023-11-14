@@ -12,7 +12,7 @@ export default async function Header() {
   const t = await getTranslation(language.locale);
 
   return (
-    <div className='relative w-full h-[8.22vw] bg-[#00b2ca]'>
+    <div className='relative w-full h-[140px] bg-[#00b2ca]'>
       <div className='absolute w-fit h-fit top-[45px] right-[62px]'>
         <div className='flex ltr:flex-row-reverse'>
           <Image className='w-[35px] h-[35px] ml-[36px]' alt={t('choose-language')} src={chooseLanguageIcon} width='35' height='35' />
@@ -27,8 +27,8 @@ export default async function Header() {
           </div>
         </div>
       </div>
-      <div className='absolute w-[10.781vw] h-[3.75vw] right-[calc(50%_-_7.29vw)] top-[2.03vw]'>
-        <Image alt='' src={fullLogoIcon} fill />
+      <div className='absolute w-[207px] h-[72px] right-[calc(50%_-_103px)] top-[56.11px]'>
+        <Image alt='' src={fullLogoIcon} width='207' height='72' />
       </div>
     </div>
   );

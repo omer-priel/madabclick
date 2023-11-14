@@ -4,8 +4,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-import { findDevice, setDevice } from '@/devicesManager';
-import { useStore } from '@/store';
+import { findDevice, useStore } from '@/store';
 import { findLanguage } from '@/translation';
 
 import '@/styles/globals.css';
@@ -23,7 +22,10 @@ interface Props extends PageProps {
 export default async function RootLayout({ children, params: { locale } }: Props) {
   const userAgent = headers().get('user-agent');
   const device = findDevice(userAgent);
-  setDevice(device);
+
+  useStore.setState({
+    device: device,
+  });
 
   const language = findLanguage(locale);
 
@@ -37,7 +39,7 @@ export default async function RootLayout({ children, params: { locale } }: Props
     language: language,
   });
 
-  if (device === 'whatsapp' || device === 'twitterbot') {
+  if (device === 'whatsapp') {
     return (
       <html lang={language.locale} dir={language.dir}>
         <head>
@@ -52,6 +54,7 @@ export default async function RootLayout({ children, params: { locale } }: Props
           <meta property='og:locale:alternate' content='en_GB' />
           <meta property='og:locale:alternate' content='ar_AE' />
           <meta name='twitter:card' content='summary' />
+          <meta name='application-name' content='מדע בקליק' data-device={device} />
         </head>
         <body></body>
       </html>
@@ -72,6 +75,7 @@ export default async function RootLayout({ children, params: { locale } }: Props
         <meta property='og:locale:alternate' content='en_GB' />
         <meta property='og:locale:alternate' content='ar_AE' />
         <meta name='twitter:card' content='summary' />
+        <meta name='application-name' content='מדע בקליק' data-device={device} />
       </head>
       <body className='ltr:text-right rtl:text-left'>
         <NextIntlClientProvider locale={language.locale} messages={messages}>

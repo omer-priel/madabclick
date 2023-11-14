@@ -21,25 +21,27 @@ export default function Section2({ recommendedContent }: Props) {
   return (
     <div className='relative w-full h-[1650px] bg-[#F1F1F1]'>
       <div className='absolute w-[51.041vw] rtl:right-[20.156vw] ltr:left-[20.156vw] top-[6.041vw]'>
-        <div className='relative'>
+        <div className='flex w-fit h-fit'>
           <Image
-            className='absolute w-[120px] h-[180px] rtl:right-[0px] ltr:left-[0px] top-[20px] object-cover ltr:scale-x-[-1]'
+            className='w-[120px] h-[180px] rtl:ml-[61.16px] ltr:mr-[61.16px] mt-auto mb-[8px] object-cover ltr:scale-x-[-1]'
             alt=''
             src={cat1Icon}
             width='120'
             height='180'
           />
-          <div
-            className='absolute w-[200px] h-[60px] rtl:right-[183px] ltr:left-[183px] top-[0px]
-          text-black text-[40px]/[60px] font-black'
-          >
-            {t('section-2-title')}
-          </div>
-          <div
-            className='absolute w-[732px] h-[150px] rtl:right-[183px] ltr:left-[183px] top-[71px]
-          text-black text-[20px]/[30px] font-normal'
-          >
-            {t('section-2-body')}
+          <div className='w-fit h-fit'>
+            <div
+              className='w-[200px] top-[0px]
+            text-black text-[40px]/[60px] font-black'
+            >
+              {t('section-2-title')}
+            </div>
+            <div
+              className='w-[732px] top-[71px]
+            text-black text-[20px]/[30px] font-normal'
+            >
+              {t('section-2-body')}
+            </div>
           </div>
         </div>
       </div>
