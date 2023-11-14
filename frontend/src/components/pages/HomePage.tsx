@@ -13,7 +13,7 @@ interface Props {
 export default function HomePage({ data }: Props) {
   return (
     <div
-      className='relative w-full mx-auto overflow-x-hidden overflow-y-hidden bg-whitesmoke text-base text-black font-poppins
+      className='relative w-full mx-auto overflow-x-hidden overflow-y-hidden bg-whitesmoke text-base text-black
     rtl:text-right ltr:text-left'
     >
       <Header />

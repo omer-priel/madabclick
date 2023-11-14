@@ -6,8 +6,25 @@ import { redirect } from 'next/navigation';
 
 import { findDevice, useStore } from '@/store';
 import { findLanguage } from '@/translation';
+import { cn } from "@/lib/utils"
 
 import '@/styles/globals.css';
+
+import { Poppins, Assistant } from "next/font/google"
+
+export const poppinsFont = Poppins({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  variable: '--font-poppins',
+});
+
+export const assistantFont = Assistant({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ["200", "300", "400", "500", "600", "700", "800"],
+  variable: '--font-assistant',
+});
 
 export interface PageProps {
   params: {
@@ -77,10 +94,18 @@ export default async function RootLayout({ children, params: { locale } }: Props
         <meta name='twitter:card' content='summary' />
         <meta name='application-name' content='מדע בקליק' data-device={device} />
       </head>
-      <body className='ltr:text-right rtl:text-left'>
-        <NextIntlClientProvider locale={language.locale} messages={messages}>
-          {children}
-        </NextIntlClientProvider>
+      <body
+        className={cn(
+          "ltr:text-right rtl:text-left min-h-screen bg-background font-poppins antialiased",
+          assistantFont.variable,
+          poppinsFont.variable
+        )}
+        >
+        <div className='w-full h-fit'>
+          <NextIntlClientProvider locale={language.locale} messages={messages}>
+            {children}
+          </NextIntlClientProvider>
+        </div>
       </body>
     </html>
   );

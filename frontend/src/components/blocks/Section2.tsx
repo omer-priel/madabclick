@@ -56,9 +56,11 @@ export default function Section2({ recommendedContent }: Props) {
               <div className='flex w-fit h-fit mx-auto text-black text-[40px]/[60px] font-black'>
                 <RecommendedContentCard content={recommendedContent} />
                 <div className='relative'>
-                  <div className='absolute right-[-20px] top-0 text-[580px]/[406px] text-[#FFB636]'>1</div>
+                  <div className='absolute right-[-43px] z-1 top-[-27px] text-[625px]/[406px] text-[#FFB636] font-assistant font-semibold'>
+                    1
+                  </div>
                   <Image
-                    className='absolute w-[4.166vw] h-[10.677vw] top-[105px] right-[159px]'
+                    className='absolute w-[4.166vw] h-[10.677vw] top-[105px] right-[120px]'
                     alt=''
                     src={cat4Icon}
                     width='80'

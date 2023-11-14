@@ -27,7 +27,7 @@ export default async function Header() {
           </div>
         </div>
       </div>
-      <div className='absolute w-[207px] h-[72px] right-[calc(50%_-_103px)] top-[56.11px]'>
+      <div className='absolute w-[207px] h-[72px] right-[calc(50%_-_103px)] top-[39px]'>
         <Image alt='' src={fullLogoIcon} width='207' height='72' />
       </div>
     </div>
