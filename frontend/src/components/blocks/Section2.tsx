@@ -19,8 +19,8 @@ export default function Section2({ recommendedContent }: Props) {
   const t = useTranslations();
 
   return (
-    <div className='relative w-full h-[1650px] bg-[#F1F1F1]'>
-      <div className='absolute w-[51.041vw] rtl:right-[20.156vw] ltr:left-[20.156vw] top-[6.041vw]'>
+    <div className='w-full bg-[#F1F1F1] pt-[129.78px] pb-[87px]'>
+      <div className='w-[1102.54px] h-fit mx-auto'>
         <div className='flex w-fit h-fit'>
           <Image
             className='w-[120px] h-[180px] rtl:ml-[61.16px] ltr:mr-[61.16px] mt-auto mb-[8px] object-cover ltr:scale-x-[-1]'
@@ -45,8 +45,8 @@ export default function Section2({ recommendedContent }: Props) {
           </div>
         </div>
       </div>
-      <div className='absolute w-full top-[23.437vw]'>
-        <div className='w-[62.656vw] h-[1px] mx-auto bg-black' />
+      <div className='w-full mt-[108.67px]'>
+        <div className='w-[1203px] h-[1px] mx-auto bg-black' />
         {!!recommendedContent && (
           <div className='w-[959px] h-[548px] mt-[92px] mx-auto'>
             <div className='w-full h-[60px]'>
