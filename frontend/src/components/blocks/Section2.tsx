@@ -10,7 +10,6 @@ import cat1Icon from '@/public/cat-1.svg';
 import cat4Icon from '@/public/cat-4.svg';
 import startPart1Icon from '@/public/start-part-1.svg';
 import startPart2Icon from '@/public/start-part-2.svg';
-import { useStore } from '@/store';
 
 interface Props {
   recommendedContent: Content | null;
@@ -18,28 +17,6 @@ interface Props {
 
 export default function Section2({ recommendedContent }: Props) {
   const t = useTranslations();
-
-  const locale = useStore((state) => state.language.locale);
-
-  let shareFormLink = 'https://forms.gle/km8Dv7y2QzfAQj4P9';
-  switch (locale) {
-    case 'en':
-      shareFormLink = 'https://forms.gle/KEYDefvU9ER1kWaf7';
-      break;
-    case 'ar':
-      shareFormLink = 'https://forms.gle/uHapjNx4S8deCnn67';
-      break;
-  }
-
-  // const shareBetaFormLink = 'https://forms.gle/aUnyEgGFDXZSVpzV7';
-  // switch (locale) {
-  //   case 'en':
-  //     shareFormLink = 'https://forms.gle/DL6yHSav6go2TDcH9';
-  //     break;
-  //   case 'ar':
-  //     shareFormLink = 'https://forms.gle/xxtFHXTsa1gobPBRA';
-  //     break;
-  // }
 
   return (
     <div className='relative w-full h-[1650px] bg-[#F1F1F1]'>
@@ -111,7 +88,7 @@ export default function Section2({ recommendedContent }: Props) {
           <div className='absolute w-[309px] h-[50px] left-[-4px] top-[142px]'>
             <a
               className='flex w-[309px] h-[50px] justify-center items-center no-underline text-white bg-[#00B2CA] rounded-[200px]'
-              href={shareFormLink}
+              href={t('section-2-share-herf')}
               target='_black'
             >
               {t('section-2-share-label')}

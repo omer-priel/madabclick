@@ -16,9 +16,10 @@ interface Props {
   options: string[];
   values: string[];
   onChange: (value: string[]) => void;
+  singleValue?: boolean;
 }
 
-export default function MultiSelect({ label, options, values, onChange }: Props) {
+export default function MultiSelect({ label, options, values, onChange, singleValue }: Props) {
   const t = useTranslations();
 
   const [opened, setOpened] = useState(false);
@@ -69,9 +70,17 @@ export default function MultiSelect({ label, options, values, onChange }: Props)
                 className='flex justify-left w-[10.104vw] px-[0.526vw] py-[0.52vw] rounded-[0.26vw] hover:bg-gainsboro'
                 onClick={() => {
                   if (values.includes(option)) {
-                    onChange(values.filter((el) => el != option));
+                    if (singleValue) {
+                      onChange([]);
+                    } else {
+                      onChange(values.filter((el) => el != option));
+                    }
                   } else {
-                    onChange([...values, option]);
+                    if (singleValue) {
+                      onChange([option]);
+                    } else {
+                      onChange([...values, option]);
+                    }
                   }
                 }}
               >

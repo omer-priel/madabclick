@@ -52,7 +52,13 @@ export default function SectionContents({ data }: Props) {
         <div className='flex w-fit mx-auto'>
           <div className='w-fit ml-[34px] text-white text-[16px]/[24px] text-right font-light'>{t('section-contents-filters-label')}</div>
           <div className='w-fit ml-[34px]'>
-            <MultiSelect label={t('filter-age-level')} options={ageLevels} values={selectedAgeLevels} onChange={setSelectedAgeLevels} />
+            <MultiSelect
+              label={t('filter-age-level')}
+              options={ageLevels}
+              values={selectedAgeLevels}
+              onChange={setSelectedAgeLevels}
+              singleValue
+            />
           </div>
           <div className='w-fit ml-[34px]'>
             <MultiSelect label={t('filter-duration')} options={durations} values={selectedDurations} onChange={setSelectedDurations} />
