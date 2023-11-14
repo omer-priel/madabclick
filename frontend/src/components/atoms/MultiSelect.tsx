@@ -104,7 +104,7 @@ export default function MultiSelect({ label, options, values, onChange }: Props)
                   onChange(values.filter((el) => el != value));
                 }}
               />
-              <div className='w-fit h-fit mx-[4px] my-auto text-white text-right text-[16px]/[24px] font-light'>{value}</div>
+              <div className='w-fit h-fit mx-[4px] my-auto text-white text-[16px]/[24px] font-light'>{value}</div>
             </div>
           ))}
         </div>

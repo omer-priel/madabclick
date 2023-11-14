@@ -38,7 +38,7 @@ export default function SectionContents({ data }: Props) {
   };
 
   return (
-    <div className='relative w-full h-fit pt-[6.458vw]' style={{ background: 'linear-gradient(180deg, #088EB8 56%, #04C2FF 100%)' }}>
+    <div className='relative w-full h-fit pt-[6.458vw]' style={{ background: 'linear-gradient(180deg, #00B2CA 56%, #04C2FF 100%)' }}>
       <div className='w-[31.25vw] mx-auto'>
         <SearchBox placeholder={t('search')} value={searchText} onChange={setSearchText} />
       </div>

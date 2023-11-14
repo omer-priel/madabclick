@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 
+import Footer from '@/components/blocks/Footer';
 import Header from '@/components/blocks/Header';
 import Section1 from '@/components/blocks/Section1';
 
@@ -36,7 +37,8 @@ export default function ErrorPage({ error, reset }: Props) {
           </button>
         </div>
       </div>
-      <div className='w-full h-[5.208vw]' />
+      <div className='w-full h-[100px]' />
+      <Footer />
     </div>
   );
 }

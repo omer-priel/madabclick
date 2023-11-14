@@ -10,7 +10,8 @@
     "^(react|next)$",
     "<THIRD_PARTY_MODULES>",
     "^@/components/.*(?<!\\.css|\\.scss)$",
-    "^@/.*(?<!\\.css|\\.scss)$",
+    "^@/(?<!public).*(?<!\\.css|\\.scss)$",
+    "^@/public/.*(?<!\\.css|\\.scss)$",
     "^\\./.*(?<!\\.css|\\.scss)$",
     "(\\.css|\\.scss)$"
   ],

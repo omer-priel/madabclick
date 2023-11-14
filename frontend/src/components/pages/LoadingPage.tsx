@@ -1,3 +1,4 @@
+import Footer from '@/components/blocks/Footer';
 import Header from '@/components/blocks/Header';
 import Section1 from '@/components/blocks/Section1';
 
@@ -15,7 +16,8 @@ export default function LoadingPage() {
           <div className='w-[3.125vw] h-[0.416vw] bg-[#81B826]' />
         </div>
       </div>
-      <div className='w-full h-[5.208vw]' />
+      <div className='w-full h-[100px]' />
+      <Footer />
     </div>
   );
 }

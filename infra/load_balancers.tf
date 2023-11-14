@@ -50,14 +50,13 @@ resource "aws_lb_listener" "frontend_http" {
 
 resource "aws_iam_server_certificate" "frontend_https" {
   name             = "frontend-https"
-  certificate_body = file("keys/frontend-https-cert.pem")
-  private_key      = file("keys/frontend-https-key.pem")
+  certificate_body = file("keys/ca-cert.pem")
+  private_key      = file("keys/ca-key.pem")
 
   tags = {
     Name = "frontend"
   }
 }
-
 
 resource "aws_lb_listener" "frontend_https" {
   load_balancer_arn = aws_lb.frontend.arn

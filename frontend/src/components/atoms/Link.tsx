@@ -13,7 +13,7 @@ export default function LabelLink({ href, label, active, hardReload }: Props) {
   return hardReload ? (
     <a
       href={href}
-      className={(active ? 'text-[#04C2FF]' : 'text-black') + ' hover:text-[#04C2FF]'}
+      className={(active ? 'text-[#FFB636]' : 'text-black') + ' hover:text-[#FFB636]'}
       onClick={() => {
         window.location.href = href;
       }}
@@ -21,7 +21,7 @@ export default function LabelLink({ href, label, active, hardReload }: Props) {
       {label}
     </a>
   ) : (
-    <Link href={href} className={(active ? 'text-[#04C2FF]' : 'text-black') + ' hover:text-[#04C2FF]'}>
+    <Link href={href} className={(active ? 'text-[#FFB636]' : 'text-black') + ' hover:text-[#FFB636]'}>
       {label}
     </Link>
   );
