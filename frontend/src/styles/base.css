@@ -1,0 +1,11 @@
+@layer base {
+  :root {
+
+  }
+
+  *,
+  ::before,
+  ::after {
+    border-width: 0;
+  }
+}
