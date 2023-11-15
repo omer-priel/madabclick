@@ -19,63 +19,67 @@ const config: Config = {
         poppins: ['var(--font-poppins)', 'sans-serif'],
         assistant: ['var(--font-assistant)', 'sans-serif'],
       },
-      colors: {
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
-        primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))',
-        },
-        secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))',
-        },
-        destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
-        },
-        muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
-        },
-        accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
-        },
-        popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))',
-        },
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
-        },
-      },
       borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
-      },
-      keyframes: {
-        'accordion-down': {
-          from: { height: '0' },
-          to: { height: 'var(--radix-accordion-content-height)' },
-        },
-        'accordion-up': {
-          from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: '0' },
-        },
-      },
-      animation: {
-        'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out',
+        sm: 'var(--radius-sm)',
+        md: 'var(--radius-md)',
+        lg: 'var(--radius-lg)',
       },
     },
   },
   plugins: [tailwindcssAnimate],
 };
 
-export default config;
+const EXTEND_THEM_COLORS = ['primary', 'secondary', 'error', 'warning', 'success'];
+
+function addDynamicColors(config: Config): Config {
+  if (config.theme?.extend) {
+    // colors
+    const colors = config.theme.extend.colors ? config.theme.extend.colors : {};
+    const extendThemeColors = Object.fromEntries(
+      EXTEND_THEM_COLORS.map((colorName) => [
+        colorName,
+        {
+          DEFAULT: `var(--color-${colorName})`,
+          light: `var(--color-${colorName}-light)`,
+          foreground: `var(--color-${colorName}-foreground)`,
+        },
+      ])
+    );
+
+    // backgroundColor
+    const backgroundColor = config.theme.extend.backgroundColor ? config.theme.extend.backgroundColor : {};
+
+    const extraBackgroundColors = Object.fromEntries(
+      Object.entries(extendThemeColors).map(([colorName, value]) => [colorName, value.DEFAULT])
+    );
+    const extraBackgroundLightColors = Object.fromEntries(
+      Object.entries(extendThemeColors).map(([colorName, value]) => [colorName + '-light', value.light])
+    );
+
+    // textColor
+    const textColor = config.theme.extend.textColor ? config.theme.extend.textColor : {};
+
+    const extraTextColor = Object.fromEntries(Object.entries(extendThemeColors).map(([colorName, value]) => [colorName, value.foreground]));
+
+    // add the new fields
+    config.theme.extend.colors = {
+      ...extendThemeColors,
+      ...colors,
+    };
+
+    config.theme.extend.backgroundColor = {
+      ...extraBackgroundColors,
+      ...extraBackgroundLightColors,
+      ...backgroundColor,
+    };
+
+    config.theme.extend.textColor = {
+      ...extraTextColor,
+      ...textColor,
+    };
+  }
+
+  return config;
+}
+
+export default addDynamicColors(config);

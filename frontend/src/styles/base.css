@@ -1,6 +1,24 @@
 @layer base {
   :root {
+    --color-primary: #1976d2;
+    --color-primary-light: #42a5f5;
+    --color-primary-foreground: #ffffff;
+    --color-secondary: #9c27b0;
+    --color-secondary-light: #ba68c8;
+    --color-secondary-foreground: #ffffff;
+    --color-error: #d32f2f;
+    --color-error-light: #ef5350;
+    --color-error-foreground: #ffffff;
+    --color-warning: #ed6c02;
+    --color-warning-light: #ff9800;
+    --color-warning-foreground: #ffffff;
+    --color-success: #2e7d32;
+    --color-success-light: #4caf50;
+    --color-success-foreground: #ffffff;
 
+    --radius-sm: 4px;
+    --radius-md: 6px;
+    --radius-lg: 8px;
   }
 
   *,

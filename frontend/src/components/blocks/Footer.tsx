@@ -3,13 +3,18 @@
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
+import { cn } from '@/lib/styling';
 import cCircleIcon from '@/public/c-circle.svg';
 
-export default function Footer() {
+interface Props {
+  className?: string;
+}
+
+export default function Footer({ className }: Props) {
   const t = useTranslations();
 
   return (
-    <div className='w-full h-[8.125vw] bg-[#FFD469] py-[30px]'>
+    <div className={cn('w-full h-[8.125vw] bg-[#FFD469] py-[30px]', className)}>
       <div className='w-[309px] h-[50px] mx-auto mb-[20px]'>
         <a
           className='flex w-[309px] h-[50px] justify-center items-center no-underline text-white bg-[#00B2CA] rounded-[200px]'
