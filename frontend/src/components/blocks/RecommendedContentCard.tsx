@@ -3,6 +3,7 @@ import { useTranslations } from 'next-intl';
 import YouTubeVideo from '@/components/atoms/YouTubeVideo';
 
 import { Content } from '@/lib/api/schemas';
+import { multiFontText } from '@/lib/styling';
 
 interface Props {
   content: Content;
@@ -33,7 +34,7 @@ export default function RecommendedContentCard({ content }: Props) {
       <div className='w-[732px] h-[406px]'>
         {contentType == 1 && <YouTubeVideo playerId={-1} content={content} width={732} height={406} />}
       </div>
-      <div className='w-[732px] h-[36px] mt-[30px] text-black text-[24px]/[36px] font-black'>{content.title}</div>
+      <div className='w-[732px] h-[36px] mt-[30px] text-black text-[24px]/[36px] font-black'>{multiFontText(content.title)}</div>
     </div>
   );
 }
