@@ -7,6 +7,7 @@ type VideosData = {
     | {
         allowd: true;
 
+        channelId: string;
         title: string;
         description: string;
         thumbnail: {
@@ -94,6 +95,7 @@ export async function getYouTubeVideosData(videoIDs: string[]): Promise<VideosDa
         if (!item.snippet.thumbnails) {
           videos[item.id] = {
             allowd: true,
+            channelId: item.snippet.channelId ? item.snippet.channelId : '',
             title: item.snippet.title,
             description: item.snippet.description ? item.snippet.description : '',
             thumbnail: null,
@@ -115,6 +117,7 @@ export async function getYouTubeVideosData(videoIDs: string[]): Promise<VideosDa
         if (thumbnails.length > 0 && thumbnails[0] && thumbnails[0]?.url && thumbnails[0].width && thumbnails[0].height) {
           videos[item.id] = {
             allowd: true,
+            channelId: item.snippet.channelId ? item.snippet.channelId : '',
             title: item.snippet.title,
             description: item.snippet.description ? item.snippet.description : '',
             thumbnail: {

@@ -23,6 +23,7 @@ export interface Content {
   youtube: {
     id: string;
     loaded: boolean;
+    channelId: string | null;
     title: string | null;
     description: string | null;
 

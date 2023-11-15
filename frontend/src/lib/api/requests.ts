@@ -127,6 +127,7 @@ function getContent(
       content.youtube = {
         id: videoID,
         loaded: false,
+        channelId: null,
         title: null,
         description: null,
         thumbnail: {
@@ -259,6 +260,7 @@ export async function getContentsInfo(currentLanguage: Language): Promise<Conten
       }
 
       if (content.youtube) {
+        content.youtube.channelId = data.channelId;
         content.youtube.title = data.title;
         content.youtube.description = data.description;
 
