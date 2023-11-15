@@ -11,14 +11,14 @@ import { findLanguage } from '@/translation';
 
 import '@/styles/globals.css';
 
-export const poppinsFont = Poppins({
+const poppinsFont = Poppins({
   subsets: ['latin'],
   display: 'swap',
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
   variable: '--font-poppins',
 });
 
-export const assistantFont = Assistant({
+const assistantFont = Assistant({
   subsets: ['latin'],
   display: 'swap',
   weight: ['200', '300', '400', '500', '600', '700', '800'],
