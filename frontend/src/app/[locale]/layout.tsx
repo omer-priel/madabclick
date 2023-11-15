@@ -95,7 +95,7 @@ export default async function RootLayout({ children, params: { locale } }: Props
       </head>
       <body
         className={cn(
-          'ltr:text-right rtl:text-left min-h-screen bg-background font-poppins antialiased',
+          'm-0 leading-normal ltr:text-right rtl:text-left min-h-screen bg-background font-poppins antialiased',
           assistantFont.variable,
           poppinsFont.variable
         )}
