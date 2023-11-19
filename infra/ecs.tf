@@ -1,3 +1,20 @@
+# roles
+resource "aws_iam_role" "frontend_ecs_task" {
+  name               = "frontend_ecs_task"
+  description        = "frontend_ecs_task"
+  assume_role_policy = data.aws_iam_policy_document.policy_all.json
+
+  tags = {
+    "Name" : "frontend"
+  }
+}
+
+resource "aws_iam_role_policy_attachment" "frontend_ecs_task_AdministratorAccess" {
+  role       = aws_iam_role.frontend_ecs_task.id
+  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+}
+
+
 # ECR - repository
 resource "aws_ecr_repository" "frontend" {
   name                 = "frontend"
@@ -76,10 +93,12 @@ resource "aws_ecs_task_definition" "frontend" {
   cpu                      = 1024
   memory                   = 2048
 
+  execution_role_arn = aws_iam_role.frontend_ecs_task.arn
+
   container_definitions = jsonencode([
     {
       name        = "frontend"
-      image       = "frontend/frontend:latest"
+      image       = "${aws_ecr_repository.frontend.repository_url}:latest"
       cpu         = 1024
       memory      = 2048
       essential   = true
@@ -88,6 +107,21 @@ resource "aws_ecs_task_definition" "frontend" {
         {
           containerPort = 80
           hostPort      = 80
+        }
+      ]
+
+      environment = [
+        {
+          name  = "GOOGLE_API_KEY"
+          value = aws_ssm_parameter.frontend_env_google_api_key.value
+        },
+        {
+          name  = "GOOGLE_SPREADSHEET_ID_CONTENTS"
+          value = aws_ssm_parameter.frontend_env_google_spreadsheet_id_contents.value,
+        },
+        {
+          name  = "MONGO_URI"
+          value = aws_ssm_parameter.frontend_env_mongo_uri.value,
         }
       ]
     }
@@ -106,8 +140,9 @@ resource "aws_ecs_service" "frontend" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    security_groups = [aws_security_group.frontend.id]
-    subnets         = [aws_subnet.frontend_a.id, aws_subnet.frontend_b.id]
+    security_groups  = [aws_security_group.frontend.id]
+    subnets          = [aws_subnet.frontend_a.id, aws_subnet.frontend_b.id]
+    assign_public_ip = true
   }
 
   load_balancer {
@@ -203,7 +238,7 @@ resource "aws_lb_listener" "frontend2_https" {
 
 # output
 output "ecr_repository" {
-  value       = aws_ecr_repository.frontend.name
+  value       = aws_ecr_repository.frontend.repository_url
   description = "ECR Repository"
 }
 
