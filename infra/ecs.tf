@@ -133,11 +133,12 @@ resource "aws_ecs_task_definition" "frontend" {
 }
 
 resource "aws_ecs_service" "frontend" {
-  name            = "frontend"
-  cluster         = aws_ecs_cluster.frontend.id
-  task_definition = aws_ecs_task_definition.frontend.arn
-  desired_count   = 2
-  launch_type     = "FARGATE"
+  name                 = "frontend"
+  cluster              = aws_ecs_cluster.frontend.id
+  task_definition      = aws_ecs_task_definition.frontend.arn
+  desired_count        = 2
+  launch_type          = "FARGATE"
+  force_new_deployment = true
 
   network_configuration {
     security_groups  = [aws_security_group.frontend.id]
