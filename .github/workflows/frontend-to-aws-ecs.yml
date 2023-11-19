@@ -14,27 +14,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: "20.9.0"
       - name: Copy Source
         uses: actions/checkout@v4
         with:
-          ref: main
-      - name: yarn install
-        run: yarn install
-        working-directory: ./frontend
-      - name: yarn run next-lint
-        run: yarn run next-lint
-        working-directory: ./frontend
-      - name: yarn run prettier-lint
-        run: yarn run prettier-lint
-        working-directory: ./frontend
-      - name: yarn run build
-        run: yarn run build
-        working-directory: ./frontend
-        shell: bash
+          ref: feature/ecs
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -49,11 +32,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: frontend
-          IMAGE_TAG: frontend
+          IMAGE_TAG: latest
         run: |
-          pwd
-          ls
-          echo docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          ls
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG

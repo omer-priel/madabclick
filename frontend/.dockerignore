@@ -1,0 +1,10 @@
+node_modules
+yarn.lock
+
+.next
+
+.env.development
+.env.local
+
+codedeploy-scripts
+appspec.yml
