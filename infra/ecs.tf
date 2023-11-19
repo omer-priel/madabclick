@@ -68,3 +68,8 @@ resource "aws_ecs_cluster_capacity_providers" "frontend" {
     capacity_provider = "FARGATE"
   }
 }
+
+output "ecr_repository" {
+  value       = aws_ecr_repository.frontend.name
+  description = "ECR Repository"
+}
