@@ -51,5 +51,6 @@ jobs:
           IMAGE_TAG: frontend
         run: |
           pwd
+          ls
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./frontend
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
