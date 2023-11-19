@@ -17,7 +17,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: "20.8.9"
+          node-version: "20.9.0"
       - name: Copy Source
         uses: actions/checkout@v4
         with:
