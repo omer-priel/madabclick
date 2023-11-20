@@ -13,6 +13,8 @@ interface Props {
 }
 
 export default async function Header({ className }: Props) {
+  const pathname = useStore.getState().pathname;
+
   const language = useStore.getState().language;
   const t = await getTranslation(language.locale);
 
@@ -22,13 +24,13 @@ export default async function Header({ className }: Props) {
         <div className='flex ltr:flex-row-reverse'>
           <Image className='w-[35px] h-[35px] ml-[36px]' alt={t('choose-language')} src={chooseLanguageIcon} width='35' height='35' />
           <div className='h-[24px] ml-[36px] my-auto text-right text-[16px]/[24px] font-normal'>
-            <Link href='/he' label='עברית' hardReload active={language.locale == 'he'} />
+            <Link href={'/he/' + pathname.substring(4)} label='עברית' hardReload active={language.locale == 'he'} />
           </div>
           <div className='h-[24px] ml-[36px] my-auto text-right text-[16px]/[24px] font-normal'>
-            <Link href='/en' label='English' hardReload active={language.locale == 'en'} />
+            <Link href={'/en/' + pathname.substring(4)} label='English' hardReload active={language.locale == 'en'} />
           </div>
           <div className='h-[24px] my-auto text-right text-[16px]/[24px] font-normal'>
-            <Link href='/ar' label='عربي' hardReload active={language.locale == 'ar'} />
+            <Link href={'/ar/' + pathname.substring(4)} label='عربي' hardReload active={language.locale == 'ar'} />
           </div>
         </div>
       </div>

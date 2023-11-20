@@ -5,6 +5,8 @@ import { Assistant, Poppins } from 'next/font/google';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
+import StoreInitializer from '@/components/infra/StoreInitializer';
+
 import { cn } from '@/lib/styling';
 import { findDevice, useStore } from '@/store';
 import { findLanguage } from '@/translation';
@@ -36,13 +38,6 @@ interface Props extends PageProps {
 }
 
 export default async function RootLayout({ children, params: { locale } }: Props) {
-  const userAgent = headers().get('user-agent');
-  const device = findDevice(userAgent);
-
-  useStore.setState({
-    device: device,
-  });
-
   const language = findLanguage(locale);
 
   if (!language) {
@@ -51,7 +46,15 @@ export default async function RootLayout({ children, params: { locale } }: Props
 
   const messages = (await import(`@/messages/${language.locale}.json`)).default;
 
+  const pathname = headers().get('x-pathname');
+  const userAgent = headers().get('user-agent');
+
+  const device = findDevice(userAgent);
+
+  // init server store
   useStore.setState({
+    device: device,
+    pathname: pathname ? pathname : '',
     language: language,
   });
 
@@ -100,6 +103,7 @@ export default async function RootLayout({ children, params: { locale } }: Props
           poppinsFont.variable
         )}
       >
+        <StoreInitializer pathname={pathname ? pathname : ''} device={device} language={language} />
         <NextIntlClientProvider locale={language.locale} messages={messages}>
           {children}
         </NextIntlClientProvider>

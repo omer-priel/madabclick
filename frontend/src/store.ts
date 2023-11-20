@@ -29,26 +29,22 @@ export function findDevice(userAgent: string | null): Device {
 }
 
 export type StoreState = {
-  language: Language;
+  pathname: string;
   device: Device;
+  language: Language;
 
   activePlayer: number | null;
-
-  setLanguage: (language: Language) => void;
-  setDevice: (device: Device) => void;
 
   activatePlayer: (playerId: number) => void;
   deactivatePlayer: () => void;
 };
 
 export const useStore = create<StoreState>((set) => ({
-  language: languages.he,
+  pathname: '',
   device: 'desktop',
+  language: languages.he,
 
   activePlayer: null,
-
-  setLanguage: (language) => set((state) => ({ language: (state.language = language) })),
-  setDevice: (device) => set((state) => ({ device: (state.device = device) })),
 
   activatePlayer: (playerId) => set((state) => ({ activePlayer: (state.activePlayer = playerId) })),
   deactivatePlayer: () => set((state) => ({ activePlayer: (state.activePlayer = null) })),
