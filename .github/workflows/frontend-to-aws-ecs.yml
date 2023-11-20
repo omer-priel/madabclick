@@ -17,7 +17,7 @@ jobs:
       - name: Copy Source
         uses: actions/checkout@v4
         with:
-          ref: feature/ecs
+          ref: main
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
