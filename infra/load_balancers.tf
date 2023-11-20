@@ -13,7 +13,7 @@ resource "aws_lb" "frontend" {
 
 resource "aws_lb_target_group" "frontend" {
   name        = "frontend"
-  target_type = "instance"
+  target_type = "ip"
   vpc_id      = aws_vpc.prod.id
   protocol    = "HTTP"
   port        = 80

@@ -8,3 +8,6 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: password
+  frontend:
+    image: frontend/frontend:latest
+    build: ./frontend
