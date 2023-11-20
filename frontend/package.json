@@ -20,7 +20,6 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "encoding": "^0.1.13",
-    "express": "^4.18.2",
     "fs": "^0.0.1-security",
     "googleapis": "^126.0.1",
     "mongodb": "^6.2.0",

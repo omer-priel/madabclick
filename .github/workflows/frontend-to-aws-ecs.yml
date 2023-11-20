@@ -40,3 +40,6 @@ jobs:
         run: |
           docker tag frontend:latest $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      - name: Deploy
+        run: |
+          aws ecs update-service --cluster frontend --service frontend --task-definition frontend --force-new-deployment
