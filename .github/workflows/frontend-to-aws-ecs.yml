@@ -2,7 +2,7 @@ name: Deploy Frontend to AWS ECS
 
 on:
   push:
-    branches: ["feature/ecs"]
+    branches: ["main"]
 
   workflow_dispatch:
 
