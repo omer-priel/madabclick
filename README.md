@@ -9,7 +9,7 @@ Quality content for children \
 
 ## Deployment
 
-Now using Amplify
+AWS Infrastructure - Amplify
 
 ```mermaid
 flowchart TD
@@ -25,7 +25,7 @@ flowchart TD
   GA --> Amplify
 ```
 
-AWS Infrastructure
+AWS Infrastructure - EC2
 
 ```mermaid
 flowchart TB
@@ -68,7 +68,7 @@ flowchart TB
   EC2 --> GoogleAPI[Google API]    
 ```
 
-AWS Networking Infrastructure
+AWS Networking Infrastructure - EC2
 
 ```mermaid
 flowchart TB
@@ -94,6 +94,64 @@ flowchart TB
   end
 
   EC2A & EC2B --> GoogleAPI[Google API]
+```
+
+AWS Infrastructure - ECS
+
+```mermaid
+flowchart TB
+  subgraph GitHub
+    PR[Pull Request / Push] --> GA[GitHub Actions]
+    subgraph Build Image
+      Install --> Lint --> Build
+    end
+    GA --> Install
+    Build --> Deploy
+  end
+
+  ClientRequest[Client HTTP Request] --> Domain --> ALB
+
+  subgraph AWS 
+    ALB[Appliction Load Balancer]
+    Service[ECS Service]
+    Containers[ECS Containers]
+    ECR[ECR Repo]
+
+    ECR --> Image[ECR Image]
+    
+    Image --> Service --> Containers
+    ALB --> Containers
+
+    Deploy -->|Push new Image|ECR
+    Deploy -->|Update ECS Service|Service
+  end
+
+  Containers --> MongoDB
+  Containers --> GoogleAPI[Google API] 
+```
+
+AWS Networking Infrastructure - ECS
+
+```mermaid
+flowchart TB
+  ClientRequest[Client HTTP Request] --> Domain --> ALB
+  subgraph AWS
+    subgraph VPC
+      ALB[Appliction Load Balancer]
+
+      ALB ---> ContainersA & ContainersB
+
+      subgraph Public Subnet A
+        ContainersA[ECS Containers]
+      end
+      subgraph Public Subnet B
+        ContainersB[ECS Containers]
+      end
+    end
+  end
+
+  ContainersA & ContainersB --> MongoDB
+  ContainersA & ContainersB --> GoogleAPI[Google API] 
 ```
 
 
