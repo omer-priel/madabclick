@@ -1,3 +1,5 @@
+'use client';
+
 import Footer from '@/components/blocks/Footer';
 import Header from '@/components/blocks/Header';
 import ManageView from '@/components/blocks/ManageView';

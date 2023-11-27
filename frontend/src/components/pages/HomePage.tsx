@@ -1,3 +1,5 @@
+'use client';
+
 import Footer from '@/components/blocks/Footer';
 import Header from '@/components/blocks/Header';
 import Section1 from '@/components/blocks/Section1';

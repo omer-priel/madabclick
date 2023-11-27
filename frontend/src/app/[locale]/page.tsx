@@ -1,8 +1,10 @@
+import HomeMobilePage from '@/components/pages/HomeMobilePage';
 import HomePage from '@/components/pages/HomePage';
 
 import { getConfig } from '@/config';
 import { getContentsInfo } from '@/lib/api/requests';
 import { Content } from '@/lib/api/schemas';
+import { useStore } from '@/store';
 import { findLanguage } from '@/translation';
 
 export const revalidate = getConfig().APP_REVALIDATE;
@@ -70,8 +72,14 @@ export default async function Page({ params }: Props) {
     return <></>;
   }
 
+  const isMobile = useStore.getState().device === 'mobile';
+
   const data = await getContentsInfo(language);
   data.contents = await randomVideosOrder(data.contents, data.currentLanguageValue);
+
+  if (isMobile || true) {
+    return <HomeMobilePage data={data} />;
+  }
 
   return <HomePage data={data} />;
 }
