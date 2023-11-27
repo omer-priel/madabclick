@@ -101,7 +101,7 @@ export default function MultiSelect({ label, options, values, onChange, singleVa
             <div
               key={value}
               className='flex justify-left w-fit h-[24px] mx-[8px] mt-[4px] px-[4px]
-                        rounded-[5px] box-border border-[1px] border-white border-solid'
+                        rounded-[5px] box-border border border-white border-solid'
             >
               <Image
                 className='w-[10px] h-[9px] mx-[4px] my-auto'

@@ -5,6 +5,7 @@ import YouTube from 'react-youtube';
 
 import { getAppStore } from '@/appStore';
 import { Content } from '@/lib/api/schemas';
+import playIcon from '@/public/play.svg';
 import { useStore } from '@/store';
 
 interface Props {
@@ -12,9 +13,10 @@ interface Props {
   content: Content;
   width: number;
   height: number;
+  playButtonSize?: number;
 }
 
-export default function YouTubeVideo({ playerId, content, width, height }: Props) {
+export default function YouTubeVideo({ playerId, content, width, height, playButtonSize }: Props) {
   const active = useStore((state) => state.activePlayer === playerId);
   const activatePlayer = useStore((state) => state.activatePlayer);
   const deactivatePlayer = useStore((state) => state.deactivatePlayer);
@@ -62,6 +64,22 @@ export default function YouTubeVideo({ playerId, content, width, height }: Props
             alt={content.title}
             fill
           />
+        )}
+        {playButtonSize && (
+          <div className='absolute w-full h-full top-0 right-0 z-2'>
+            <Image
+              className='mx-auto'
+              style={{
+                width: `${playButtonSize}px`,
+                height: `${playButtonSize}px`,
+                marginTop: `${(height - playButtonSize) / 2}px`,
+              }}
+              alt=''
+              src={playIcon}
+              width={playButtonSize}
+              height={playButtonSize}
+            />
+          </div>
         )}
       </button>
       {active && (

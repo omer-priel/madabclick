@@ -14,7 +14,7 @@ export default function SearchBox({ placeholder, value, onChange }: Props) {
   return (
     <div
       className='flex rtl:justify-left ltr:justify-right h-[64px] bg-white
-                rounded-[5px] box-border border-[0.1px] border-solid border-[#00000040]'
+                rounded-[5px] box-border border border-solid border-[#00000040]'
     >
       <Image className='w-[55px] h-[55px] rtl:pr-[42.92px] ltr:pl-[42.92px]' alt='' src={searchIcon} width='55' height='55' />
       <input
