@@ -1,28 +1,23 @@
 'use client';
 
-import Footer from '@/components/blocks/Footer';
-import Header from '@/components/blocks/Header';
-import Section1 from '@/components/blocks/Section1';
-import Section2 from '@/components/blocks/Section2';
-import SectionContents from '@/components/blocks/SectionContents';
+import HomeDesktopPage from '@/components/pages/HomeDesktopPage';
+import HomeMobilePage from '@/components/pages/HomeMobilePage';
 
 import { ContentsSchema } from '@/lib/api/schemas';
+import { useStore } from '@/store';
 
 interface Props {
   data: ContentsSchema;
+  mobileMode: boolean;
 }
 
 export default function HomePage({ data }: Props) {
-  return (
-    <div
-      className='relative w-full mx-auto overflow-x-hidden overflow-y-hidden bg-whitesmoke text-base text-black
-    rtl:text-right ltr:text-left'
-    >
-      <Header />
-      <Section1 />
-      <Section2 recommendedContent={data.recommendedContent} />
-      <SectionContents data={data} />
-      <Footer />
-    </div>
-  );
+
+  const device = useStore((state) => state.device);
+
+  if (device == 'mobile') {
+    return <HomeMobilePage data={data} />;
+  }
+
+  return <HomeDesktopPage data={data} />;
 }
