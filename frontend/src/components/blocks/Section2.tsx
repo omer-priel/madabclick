@@ -8,6 +8,7 @@ import RecommendedContentCard from '@/components/blocks/RecommendedContentCard';
 import { Content } from '@/lib/api/schemas';
 import cat1Icon from '@/public/cat-1.svg';
 import cat4Icon from '@/public/cat-4.svg';
+import lampIcon from '@/public/lamp.svg';
 import startPart1Icon from '@/public/start-part-1.svg';
 import startPart2Icon from '@/public/start-part-2.svg';
 
@@ -22,13 +23,10 @@ export default function Section2({ recommendedContent }: Props) {
     <div className='w-full bg-[#F1F1F1] pt-[129.78px] pb-[87px]'>
       <div className='w-[1102.54px] h-fit mx-auto'>
         <div className='flex w-fit h-fit'>
-          <Image
-            className='w-[120px] h-[180px] rtl:ml-[61.16px] ltr:mr-[61.16px] mt-auto mb-[8px] object-cover ltr:scale-x-[-1]'
-            alt=''
-            src={cat1Icon}
-            width='120'
-            height='180'
-          />
+          <div className='relative w-[120px] h-[180px] rtl:ml-[61.16px] ltr:mr-[61.16px] mt-auto mb-[8px] ltr:scale-x-[-1]'>
+            <Image className='absolute w-[120px] h-[180px] top-0 right-0 z-2 object-cover' alt='' src={lampIcon} width='120' height='180' />
+            <Image className='absolute w-[120px] h-[180px] top-0 right-0 z-3 object-cover' alt='' src={cat1Icon} width='120' height='180' />
+          </div>
           <div className='w-fit h-fit'>
             <div
               className='w-[200px] top-[0px]
