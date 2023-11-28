@@ -35,9 +35,13 @@ export default function MobileRecommendedContentCard({ content, screenWidth }: P
   return (
     <div className='w-full h-fit z-10'>
       <div className='w-full h-fit'>
-        {contentType == 1 && <YouTubeVideo playerId={-1} content={content} width={screenWidth} height={screenWidth * 0.548} playButtonSize={50} />}
+        {contentType == 1 && (
+          <YouTubeVideo playerId={-1} content={content} width={screenWidth} height={screenWidth * 0.548} playButtonSize={50} />
+        )}
       </div>
-      <div className='w-[calc(100%_-_66px)] h-[18px] mx-[33px] mt-[8.38px] text-white text-[12px]/[18px] font-black'>{multiFontText(content.title)}</div>
+      <div className='w-[calc(100%_-_66px)] h-[18px] mx-[33px] mt-[8.38px] text-white text-[12px]/[18px] font-black'>
+        {multiFontText(content.title)}
+      </div>
     </div>
   );
 }

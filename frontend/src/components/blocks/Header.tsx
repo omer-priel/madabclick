@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
 import Link from '@/components/atoms/Link';
@@ -8,7 +9,6 @@ import { cn } from '@/lib/styling';
 import chooseLanguageIcon from '@/public/choose-language.svg';
 import fullLogoIcon from '@/public/full-logo.svg';
 import { useStore } from '@/store';
-import { useTranslations } from 'next-intl';
 
 interface Props {
   className?: string;

@@ -1,13 +1,15 @@
 'use client';
 
-import MobileHeader from '@/components/blocks/MobileHeader';
-import ContentGalleryMobile from '@/components/blocks/ContentGalleryMobile';
+import { useEffect, useState } from 'react';
+
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
-import { ContentsSchema } from '@/lib/api/schemas';
-import { useTranslations } from 'next-intl';
+import ContentGalleryMobile from '@/components/blocks/ContentGalleryMobile';
+import MobileHeader from '@/components/blocks/MobileHeader';
 import MobileRecommendedContentCard from '@/components/blocks/MobileRecommendedContentCard';
-import { useEffect, useState } from 'react';
+
+import { ContentsSchema } from '@/lib/api/schemas';
 
 interface ScreanSize {
   width: number;
@@ -16,9 +18,9 @@ interface ScreanSize {
 
 function getScreanSize() {
   return {
-      width: window.innerWidth,
-      height: window.innerHeight
-  }
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
 }
 
 interface Props {
@@ -32,15 +34,15 @@ export default function HomeMobilePage({ data }: Props) {
 
   useEffect(() => {
     const updateScreenSize = () => {
-      setScreenSize(getScreanSize())
-    }
+      setScreenSize(getScreanSize());
+    };
     updateScreenSize();
     window.addEventListener('resize', updateScreenSize);
 
-    return(() => {
-        window.removeEventListener('resize', updateScreenSize);
-    })
-  }, [setScreenSize])
+    return () => {
+      window.removeEventListener('resize', updateScreenSize);
+    };
+  }, [setScreenSize]);
 
   return (
     <div
@@ -50,15 +52,17 @@ export default function HomeMobilePage({ data }: Props) {
       <MobileHeader data={data} />
       <div className='relative w-full'>
         <div className='absolute w-full left-0 top-0'>
-          <Image className='w-[250px] h-[250px] mx-[calc(50%_-_125px)] mt-[16px] rounded-[125px]' alt='' src='/section-1-background.png' width={250} height={250} />
+          <Image
+            className='w-[250px] h-[250px] mx-[calc(50%_-_125px)] mt-[16px] rounded-[125px]'
+            alt=''
+            src='/section-1-background.png'
+            width={250}
+            height={250}
+          />
         </div>
         <div className='relative h-fit pt-[209px]'>
-          <div className='w-[317px] mx-auto text-center text-[12px]/[18px] font-black text-[#FFB636]'>
-            {t('section-1-title-part-1')}
-          </div>
-          <div className='w-[317px] mx-auto text-center	text-[22px]/[39px] font-black text-[#FFB636]'>
-            {t('section-1-title-part-2')}
-          </div>
+          <div className='w-[317px] mx-auto text-center text-[12px]/[18px] font-black text-[#FFB636]'>{t('section-1-title-part-1')}</div>
+          <div className='w-[317px] mx-auto text-center	text-[22px]/[39px] font-black text-[#FFB636]'>{t('section-1-title-part-2')}</div>
           <div
             className='w-[317px] mx-auto
             text-center	text-[12px]/[18px] font-normal text-white break-words'
@@ -67,20 +71,24 @@ export default function HomeMobilePage({ data }: Props) {
           </div>
         </div>
       </div>
-      {data.recommendedContent ?
-      <div className='w-[317px] rtl:mr-[34px] ltr:ml-[34px] mt-[44px] text-[16px]/[24px] font-black text-white'>
-        {t('section-2-recommended-label')}
-      </div> : <div className='w-full h-[44px]' /> }
+      {data.recommendedContent ? (
+        <div className='w-[317px] rtl:mr-[34px] ltr:ml-[34px] mt-[44px] text-[16px]/[24px] font-black text-white'>
+          {t('section-2-recommended-label')}
+        </div>
+      ) : (
+        <div className='w-full h-[44px]' />
+      )}
       {data.recommendedContent && <MobileRecommendedContentCard content={data.recommendedContent} screenWidth={screenSize.width} />}
       <div className='w-full h-[36px]' />
-      {data.domains.map((domain) =>
-      <div className='w-full text-white'>
-        <div className='w-full h-[8px] bg-[#272727]' />
-        <div className='pt-[25px] pb-[16px] px-[32px]'>
-          <div className='text-[16px]/[24px]'>{domain}</div>
-          <ContentGalleryMobile contents={data.contents.filter((content) => content.domain === domain)} />
+      {data.domains.map((domain) => (
+        <div key={domain} className='w-full text-white'>
+          <div className='w-full h-[8px] bg-[#272727]' />
+          <div className='pt-[25px] pb-[16px] px-[32px]'>
+            <div className='text-[16px]/[24px]'>{domain}</div>
+            <ContentGalleryMobile contents={data.contents.filter((content) => content.domain === domain)} />
+          </div>
         </div>
-      </div>)}
+      ))}
       <div className='w-full h-[8px] bg-[#272727]' />
       <div className='w-full h-[89px]' />
       {/* <div className='fixed w-full h-[89px] right-0 bottom-0 bg-black text-white text-[8px]/[12px]'>

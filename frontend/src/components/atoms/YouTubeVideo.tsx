@@ -5,9 +5,9 @@ import YouTube from 'react-youtube';
 
 import { getAppStore } from '@/appStore';
 import { Content } from '@/lib/api/schemas';
+import { cn } from '@/lib/styling';
 import playIcon from '@/public/play.svg';
 import { useStore } from '@/store';
-import { cn } from '@/lib/styling';
 
 interface Props {
   playerId: number;

@@ -8,11 +8,9 @@ import { useStore } from '@/store';
 
 interface Props {
   data: ContentsSchema;
-  mobileMode: boolean;
 }
 
 export default function HomePage({ data }: Props) {
-
   const device = useStore((state) => state.device);
 
   if (device == 'mobile') {
