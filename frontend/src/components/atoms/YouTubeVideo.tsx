@@ -5,6 +5,7 @@ import YouTube from 'react-youtube';
 
 import { getAppStore } from '@/appStore';
 import { Content } from '@/lib/api/schemas';
+import { cn } from '@/lib/styling';
 import playIcon from '@/public/play.svg';
 import { useStore } from '@/store';
 
@@ -13,10 +14,11 @@ interface Props {
   content: Content;
   width: number;
   height: number;
+  innerClassName?: string;
   playButtonSize?: number;
 }
 
-export default function YouTubeVideo({ playerId, content, width, height, playButtonSize }: Props) {
+export default function YouTubeVideo({ playerId, content, width, height, innerClassName, playButtonSize }: Props) {
   const active = useStore((state) => state.activePlayer === playerId);
   const activatePlayer = useStore((state) => state.activatePlayer);
   const deactivatePlayer = useStore((state) => state.deactivatePlayer);
@@ -51,7 +53,7 @@ export default function YouTubeVideo({ playerId, content, width, height, playBut
       <button className='absolute w-full h-full top-0 right-0 bg-transparent' type='button' onClick={() => onActive()}>
         {content.youtube.thumbnail.width && content.youtube.thumbnail.height ? (
           <Image
-            className='w-full h-full rounded-[10px]'
+            className={cn('w-full h-full', innerClassName)}
             src={content.youtube.thumbnail.url}
             alt={content.title}
             width={content.youtube.thumbnail.width}
@@ -59,7 +61,7 @@ export default function YouTubeVideo({ playerId, content, width, height, playBut
           />
         ) : (
           <Image
-            className='absolute w-full h-full top-0 right-0 rounded-[10px]'
+            className={cn('absolute w-full h-full top-0 right-0', innerClassName)}
             src={content.youtube.thumbnail.url}
             alt={content.title}
             fill
@@ -84,8 +86,8 @@ export default function YouTubeVideo({ playerId, content, width, height, playBut
       </button>
       {active && (
         <YouTube
-          className='absolute w-full h-full top-0 right-0 rounded-[10px] bg-transparent'
-          iframeClassName='w-full h-full rounded-[10px]'
+          className={cn('absolute w-full h-full top-0 right-0 bg-transparent', innerClassName)}
+          iframeClassName={cn('w-full h-full', innerClassName)}
           title={content.title}
           videoId={content.youtube.id}
           opts={{ playerVars }}

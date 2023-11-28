@@ -1,3 +1,5 @@
+'use client';
+
 import { useTranslations } from 'next-intl';
 
 import YouTubeVideo from '@/components/atoms/YouTubeVideo';
@@ -32,7 +34,9 @@ export default function ContentCard({ content }: Props) {
   return (
     <>
       <div className='w-[395px] h-[220px]'>
-        {contentType == 1 && <YouTubeVideo playerId={content.index} content={content} width={395} height={220} />}
+        {contentType == 1 && (
+          <YouTubeVideo playerId={content.index} content={content} width={395} height={220} innerClassName='rounded-[10px]' />
+        )}
       </div>
       <div className='mt-[14px] text-white text-[16px]/[24px] text-right font-black'>{multiFontText(content.title)}</div>
     </>

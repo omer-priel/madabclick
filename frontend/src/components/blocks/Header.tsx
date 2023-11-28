@@ -1,3 +1,6 @@
+'use client';
+
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
 import Link from '@/components/atoms/Link';
@@ -6,17 +9,16 @@ import { cn } from '@/lib/styling';
 import chooseLanguageIcon from '@/public/choose-language.svg';
 import fullLogoIcon from '@/public/full-logo.svg';
 import { useStore } from '@/store';
-import { getTranslation } from '@/translation';
 
 interface Props {
   className?: string;
 }
 
-export default async function Header({ className }: Props) {
+export default function Header({ className }: Props) {
   const pathname = useStore.getState().pathname;
 
   const language = useStore.getState().language;
-  const t = await getTranslation(language.locale);
+  const t = useTranslations();
 
   return (
     <div className={cn('relative w-full h-[140px] bg-[#00b2ca]', className)}>

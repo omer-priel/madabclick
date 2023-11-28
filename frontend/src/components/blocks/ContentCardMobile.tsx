@@ -11,7 +11,7 @@ interface Props {
   content: Content;
 }
 
-export default function RecommendedContentCard({ content }: Props) {
+export default function ContentCardMobile({ content }: Props) {
   const t = useTranslations();
 
   const links: string[][] = [];
@@ -32,13 +32,13 @@ export default function RecommendedContentCard({ content }: Props) {
   }
 
   return (
-    <div className='w-fit h-fit z-10'>
-      <div className='w-[732px] h-[406px]'>
-        {contentType == 1 && (
-          <YouTubeVideo playerId={-1} content={content} width={732} height={406} innerClassName='rounded-[10px]' playButtonSize={100} />
-        )}
+    <>
+      <div className='w-[280px] h-[155px]'>
+        {contentType == 1 && <YouTubeVideo playerId={content.index} content={content} width={280} height={155} />}
       </div>
-      <div className='w-[732px] h-[36px] mt-[30px] text-black text-[24px]/[36px] font-black'>{multiFontText(content.title)}</div>
-    </div>
+      <div className='mt-[14px] text-white text-[12px]/[18px] text-right font-normal'>
+        <div className='mx-auto w-fit max-w-[280px]'>{multiFontText(content.title)}</div>
+      </div>
+    </>
   );
 }
