@@ -1,17 +1,13 @@
 'use client';
 
 import MobileHeader from '@/components/blocks/MobileHeader';
+import ContentGalleryMobile from '@/components/blocks/ContentGalleryMobile';
 import Image from 'next/image';
 
 import { ContentsSchema } from '@/lib/api/schemas';
 import { useTranslations } from 'next-intl';
 import MobileRecommendedContentCard from '@/components/blocks/MobileRecommendedContentCard';
 import { useEffect, useState } from 'react';
-
-import mobileFooterHomeIcon from '@/public/mobile-footer-home.svg';
-import mobileFooterVideosIcon from '@/public/mobile-footer-videos.svg';
-import mobileFooterSearchIcon from '@/public/mobile-footer-search.svg';
-
 
 interface ScreanSize {
   width: number;
@@ -77,6 +73,14 @@ export default function HomeMobilePage({ data }: Props) {
       </div> : <div className='w-full h-[44px]' /> }
       {data.recommendedContent && <MobileRecommendedContentCard content={data.recommendedContent} screenWidth={screenSize.width} />}
       <div className='w-full h-[36px]' />
+      {data.domains.map((domain, index) =>
+      <div className='w-full text-white'>
+        <div className='w-full h-[8px] bg-[#272727]' />
+        <div className='pt-[25px] pb-[16px] px-[32px]'>
+          <div id={`domain-${index}`} className='text-[16px]/[24px]'>{domain}</div>
+          <ContentGalleryMobile contents={data.contents.filter((content) => content.domain === domain)} />
+        </div>
+      </div>)}
       <div className='w-full h-[8px] bg-[#272727]' />
       <div className='w-full h-[89px]' />
       {/* <div className='fixed w-full h-[89px] right-0 bottom-0 bg-black text-white text-[8px]/[12px]'>
