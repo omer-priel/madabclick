@@ -51,7 +51,7 @@ export default function HomeMobilePage({ data }: Props) {
       className='relative w-full mx-auto overflow-x-hidden overflow-y-hidden bg-[#111313] text-base text-black
     rtl:text-right ltr:text-left'
     >
-      <MobileHeader />
+      <MobileHeader contents={data.contents} />
       <div className='relative w-full'>
         <div className='absolute w-full left-0 top-0'>
           <Image className='w-[250px] h-[250px] mx-[calc(50%_-_125px)] mt-[16px] rounded-[125px]' alt='' src='/section-1-background.png' width={250} height={250} />

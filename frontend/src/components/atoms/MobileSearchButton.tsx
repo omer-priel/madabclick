@@ -7,8 +7,13 @@ import searchIcon from '@/public/search-icon.svg';
 import mobileSearchArrowIcon from '@/public/mobile-search-arrow.svg';
 
 import { useState } from 'react';
+import { Content } from '@/lib/api/schemas';
 
-export default function MobileSearchButton() {
+interface Props {
+  contents: Content[]
+}
+
+export default function MobileSearchButton({ contents }: Props) {
 
   const [opened, setOpened] = useState(false);
   const [searchValue, setSearchValue] = useState('');
@@ -33,12 +38,40 @@ export default function MobileSearchButton() {
               style={{ outline: 'none' }}
               value={searchValue}
               placeholder='מה מסקרן אותך היום?'
-              onChange={(event) => setSearchValue(event.target.value)}
+              onChange={(event) => setSearchValue(event.target.value.toLowerCase())}
             />
           </div>
         </div>
-        <div className='mx-[20px]'>
-
+        <div className='mx-[20px] mt-[54px]'>
+          {searchValue.length > 3 && <>
+          {contents.filter((content) => content.title.toLowerCase().includes(searchValue)).map((content) =>
+            <div key={content.index} className='flex mb-[7px]'>
+              {content.youtube &&
+              <div className='w-[153px] h-[85px]'>
+                {content.youtube.thumbnail.width && content.youtube.thumbnail.height ? (
+                  <Image
+                    className='w-[153px] h-[85px]'
+                    src={content.youtube.thumbnail.url}
+                    alt={content.title}
+                    width={content.youtube.thumbnail.width}
+                    height={content.youtube.thumbnail.height}
+                  />
+                ) : (
+                  <Image
+                    className='w-[153px] h-[85px]'
+                    src={content.youtube.thumbnail.url}
+                    alt={content.title}
+                    fill
+                  />
+                )}
+              </div>}
+              <div className='w-[132px] mx-[24px] mt-[24px] text-[12px]/[18px]'>
+                {content.title}
+              </div>
+            </div>
+          )}
+          </>
+         }
         </div>
       </div>
     </div>
