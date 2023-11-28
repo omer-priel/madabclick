@@ -79,7 +79,7 @@ export default function HomeMobilePage({ data }: Props) {
       <div className='w-full h-[36px]' />
       <div className='w-full h-[8px] bg-[#272727]' />
       <div className='w-full h-[89px]' />
-      <div className='fixed w-full h-[89px] right-0 bottom-0 bg-black text-white text-[8px]/[12px]'>
+      {/* <div className='fixed w-full h-[89px] right-0 bottom-0 bg-black text-white text-[8px]/[12px]'>
         <div className='flex w-auto h-auto mx-[58px] my-[26px] ltr:flex-row-reverse'>
           <div className='ml-auto'>
             <div className='w-fit mx-auto'>
@@ -87,12 +87,6 @@ export default function HomeMobilePage({ data }: Props) {
             </div>
             <div className='mx-auto'>{t('footer-mobile-home')}</div>
           </div>
-          {/* <div>
-            <div className='w-fit mx-auto'>
-              <Image alt='w-[18px] h-[18px]' src={mobileFooterVideosIcon} width='18' height='18' />
-            </div>
-            <div className='mx-auto'>{t('footer-mobile-videos')}</div>
-          </div> */}
           <div className='mr-auto'>
             <div className='w-fit mx-auto'>
               <Image alt='w-[20px] h-[20px]' src={mobileFooterSearchIcon} width='20' height='20' />
@@ -100,7 +94,7 @@ export default function HomeMobilePage({ data }: Props) {
             <div className='mx-auto'>{t('footer-mobile-search')}</div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
