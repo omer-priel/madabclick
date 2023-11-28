@@ -7,16 +7,30 @@ import searchIcon from '@/public/search-icon.svg';
 import mobileSearchArrowIcon from '@/public/mobile-search-arrow.svg';
 
 import { useState } from 'react';
-import { Content } from '@/lib/api/schemas';
+import { ContentsSchema, Content } from '@/lib/api/schemas';
 
 interface Props {
-  contents: Content[]
+  data: ContentsSchema
 }
 
-export default function MobileSearchButton({ contents }: Props) {
+export default function MobileSearchButton({ data }: Props) {
 
   const [opened, setOpened] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+
+  const moveToContent = (content: Content) => {
+    const domainEl = document.getElementById(`content-${content.index}`);
+
+    setOpened(false);
+
+    if (domainEl) {
+      domainEl.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'start'
+      })
+    }
+  }
 
   return (
     <div>
@@ -44,10 +58,10 @@ export default function MobileSearchButton({ contents }: Props) {
         </div>
         <div className='mx-[20px] mt-[54px]'>
           {searchValue.length > 3 && <>
-          {contents.filter((content) => content.title.toLowerCase().includes(searchValue)).map((content) =>
+          {data.contents.filter((content) => content.title.toLowerCase().includes(searchValue)).map((content) =>
             <div key={content.index} className='flex mb-[7px]'>
               {content.youtube &&
-              <div className='w-[153px] h-[85px]'>
+              <div className='w-[153px] h-[85px]' onClick={() => { moveToContent(content); }}>
                 {content.youtube.thumbnail.width && content.youtube.thumbnail.height ? (
                   <Image
                     className='w-[153px] h-[85px]'
@@ -65,7 +79,7 @@ export default function MobileSearchButton({ contents }: Props) {
                   />
                 )}
               </div>}
-              <div className='w-[132px] mx-[24px] mt-[24px] text-[12px]/[18px]'>
+              <div className='w-[132px] mx-[24px] mt-[24px] text-[12px]/[18px]' onClick={() => { moveToContent(content); }}>
                 {content.title}
               </div>
             </div>

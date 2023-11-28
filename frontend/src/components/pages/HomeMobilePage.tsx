@@ -47,7 +47,7 @@ export default function HomeMobilePage({ data }: Props) {
       className='relative w-full mx-auto overflow-x-hidden overflow-y-hidden bg-[#111313] text-base text-black
     rtl:text-right ltr:text-left'
     >
-      <MobileHeader contents={data.contents} />
+      <MobileHeader data={data} />
       <div className='relative w-full'>
         <div className='absolute w-full left-0 top-0'>
           <Image className='w-[250px] h-[250px] mx-[calc(50%_-_125px)] mt-[16px] rounded-[125px]' alt='' src='/section-1-background.png' width={250} height={250} />
@@ -73,11 +73,11 @@ export default function HomeMobilePage({ data }: Props) {
       </div> : <div className='w-full h-[44px]' /> }
       {data.recommendedContent && <MobileRecommendedContentCard content={data.recommendedContent} screenWidth={screenSize.width} />}
       <div className='w-full h-[36px]' />
-      {data.domains.map((domain, index) =>
+      {data.domains.map((domain) =>
       <div className='w-full text-white'>
         <div className='w-full h-[8px] bg-[#272727]' />
         <div className='pt-[25px] pb-[16px] px-[32px]'>
-          <div id={`domain-${index}`} className='text-[16px]/[24px]'>{domain}</div>
+          <div className='text-[16px]/[24px]'>{domain}</div>
           <ContentGalleryMobile contents={data.contents.filter((content) => content.domain === domain)} />
         </div>
       </div>)}

@@ -4,14 +4,14 @@ import Image from 'next/image';
 
 import fullLogoIcon from '@/public/full-logo.svg';
 import MobileChangeLang from '@/components/atoms/MobileChangeLang';
-import MobileSearchButton from '@/components/atoms/MobileSearchButton';
-import { Content } from '@/lib/db/schemas';
+import MobileSearchButton from '@/components/blocks/MobileSearchButton';
+import { ContentsSchema } from '@/lib/api/schemas';
 
 interface Props {
-  contents: Content[]
+  data: ContentsSchema
 }
 
-export default function MobileHeader({ contents } : Props ) {
+export default function MobileHeader({ data } : Props ) {
   return (
     <div className='relative w-full h-[96px] bg-[#00b2ca]'>
       <div className='absolute w-fit h-fit right-[24.3px] top-[48px]'>
@@ -21,7 +21,7 @@ export default function MobileHeader({ contents } : Props ) {
         <Image alt='' src={fullLogoIcon} width='100' height='35' />
       </div>
       <div className='absolute w-fit h-fit left-[28px] top-[48px]'>
-        <MobileSearchButton contents={contents} />
+        <MobileSearchButton data={data} />
       </div>
     </div>
   );

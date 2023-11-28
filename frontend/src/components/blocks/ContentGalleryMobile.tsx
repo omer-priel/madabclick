@@ -18,7 +18,7 @@ export default function ContentGalleryMobile({ contents }: Props) {
     <Slider infinite speed={500} slidesToShow={1} slidesToScroll={1} arrows={false}>
       {contents.map((content) => (
         <div key={content.index} className="w-full">
-          <div className="mx-auto w-fit">
+          <div className="mx-auto w-fit" id={`content-${content.index}`}>
             <ContentCardMobile content={content} />
           </div>
       </div>
