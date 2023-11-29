@@ -95,7 +95,9 @@ export default function HomeMobilePage({ data }: Props) {
           <div className='w-full h-[8px] bg-[#272727]' />
           <div className='pt-[25px] pb-[16px] px-[32px]'>
             <div className='text-[16px]/[24px]'>{domain}</div>
-            <ContentGalleryMobile contents={data.contents.filter((content) => content.domain === domain)} />
+            <ContentGalleryMobile
+              contents={data.contents.filter((content) => content.domain === domain && content.language === data.currentLanguageValue)}
+            />
           </div>
         </div>
       ))}

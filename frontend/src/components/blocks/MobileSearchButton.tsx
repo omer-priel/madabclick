@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
 import { Content, ContentsSchema } from '@/lib/api/schemas';
@@ -14,6 +15,8 @@ interface Props {
 }
 
 export default function MobileSearchButton({ data }: Props) {
+  const t = useTranslations();
+
   const [opened, setOpened] = useState(false);
   const [searchValue, setSearchValue] = useState('');
 
@@ -66,7 +69,7 @@ export default function MobileSearchButton({ data }: Props) {
               text-white placeholder:text-white'
               style={{ outline: 'none' }}
               value={searchValue}
-              placeholder='מה מסקרן אותך היום?'
+              placeholder={t('search')}
               onChange={(event) => setSearchValue(event.target.value.toLowerCase())}
             />
           </div>
@@ -75,7 +78,7 @@ export default function MobileSearchButton({ data }: Props) {
           {searchValue.length > 3 && (
             <>
               {data.contents
-                .filter((content) => content.title.toLowerCase().includes(searchValue))
+                .filter((content) => content.language === data.currentLanguageValue && content.title.toLowerCase().includes(searchValue))
                 .map((content) => (
                   <div key={content.index} className='flex mb-[7px]'>
                     {content.youtube && (
