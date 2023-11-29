@@ -92,7 +92,10 @@ export default function YouTubeVideo({ playerId, content, width, height, innerCl
           videoId={content.youtube.id}
           opts={{ playerVars }}
           onReady={(e) => {
-            e.target.playVideo();
+            const x = e.target.getIframe().getBoundingClientRect().x;
+            if (-2000 < x && x < 2000) {
+              e.target.playVideo();
+            }
           }}
           onEnd={() => {
             onClose();

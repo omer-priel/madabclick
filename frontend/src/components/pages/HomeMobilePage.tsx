@@ -53,18 +53,28 @@ export default function HomeMobilePage({ data }: Props) {
       <div className='relative w-full'>
         <div className='absolute w-full left-0 top-0'>
           <Image
-            className='w-[250px] h-[250px] mx-[calc(50%_-_125px)] mt-[16px] rounded-[125px]'
+            className='w-[60.386vw] h-[60.386vw] mx-[calc(50%_-_30.193vw)] mt-[3.864vw] rounded-[30.193vw]'
             alt=''
             src='/section-1-background.png'
             width={250}
             height={250}
           />
         </div>
-        <div className='relative h-fit pt-[209px]'>
-          <div className='w-[317px] mx-auto text-center text-[12px]/[18px] font-black text-[#FFB636]'>{t('section-1-title-part-1')}</div>
-          <div className='w-[317px] mx-auto text-center	text-[22px]/[39px] font-black text-[#FFB636]'>{t('section-1-title-part-2')}</div>
+        <div className='relative h-fit pt-[50.483vw]'>
           <div
-            className='w-[317px] mx-auto
+            className='w-[76.57vw] mx-auto text-center text-[12px]/[18px]
+          font-black text-[#FFB636]'
+          >
+            {t('section-1-title-part-1')}
+          </div>
+          <div
+            className='w-[76.57vw] mx-auto text-center	text-[22px]/[39px]
+          font-black text-[#FFB636]'
+          >
+            {t('section-1-title-part-2')}
+          </div>
+          <div
+            className='w-[76.57vw] mx-auto
             text-center	text-[12px]/[18px] font-normal text-white break-words'
           >
             {t('section-1-body')}
@@ -72,7 +82,7 @@ export default function HomeMobilePage({ data }: Props) {
         </div>
       </div>
       {data.recommendedContent ? (
-        <div className='w-[317px] rtl:mr-[34px] ltr:ml-[34px] mt-[44px] text-[16px]/[24px] font-black text-white'>
+        <div className='w-[76.57vw] rtl:mr-[34px] ltr:ml-[34px] mt-[44px] text-[16px]/[24px] font-black text-white'>
           {t('section-2-recommended-label')}
         </div>
       ) : (
