@@ -11,6 +11,7 @@ import MobileRecommendedContentCard from '@/components/blocks/MobileRecommendedC
 import { MobileSettingsValue } from '@/components/blocks/MobileSettings';
 
 import { ContentsSchema } from '@/lib/api/schemas';
+import mobileShareIcon from '@/public/mobile-share.svg';
 
 interface ScreanSize {
   width: number;
@@ -97,6 +98,18 @@ export default function HomeMobilePage({ data }: Props) {
       )}
       {data.recommendedContent && <MobileRecommendedContentCard content={data.recommendedContent} screenWidth={screenSize.width} />}
       <div className='w-full h-[36px]' />
+      <div className='w-full h-[8px] bg-[#272727]' />
+      <div className='w-full'>
+        <div className='w-[50px] h-[50px] mx-auto mt-[42px]'>
+          <Image alt='' src={mobileShareIcon} width='50' height='50' />
+        </div>
+        <div className='w-[170px] h-fit mx-auto text-[#FFCC4D] text-[16px]/[24px] font-black'>{t('section-2-share-body')}</div>
+        <div className='w-fit h-fit mx-auto mt-[30px] mb-[42px]'>
+          <a className='text-[#00B2CA] font-black text-[12px]/[18px]' href={t('section-2-share-herf')} target='_black'>
+            {t('section-2-share-label')}
+          </a>
+        </div>
+      </div>
       {data.domains.map((domain) => (
         <div key={domain} className='w-full text-white'>
           <div className='w-full h-[8px] bg-[#272727]' />
