@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
@@ -10,6 +10,7 @@ import mobileSelectIcon from '@/public/mobile-select.svg';
 import mobileSelectedIcon from '@/public/mobile-selected.svg';
 import mobileSettingsIcon from '@/public/mobile-settings.svg';
 import { useStore } from '@/store';
+import { useOnLeaveElement } from '@/hooks';
 
 export type MobileSettingsValue = {
   selectedAgeLevels: string[];
@@ -27,10 +28,27 @@ export default function MobileSettings({ data, onSettingsSaved }: Props) {
 
   const deactivatePlayer = useStore((state) => state.deactivatePlayer);
 
+  const lastSettings = useRef<MobileSettingsValue>({
+    selectedAgeLevels: [],
+    selectedDurations: [],
+    selectedLanguages: [data.currentLanguageValue],
+  });
+
+  const panelRef = useRef<HTMLDivElement>(null);
+
   const [opened, setOpened] = useState(false);
-  const [selectedAgeLevels, setSelectedAgeLevels] = useState<string[]>([]);
-  const [selectedDurations, setSelectedDurations] = useState<string[]>([]);
-  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([data.currentLanguageValue]);
+  const [selectedAgeLevels, _setSelectedAgeLevels] = useState<string[]>([]);
+  const [selectedDurations, _setSelectedDurations] = useState<string[]>([]);
+  const [selectedLanguages, _setSelectedLanguages] = useState<string[]>([]);
+
+  const setSelectedAgeLevels = (value: string[]) => _setSelectedAgeLevels(value.length == data.ageLevels.length ? [] : value);
+  const setSelectedDurations = (value: string[]) => _setSelectedDurations(value.length == data.durations.length ? [] : value);
+  const setSelectedLanguages = (value: string[]) => _setSelectedLanguages(value.length == data.languages.length ? [] : value);
+
+  useOnLeaveElement(panelRef, () => {
+    console.log("A");
+    setOpened(false);
+  });
 
   return (
     <div>
@@ -41,13 +59,17 @@ export default function MobileSettings({ data, onSettingsSaved }: Props) {
         width='24'
         height='24'
         onClick={() => {
+          setSelectedAgeLevels(lastSettings.current.selectedAgeLevels);
+          setSelectedDurations(lastSettings.current.selectedDurations);
+          setSelectedLanguages(lastSettings.current.selectedLanguages);
+
           setOpened(true);
           deactivatePlayer();
         }}
       />
       <div className={`right-0 top-0 w-[100vw] h-[100vh] text-white z-[50] ${opened ? 'fixed' : 'hidden'}`}>
-        <div className='fixed right-0 bottom-0 w-[100vw] h-fit'>
-          <div className='w-[calc(100vw_-_96px)] h-fit bg-[#333333] rounded-t-[30px] px-[48px] py-[35px]'>
+        <div className={`fixed right-0 bottom-0 w-[100vw] h-fit ${opened ? 'translate-y-0' : 'translate-y-[-100%]'} ease-in-out duration-300`}>
+          <div ref={panelRef} className='w-[calc(100vw_-_96px)] h-fit bg-[#333333] rounded-t-[30px] px-[48px] py-[35px]'>
             <div className='mb-[21px]'>
               <div className='font-bold	opacity-50 text-[12px]/[18px]'>{t('filter-age-level')}</div>
               <div className='w-full mb-[8px] border-[#ffffff80] border-[1px] border-solid' />
@@ -135,11 +157,13 @@ export default function MobileSettings({ data, onSettingsSaved }: Props) {
             <div
               className='w-full h-[50px] mt-[47px] mb-[56px] rounded-[10px] border-solid border-white border-[1px]'
               onClick={() => {
-                onSettingsSaved({
+                lastSettings.current = {
                   selectedAgeLevels: selectedAgeLevels.length == 0 ? data.ageLevels : selectedAgeLevels,
                   selectedDurations: selectedDurations.length == 0 ? data.durations : selectedDurations,
                   selectedLanguages: selectedLanguages.length == 0 ? data.languages : selectedLanguages,
-                });
+                };
+
+                onSettingsSaved(lastSettings.current);
                 setOpened(false);
               }}
             >
