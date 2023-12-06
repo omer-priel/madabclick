@@ -9,6 +9,7 @@ import { Content, ContentsSchema } from '@/lib/api/schemas';
 import mobileSearchArrowIcon from '@/public/mobile-search-arrow.svg';
 import mobileSearchIcon from '@/public/mobile-search.svg';
 import searchIcon from '@/public/search-icon.svg';
+import { useStore } from '@/store';
 
 interface Props {
   data: ContentsSchema;
@@ -16,6 +17,8 @@ interface Props {
 
 export default function MobileSearchButton({ data }: Props) {
   const t = useTranslations();
+
+  const deactivatePlayer = useStore((state) => state.deactivatePlayer);
 
   const [opened, setOpened] = useState(false);
   const [searchValue, setSearchValue] = useState('');
@@ -44,6 +47,7 @@ export default function MobileSearchButton({ data }: Props) {
         height='24'
         onClick={() => {
           setOpened(true);
+          deactivatePlayer();
         }}
       />
       <div className={`right-0 top-0 w-[100vw] h-[100vh] bg-[#111313] text-white z-[50] ${opened ? 'fixed' : 'hidden'}`}>

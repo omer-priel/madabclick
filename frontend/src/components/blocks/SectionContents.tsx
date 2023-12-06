@@ -11,6 +11,7 @@ import ContentGallery from '@/components/blocks/ContentGallery';
 
 import { Content, ContentsSchema } from '@/lib/api/schemas';
 import cat3Icon from '@/public/cat-3.svg';
+import { useStore } from '@/store';
 
 interface Props {
   data: ContentsSchema;
@@ -20,6 +21,8 @@ export default function SectionContents({ data }: Props) {
   const { currentLanguageValue, languages, domains, ageLevels, durations, contents } = data;
 
   const t = useTranslations();
+
+  const deactivatePlayer = useStore((state) => state.deactivatePlayer);
 
   const [selectedAgeLevels, setSelectedAgeLevels] = useState<string[]>([]);
   const [selectedDurations, setSelectedDurations] = useState<string[]>([]);
@@ -40,7 +43,14 @@ export default function SectionContents({ data }: Props) {
   return (
     <div className='relative w-full h-fit pt-[6.458vw]' style={{ background: 'linear-gradient(180deg, #00B2CA 56%, #04C2FF 100%)' }}>
       <div className='w-[31.25vw] mx-auto'>
-        <SearchBox placeholder={t('search')} value={searchText} onChange={setSearchText} />
+        <SearchBox
+          placeholder={t('search')}
+          value={searchText}
+          onChange={(value) => {
+            deactivatePlayer();
+            setSearchText(value);
+          }}
+        />
       </div>
       <div className='w-fit h-fit mx-auto mt-[4.27vw]'>
         <Image className='w-[114px] h-[80px]' alt='' src={cat3Icon} width='114' height='80' />
@@ -56,15 +66,28 @@ export default function SectionContents({ data }: Props) {
               label={t('filter-age-level')}
               options={ageLevels}
               values={selectedAgeLevels}
-              onChange={setSelectedAgeLevels}
+              onChange={(value) => {deactivatePlayer(); setSelectedAgeLevels(value); }}
+              onOpened={deactivatePlayer}
               singleValue
             />
           </div>
           <div className='w-fit ml-[34px]'>
-            <MultiSelect label={t('filter-duration')} options={durations} values={selectedDurations} onChange={setSelectedDurations} />
+            <MultiSelect
+              label={t('filter-duration')}
+              options={durations}
+              values={selectedDurations}
+              onChange={(value) => {deactivatePlayer(); setSelectedDurations(value); }}
+              onOpened={deactivatePlayer}
+            />
           </div>
           <div className='w-fit'>
-            <MultiSelect label={t('filter-language')} options={languages} values={selectedLanguages} onChange={setSelectedLanguages} />
+            <MultiSelect
+              label={t('filter-language')}
+              options={languages}
+              values={selectedLanguages}
+              onChange={(value) => {deactivatePlayer(); setSelectedLanguages(value); }}
+              onOpened={deactivatePlayer}
+            />
           </div>
         </div>
       </div>

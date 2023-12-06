@@ -16,10 +16,11 @@ interface Props {
   options: string[];
   values: string[];
   onChange: (value: string[]) => void;
+  onOpened?: () => void;
   singleValue?: boolean;
 }
 
-export default function MultiSelect({ label, options, values, onChange, singleValue }: Props) {
+export default function MultiSelect({ label, options, values, onChange, onOpened = () => {}, singleValue }: Props) {
   const t = useTranslations();
 
   const [opened, setOpened] = useState(false);
@@ -47,7 +48,15 @@ export default function MultiSelect({ label, options, values, onChange, singleVa
   return (
     <>
       <div ref={containerRef} className='relative'>
-        <div className='flex justify-center' onClick={() => setOpened((prevOpend) => !prevOpend)}>
+        <div
+          className='flex justify-center'
+          onClick={() => {
+            if (!opened) {
+              onOpened();
+            }
+            setOpened((prevOpend) => !prevOpend);
+          }}
+        >
           <div ref={labelRef} className='flex justify-center'>
             <Image
               className={'w-[25px] h-[25px]' + (!opened ? '' : ' rotate-180')}
