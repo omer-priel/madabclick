@@ -50,7 +50,7 @@ export default function MobileSearchButton({ data }: Props) {
           deactivatePlayer();
         }}
       />
-      <div className={`right-0 top-0 w-[100vw] h-[100vh] bg-[#111313] text-white z-[50] ${opened ? 'fixed' : 'hidden'}`}>
+      <div className={`right-0 top-0 w-[100vw] h-[100dvh] bg-[#111313] text-white z-[50] ${opened ? 'fixed' : 'hidden'}`}>
         <div className='flex w-full mt-[50px] mx-[20px]'>
           <Image
             className='w-[20px] h-[20px] rtl:pr-[10px] ltr:pl-[10px] rtl:pl-[27px] ltr:pr-[27px] py-[10px]'

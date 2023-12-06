@@ -45,9 +45,9 @@ export default function MobileSettings({ data, onSettingsSaved }: Props) {
           deactivatePlayer();
         }}
       />
-      <div className={`right-0 top-0 w-[100vw] h-[100vh] text-white z-[50] ${opened ? 'fixed' : 'hidden'}`}>
-        <div className='w-full h-[35.423vh]'></div>
-        <div className='w-full h-[64.577vh]'>
+      <div className={`right-0 top-0 w-[100vw] h-[100dvh] text-white z-[50] ${opened ? 'fixed' : 'hidden'}`}>
+        <div className='w-full h-[35.423dvh]'></div>
+        <div className='w-full h-[64.577dvh]'>
           <div className='w-[calc(100%_-_96px)] h-[calc(64.577vh_-_70px)] bg-[#333333] rounded-t-[30px] px-[48px] py-[35px]'>
             <div className='mb-[21px]'>
               <div className='font-bold	opacity-50 text-[12px]/[18px]'>{t('filter-age-level')}</div>
