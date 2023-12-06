@@ -55,7 +55,7 @@ export default function HomeMobilePage({ data }: Props) {
           <Image
             className='w-[60.386vw] h-[60.386vw] mx-[calc(50%_-_30.193vw)] mt-[3.864vw] rounded-[30.193vw]'
             alt=''
-            src='/section-1-background.png'
+            src='/section-1-background-mobile.png'
             width={250}
             height={250}
           />
