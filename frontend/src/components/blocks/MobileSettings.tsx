@@ -45,10 +45,9 @@ export default function MobileSettings({ data, onSettingsSaved }: Props) {
           deactivatePlayer();
         }}
       />
-      <div className={`right-0 top-0 w-[100vw] h-[100dvh] text-white z-[50] ${opened ? 'fixed' : 'hidden'}`}>
-        <div className='w-full h-[35.423dvh]'></div>
-        <div className='w-full h-[64.577dvh]'>
-          <div className='w-[calc(100%_-_96px)] h-[calc(64.577vh_-_70px)] bg-[#333333] rounded-t-[30px] px-[48px] py-[35px]'>
+      <div className={`right-0 top-0 w-[100vw] h-[100vh] text-white z-[50] ${opened ? 'fixed' : 'hidden'}`}>
+        <div className='fixed right-0 bottom-0 w-[100vw] h-fit'>
+          <div className='w-[calc(100vw_-_96px)] h-fit bg-[#333333] rounded-t-[30px] px-[48px] py-[35px]'>
             <div className='mb-[21px]'>
               <div className='font-bold	opacity-50 text-[12px]/[18px]'>{t('filter-age-level')}</div>
               <div className='w-full mb-[8px] border-[#ffffff80] border-[1px] border-solid' />
@@ -134,7 +133,7 @@ export default function MobileSettings({ data, onSettingsSaved }: Props) {
               ))}
             </div>
             <div
-              className='w-full h-[50px] mt-[47px] rounded-[10px] border-solid border-white border-[1px]'
+              className='w-full h-[50px] mt-[47px] mb-[56px] rounded-[10px] border-solid border-white border-[1px]'
               onClick={() => {
                 onSettingsSaved({
                   selectedAgeLevels: selectedAgeLevels.length == 0 ? data.ageLevels : selectedAgeLevels,
