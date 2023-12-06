@@ -66,7 +66,10 @@ export default function SectionContents({ data }: Props) {
               label={t('filter-age-level')}
               options={ageLevels}
               values={selectedAgeLevels}
-              onChange={(value) => {deactivatePlayer(); setSelectedAgeLevels(value); }}
+              onChange={(value) => {
+                deactivatePlayer();
+                setSelectedAgeLevels(value);
+              }}
               onOpened={deactivatePlayer}
               singleValue
             />
@@ -76,7 +79,10 @@ export default function SectionContents({ data }: Props) {
               label={t('filter-duration')}
               options={durations}
               values={selectedDurations}
-              onChange={(value) => {deactivatePlayer(); setSelectedDurations(value); }}
+              onChange={(value) => {
+                deactivatePlayer();
+                setSelectedDurations(value);
+              }}
               onOpened={deactivatePlayer}
             />
           </div>
@@ -85,7 +91,10 @@ export default function SectionContents({ data }: Props) {
               label={t('filter-language')}
               options={languages}
               values={selectedLanguages}
-              onChange={(value) => {deactivatePlayer(); setSelectedLanguages(value); }}
+              onChange={(value) => {
+                deactivatePlayer();
+                setSelectedLanguages(value);
+              }}
               onOpened={deactivatePlayer}
             />
           </div>

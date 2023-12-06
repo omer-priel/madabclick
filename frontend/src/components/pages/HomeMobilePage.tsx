@@ -8,6 +8,7 @@ import Image from 'next/image';
 import ContentGalleryMobile from '@/components/blocks/ContentGalleryMobile';
 import MobileHeader from '@/components/blocks/MobileHeader';
 import MobileRecommendedContentCard from '@/components/blocks/MobileRecommendedContentCard';
+import { MobileSettingsValue } from '@/components/blocks/MobileSettings';
 
 import { ContentsSchema } from '@/lib/api/schemas';
 
@@ -32,6 +33,12 @@ export default function HomeMobilePage({ data }: Props) {
 
   const [screenSize, setScreenSize] = useState<ScreanSize>({ width: 896, height: 414 });
 
+  const [settings, setSettings] = useState<MobileSettingsValue>({
+    selectedAgeLevels: data.ageLevels,
+    selectedDurations: data.durations,
+    selectedLanguages: [data.currentLanguageValue],
+  });
+
   useEffect(() => {
     const updateScreenSize = () => {
       setScreenSize(getScreanSize());
@@ -49,7 +56,7 @@ export default function HomeMobilePage({ data }: Props) {
       className='relative w-full mx-auto overflow-x-hidden overflow-y-hidden bg-[#111313] text-base text-black
     rtl:text-right ltr:text-left'
     >
-      <MobileHeader data={data} />
+      <MobileHeader data={data} onSettingsSaved={setSettings} />
       <div className='relative w-full'>
         <div className='absolute w-full left-0 top-0'>
           <Image
@@ -96,7 +103,14 @@ export default function HomeMobilePage({ data }: Props) {
           <div className='pt-[25px] pb-[16px] px-[32px]'>
             <div className='text-[16px]/[24px]'>{domain}</div>
             <ContentGalleryMobile
-              contents={data.contents.filter((content) => content.domain === domain && content.language === data.currentLanguageValue)}
+              contents={data.contents
+                .filter((content) => content.domain === domain)
+                .filter(
+                  (content) =>
+                    settings.selectedAgeLevels.includes(content.ageLevel) &&
+                    settings.selectedDurations.includes(content.duration) &&
+                    settings.selectedLanguages.includes(content.language)
+                )}
             />
           </div>
         </div>
