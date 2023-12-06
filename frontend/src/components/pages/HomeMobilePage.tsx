@@ -110,24 +110,36 @@ export default function HomeMobilePage({ data }: Props) {
           </a>
         </div>
       </div>
-      {data.domains.map((domain) => (
-        <div key={domain} className='w-full text-white'>
-          <div className='w-full h-[8px] bg-[#272727]' />
-          <div className='pt-[25px] pb-[16px] px-[32px]'>
-            <div className='text-[16px]/[24px]'>{domain}</div>
-            <ContentGalleryMobile
-              contents={data.contents
-                .filter((content) => content.domain === domain)
-                .filter(
-                  (content) =>
-                    settings.selectedAgeLevels.includes(content.ageLevel) &&
-                    settings.selectedDurations.includes(content.duration) &&
-                    settings.selectedLanguages.includes(content.language)
-                )}
-            />
+      {data.domains
+        .filter(
+          (domain) =>
+            data.contents
+              .filter((content) => content.domain === domain)
+              .filter(
+                (content) =>
+                  settings.selectedAgeLevels.includes(content.ageLevel) &&
+                  settings.selectedDurations.includes(content.duration) &&
+                  settings.selectedLanguages.includes(content.language)
+              ).length > 0
+        )
+        .map((domain) => (
+          <div key={domain} className='w-full text-white'>
+            <div className='w-full h-[8px] bg-[#272727]' />
+            <div className='pt-[25px] pb-[16px] px-[32px]'>
+              <div className='text-[16px]/[24px]'>{domain}</div>
+              <ContentGalleryMobile
+                contents={data.contents
+                  .filter((content) => content.domain === domain)
+                  .filter(
+                    (content) =>
+                      settings.selectedAgeLevels.includes(content.ageLevel) &&
+                      settings.selectedDurations.includes(content.duration) &&
+                      settings.selectedLanguages.includes(content.language)
+                  )}
+              />
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
       <div className='w-full h-[8px] bg-[#272727]' />
       <div className='w-full h-[89px]' />
       {/* <div className='fixed w-full h-[89px] right-0 bottom-0 bg-black text-white text-[8px]/[12px]'>

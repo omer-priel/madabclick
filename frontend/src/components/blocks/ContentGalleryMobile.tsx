@@ -23,6 +23,8 @@ export default function ContentGalleryMobile({ contents }: Props) {
       speed={500}
       slidesToShow={1}
       slidesToScroll={1}
+      centerPadding='10%'
+      centerMode
       arrows={false}
       afterChange={() => {
         deactivatePlayer();
@@ -30,7 +32,7 @@ export default function ContentGalleryMobile({ contents }: Props) {
     >
       {contents.map((content) => (
         <div key={content.index} className='w-full'>
-          <div className='mx-auto w-fit' id={`content-${content.index}`}>
+          <div className='w-fit' id={`content-${content.index}`}>
             <ContentCardMobile content={content} />
           </div>
         </div>
