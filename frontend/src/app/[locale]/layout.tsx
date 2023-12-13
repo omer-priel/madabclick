@@ -74,6 +74,9 @@ export default async function RootLayout({ children, params: { locale } }: Props
           <meta property='og:locale:alternate' content='ar_AE' />
           <meta name='twitter:card' content='summary' />
           <meta name='application-name' content='מדע בקליק' data-device={device} />
+          <meta name="theme-color" content="#00b2ca" />
+          <meta name="msapplication-navbutton-color" content="#00b2ca" />
+          <meta name="apple-mobile-web-app-status-bar-style" content="#00b2ca" />
         </head>
         <body></body>
       </html>
@@ -95,6 +98,9 @@ export default async function RootLayout({ children, params: { locale } }: Props
         <meta property='og:locale:alternate' content='ar_AE' />
         <meta name='twitter:card' content='summary' />
         <meta name='application-name' content='מדע בקליק' data-device={device} />
+        <meta name="theme-color" content="#00b2ca" />
+        <meta name="msapplication-navbutton-color" content="#00b2ca" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="#00b2ca" />
       </head>
       <body
         className={cn(
