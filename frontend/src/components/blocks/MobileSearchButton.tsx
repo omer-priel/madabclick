@@ -63,7 +63,7 @@ export default function MobileSearchButton({ data }: Props) {
             }}
           />
           <div
-            className='flex rtl:justify-left ltr:justify-right w-[317px] h-[40px] bg-[#D9D9D980] opacity-30
+            className='flex rtl:justify-left ltr:justify-right w-[76.57vw] h-[40px] bg-[#D9D9D980] opacity-30
                       rounded-[5px] box-border border border-solid border-[#00000040]'
           >
             <Image className='w-[25px] h-[25px] rtl:pr-[16px] ltr:pl-[16px] mt-[7px]' alt='' src={searchIcon} width='25' height='25' />
