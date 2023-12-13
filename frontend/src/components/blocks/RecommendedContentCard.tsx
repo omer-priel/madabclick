@@ -35,7 +35,7 @@ export default function RecommendedContentCard({ content }: Props) {
     <div className='w-fit h-fit z-10'>
       <div className='w-[732px] h-[406px]'>
         {contentType == 1 && (
-          <YouTubeVideo playerId={-1} content={content} width={732} height={406} innerClassName='rounded-[10px]' playButtonSize={100} />
+          <YouTubeVideo playerId={-1} content={content} width='732px' height='406px' innerClassName='rounded-[10px]' playButtonSize={100} />
         )}
       </div>
       <div className='w-[732px] h-[36px] mt-[30px] text-black text-[24px]/[36px] font-black'>{multiFontText(content.title)}</div>

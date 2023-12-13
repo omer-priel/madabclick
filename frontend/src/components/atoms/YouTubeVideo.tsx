@@ -12,8 +12,8 @@ import { useStore } from '@/store';
 interface Props {
   playerId: number;
   content: Content;
-  width: number;
-  height: number;
+  width: string;
+  height: string;
   innerClassName?: string;
   playButtonSize?: number;
 }
@@ -49,7 +49,7 @@ export default function YouTubeVideo({ playerId, content, width, height, innerCl
   }
 
   return (
-    <div className='relative' style={{ width: `${width}px`, height: `${height}px` }}>
+    <div className='relative' style={{ width: width, height: height }}>
       <button className='absolute w-full h-full top-0 right-0 bg-transparent' type='button' onClick={() => onActive()}>
         {content.youtube.thumbnail.width && content.youtube.thumbnail.height ? (
           <Image
@@ -70,11 +70,10 @@ export default function YouTubeVideo({ playerId, content, width, height, innerCl
         {playButtonSize && (
           <div className='absolute w-full h-full top-0 right-0 z-2'>
             <Image
-              className='mx-auto'
+              className='absolute top-[50%] right-[50%] translate-x-[50%] translate-y-[-50%]'
               style={{
                 width: `${playButtonSize}px`,
                 height: `${playButtonSize}px`,
-                marginTop: `${(height - playButtonSize) / 2}px`,
               }}
               alt=''
               src={playIcon}

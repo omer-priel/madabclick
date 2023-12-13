@@ -33,11 +33,11 @@ export default function ContentCardMobile({ content }: Props) {
 
   return (
     <>
-      <div className='w-[280px] h-[155px]'>
-        {contentType == 1 && <YouTubeVideo playerId={content.index} content={content} width={280} height={155} />}
+      <div className='w-[67.632vw] h-[37.439vw]'>
+        {contentType == 1 && <YouTubeVideo playerId={content.index} content={content} width='67.632vw' height='37.439vw' />}
       </div>
       <div className='mt-[14px] text-white text-[12px]/[18px] text-right font-normal'>
-        <div className='mx-auto w-fit max-w-[280px]'>{multiFontText(content.title)}</div>
+        <div className='mx-auto w-fit max-w-[67.632vw]'>{multiFontText(content.title)}</div>
       </div>
     </>
   );

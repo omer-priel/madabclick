@@ -31,9 +31,11 @@ export default function ContentGalleryMobile({ contents }: Props) {
       }}
     >
       {contents.map((content) => (
-        <div key={content.index} className='w-full'>
-          <div className='w-fit' id={`content-${content.index}`}>
-            <ContentCardMobile content={content} />
+        <div key={content.index}>
+          <div className='w-[67.632vw]'>
+            <div className='w-[67.632vw]' id={`content-${content.index}`}>
+              <ContentCardMobile content={content} />
+            </div>
           </div>
         </div>
       ))}
