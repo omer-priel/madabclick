@@ -9,10 +9,9 @@ import { multiFontText } from '@/lib/styling';
 
 interface Props {
   content: Content;
-  screenWidth: number;
 }
 
-export default function MobileRecommendedContentCard({ content, screenWidth }: Props) {
+export default function MobileRecommendedContentCard({ content }: Props) {
   const t = useTranslations();
 
   const links: string[][] = [];
@@ -35,9 +34,7 @@ export default function MobileRecommendedContentCard({ content, screenWidth }: P
   return (
     <div className='w-full h-fit z-10'>
       <div className='w-full h-fit px-[5vw]'>
-        {contentType == 1 && (
-          <YouTubeVideo playerId={-1} content={content} width='90vw' height='43.84vw' playButtonSize={50} />
-        )}
+        {contentType == 1 && <YouTubeVideo playerId={-1} content={content} width='90vw' height='43.84vw' playButtonSize={50} />}
       </div>
       <div className='w-[calc(90vw_-_66px)] h-[18px] mx-[33px] mt-[8.38px] text-white text-[12px]/[18px] font-black'>
         {multiFontText(content.title)}

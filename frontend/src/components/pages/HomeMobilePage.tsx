@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
@@ -13,18 +13,6 @@ import { MobileSettingsValue } from '@/components/blocks/MobileSettings';
 import { ContentsSchema } from '@/lib/api/schemas';
 import mobileShareIcon from '@/public/mobile-share.svg';
 
-interface ScreanSize {
-  width: number;
-  height: number;
-}
-
-function getScreanSize() {
-  return {
-    width: window.innerWidth,
-    height: window.innerHeight,
-  };
-}
-
 interface Props {
   data: ContentsSchema;
 }
@@ -32,25 +20,11 @@ interface Props {
 export default function HomeMobilePage({ data }: Props) {
   const t = useTranslations();
 
-  const [screenSize, setScreenSize] = useState<ScreanSize>({ width: 896, height: 414 });
-
   const [settings, setSettings] = useState<MobileSettingsValue>({
     selectedAgeLevels: data.ageLevels,
     selectedDurations: data.durations,
     selectedLanguages: [data.currentLanguageValue],
   });
-
-  useEffect(() => {
-    const updateScreenSize = () => {
-      setScreenSize(getScreanSize());
-    };
-    updateScreenSize();
-    window.addEventListener('resize', updateScreenSize);
-
-    return () => {
-      window.removeEventListener('resize', updateScreenSize);
-    };
-  }, [setScreenSize]);
 
   return (
     <div
@@ -96,7 +70,7 @@ export default function HomeMobilePage({ data }: Props) {
       ) : (
         <div className='w-full h-[44px]' />
       )}
-      {data.recommendedContent && <MobileRecommendedContentCard content={data.recommendedContent} screenWidth={screenSize.width} />}
+      {data.recommendedContent && <MobileRecommendedContentCard content={data.recommendedContent} />}
       <div className='w-full h-[36px]' />
       <div className='w-full h-[8px] bg-[#272727]' />
       <div className='w-full'>

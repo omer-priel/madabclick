@@ -1,16 +1,16 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useRef, useState } from 'react';
 
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
+import { useOnLeaveElement } from '@/hooks';
 import { ContentsSchema } from '@/lib/api/schemas';
 import mobileSelectIcon from '@/public/mobile-select.svg';
 import mobileSelectedIcon from '@/public/mobile-selected.svg';
 import mobileSettingsIcon from '@/public/mobile-settings.svg';
 import { useStore } from '@/store';
-import { useOnLeaveElement } from '@/hooks';
 
 export type MobileSettingsValue = {
   selectedAgeLevels: string[];
@@ -37,13 +37,13 @@ export default function MobileSettings({ data, onSettingsSaved }: Props) {
   const panelRef = useRef<HTMLDivElement>(null);
 
   const [opened, setOpened] = useState(false);
-  const [selectedAgeLevels, _setSelectedAgeLevels] = useState<string[]>([]);
-  const [selectedDurations, _setSelectedDurations] = useState<string[]>([]);
-  const [selectedLanguages, _setSelectedLanguages] = useState<string[]>([]);
+  const [selectedAgeLevels, setPrivateSelectedAgeLevels] = useState<string[]>([]);
+  const [selectedDurations, setPrivateSelectedDurations] = useState<string[]>([]);
+  const [selectedLanguages, setPrivateSelectedLanguages] = useState<string[]>([]);
 
-  const setSelectedAgeLevels = (value: string[]) => _setSelectedAgeLevels(value.length == data.ageLevels.length ? [] : value);
-  const setSelectedDurations = (value: string[]) => _setSelectedDurations(value.length == data.durations.length ? [] : value);
-  const setSelectedLanguages = (value: string[]) => _setSelectedLanguages(value.length == data.languages.length ? [] : value);
+  const setSelectedAgeLevels = (value: string[]) => setPrivateSelectedAgeLevels(value.length == data.ageLevels.length ? [] : value);
+  const setSelectedDurations = (value: string[]) => setPrivateSelectedDurations(value.length == data.durations.length ? [] : value);
+  const setSelectedLanguages = (value: string[]) => setPrivateSelectedLanguages(value.length == data.languages.length ? [] : value);
 
   useOnLeaveElement(panelRef, () => {
     setOpened(false);
@@ -67,7 +67,9 @@ export default function MobileSettings({ data, onSettingsSaved }: Props) {
         }}
       />
       <div className={`right-0 top-0 w-[100vw] h-[100vh] text-white z-[50] ${opened ? 'fixed' : 'hidden'}`}>
-        <div className={`fixed right-0 bottom-0 w-[100vw] h-fit ${opened ? 'translate-y-0' : 'translate-y-[-100%]'} ease-in-out duration-300`}>
+        <div
+          className={`fixed right-0 bottom-0 w-[100vw] h-fit ${opened ? 'translate-y-0' : 'translate-y-[-100%]'} ease-in-out duration-300`}
+        >
           <div ref={panelRef} className='w-[calc(100vw_-_96px)] h-fit bg-[#333333] rounded-t-[30px] px-[48px] py-[35px]'>
             <div className='mb-[21px]'>
               <div className='font-bold	opacity-50 text-[12px]/[18px]'>{t('filter-age-level')}</div>
