@@ -46,7 +46,6 @@ export default function MobileSettings({ data, onSettingsSaved }: Props) {
   const setSelectedLanguages = (value: string[]) => _setSelectedLanguages(value.length == data.languages.length ? [] : value);
 
   useOnLeaveElement(panelRef, () => {
-    console.log("A");
     setOpened(false);
   });
 

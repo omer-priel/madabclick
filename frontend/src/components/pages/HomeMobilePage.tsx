@@ -125,7 +125,7 @@ export default function HomeMobilePage({ data }: Props) {
         .map((domain) => (
           <div key={domain} className='w-full text-white'>
             <div className='w-full h-[8px] bg-[#272727]' />
-            <div className='pt-[25px] pb-[16px] px-[32px]'>
+            <div className='pt-[25px] pb-[16px]'>
               <div className='text-[16px]/[24px]'>{domain}</div>
               <ContentGalleryMobile
                 contents={data.contents
