@@ -100,7 +100,7 @@ export default function MobileSettings({ data, onSettingsSaved }: Props) {
               ))}
             </div>
             <div className='mb-[21px]'>
-              <div className='font-bold	opacity-50 text-[12px]/[18px]'>{t('filter-age-level')}</div>
+              <div className='font-bold	opacity-50 text-[12px]/[18px]'>{t('filter-duration')}</div>
               <div className='w-full mb-[8px] border-[#ffffff80] border-[1px] border-solid' />
               {data.durations.map((duration) => (
                 <div
@@ -128,7 +128,7 @@ export default function MobileSettings({ data, onSettingsSaved }: Props) {
               ))}
             </div>
             <div className='mb-[21px]'>
-              <div className='font-bold	opacity-50 text-[12px]/[18px]'>{t('filter-age-level')}</div>
+              <div className='font-bold	opacity-50 text-[12px]/[18px]'>{t('filter-language')}</div>
               <div className='w-full mb-[8px] border-[#ffffff80] border-[1px] border-solid' />
               {data.languages.map((language) => (
                 <div
