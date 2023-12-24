@@ -102,17 +102,17 @@ export default async function RootLayout({ children, params: { locale } }: Props
         <meta name='msapplication-navbutton-color' content='#00b2ca' />
         <meta name='apple-mobile-web-app-status-bar-style' content='#00b2ca' />
       </head>
-      <body
-        className={cn(
+      <body style={{margin: '0px'}}>
+        <div className={cn(
           'm-0 leading-normal ltr:text-right rtl:text-left min-h-screen bg-background font-poppins antialiased',
           assistantFont.variable,
           poppinsFont.variable
-        )}
-      >
-        <StoreInitializer pathname={pathname ? pathname : ''} device={device} language={language} />
-        <NextIntlClientProvider locale={language.locale} messages={messages}>
-          {children}
-        </NextIntlClientProvider>
+        )}>
+          <StoreInitializer pathname={pathname ? pathname : ''} device={device} language={language} />
+          <NextIntlClientProvider locale={language.locale} messages={messages}>
+            {children}
+          </NextIntlClientProvider>
+        </div>
       </body>
     </html>
   );
