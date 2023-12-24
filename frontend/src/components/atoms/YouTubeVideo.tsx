@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
 import Image from 'next/image';
 import YouTube from 'react-youtube';
 
@@ -8,7 +10,6 @@ import { Content } from '@/lib/api/schemas';
 import { cn } from '@/lib/styling';
 import playIcon from '@/public/play.svg';
 import { useStore } from '@/store';
-import { useEffect, useRef, useState } from 'react';
 
 interface Props {
   playerId: number;
@@ -35,7 +36,7 @@ export default function YouTubeVideo({ playerId, content, width, height, innerCl
   };
 
   useEffect(() => {
-     setOrigin(window.location.origin);
+    setOrigin(window.location.origin);
   }, []);
 
   if (!content.youtube || !origin) {

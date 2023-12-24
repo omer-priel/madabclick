@@ -4,8 +4,8 @@ import { Fragment, useEffect, useRef, useState } from 'react';
 
 import ContentCardMobile from '@/components/blocks/ContentCardMobile';
 
-import { useStore } from '@/store';
 import { Content } from '@/lib/api/schemas';
+import { useStore } from '@/store';
 
 interface Props {
   contents: Content[];
@@ -21,9 +21,9 @@ export default function ContentGalleryMobile({ contents }: Props) {
   const startX = useRef<number>(0);
   const currentTranslate = useRef<number>(0);
 
-  const goToSlide = (index: number) => {
-    if (index !== currentSlide) {
-      setCurrentSlide(index);
+  const goToSlide = (slideIndex: number) => {
+    if (slideIndex !== currentSlide) {
+      setCurrentSlide(slideIndex);
     }
 
     if (!sliderRef.current) {
@@ -36,13 +36,13 @@ export default function ContentGalleryMobile({ contents }: Props) {
     const slideEl = sliderRef.current.querySelector(':nth-child(2)');
     const slideWidth = slideEl ? slideEl.clientWidth : 40;
 
-    let scrollLeft = - (index + 1) * (spaceWidth + slideWidth) - spaceWidth;
+    let scrollLeft = -(slideIndex + 1) * (spaceWidth + slideWidth) - spaceWidth;
     scrollLeft += (document.body.clientWidth - slideWidth) / 2;
 
     currentTranslate.current = scrollLeft;
 
     sliderRef.current.scrollLeft = currentTranslate.current;
-  }
+  };
 
   const handleMouseDown = (event: TouchEvent | MouseEvent) => {
     deactivatePlayer();
@@ -59,7 +59,7 @@ export default function ContentGalleryMobile({ contents }: Props) {
       return;
     }
 
-    const x = ('touches' in event) ? event.touches[0].clientX : event.clientX;
+    const x = 'touches' in event ? event.touches[0].clientX : event.clientX;
 
     isDragging.current = true;
     startX.current = x;
@@ -74,13 +74,13 @@ export default function ContentGalleryMobile({ contents }: Props) {
       return;
     }
 
-    const x = ('touches' in event) ? event.touches[0].clientX : event.clientX;
+    const x = 'touches' in event ? event.touches[0].clientX : event.clientX;
 
     const distance = x - startX.current;
     sliderRef.current.scrollLeft = currentTranslate.current - distance;
   };
 
-  const handleMouseUp = (event: TouchEvent | MouseEvent) => {
+  const handleMouseUp = () => {
     if (!sliderRef.current) {
       return;
     }
@@ -94,11 +94,11 @@ export default function ContentGalleryMobile({ contents }: Props) {
     const slideEl = sliderRef.current.querySelector(':nth-child(2)');
     const slideWidth = slideEl ? slideEl.clientWidth : 40;
 
-    if (currentTranslate.current - (slideWidth / 2) > sliderRef.current.scrollLeft) {
+    if (currentTranslate.current - slideWidth / 2 > sliderRef.current.scrollLeft) {
       if (currentSlide < contents.length - 1) {
         toSlide += 1;
       }
-    } else if (currentTranslate.current + (slideWidth / 2) < sliderRef.current.scrollLeft) {
+    } else if (currentTranslate.current + slideWidth / 2 < sliderRef.current.scrollLeft) {
       if (currentSlide > 0) {
         toSlide -= 1;
       }
@@ -111,16 +111,17 @@ export default function ContentGalleryMobile({ contents }: Props) {
 
   useEffect(() => {
     goToSlide(0);
-  }, [sliderRef.current]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className='flex flex-nowrap'>
       <div
-      ref={sliderRef}
-      className='flex rtl h-fit mx-auto overflow-x-hidden'
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
+        ref={sliderRef}
+        className='flex rtl h-fit mx-auto overflow-x-hidden'
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
       >
         <div className='slider-draggable min-w-[40px]' />
         <div className='slider-draggable min-w-[67.632vw]' />
@@ -132,8 +133,8 @@ export default function ContentGalleryMobile({ contents }: Props) {
                 <ContentCardMobile content={content} />
               </div>
               <div
-              className='slider-draggable absolute w-[67.632vw] h-full top-0 right-0 z-2'
-              style={{visibility: currentSlide === index ? 'hidden' : 'visible'}}
+                className='slider-draggable absolute w-[67.632vw] h-full top-0 right-0 z-2'
+                style={{ visibility: currentSlide === index ? 'hidden' : 'visible' }}
               />
             </div>
           </Fragment>
