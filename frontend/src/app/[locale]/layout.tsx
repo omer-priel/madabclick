@@ -185,7 +185,7 @@ export default async function RootLayout({ children, params: { locale } }: Props
 
   if (device === 'whatsapp') {
     return (
-      <html lang={language.locale} dir={language.dir}>
+      <html lang={language.locale} dir={language.dir} suppressHydrationWarning>
         <head>
           <title>מדע בקליק</title>
           <meta name='description' content='תוכן לילדים סקרנים' />
@@ -209,7 +209,7 @@ export default async function RootLayout({ children, params: { locale } }: Props
   }
 
   return (
-    <html lang={language.locale} dir={language.dir}>
+    <html lang={language.locale} dir={language.dir} suppressHydrationWarning>
       <head>
         <title>מדע בקליק</title>
         <meta name='description' content='תוכן לילדים סקרנים' />

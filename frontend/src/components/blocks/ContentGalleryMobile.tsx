@@ -1,11 +1,13 @@
 'use client';
 
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, TouchEvent, useEffect, useRef, useState } from 'react';
 
 import ContentCardMobile from '@/components/blocks/ContentCardMobile';
 
 import { Content } from '@/lib/api/schemas';
 import { useStore } from '@/store';
+
+const SCROLL_SPEED = 9;
 
 interface Props {
   contents: Content[];
@@ -20,8 +22,9 @@ export default function ContentGalleryMobile({ contents }: Props) {
   const isDragging = useRef<boolean>(false);
   const startX = useRef<number>(0);
   const currentTranslate = useRef<number>(0);
+  const scrollInterval = useRef<NodeJS.Timeout | null>(null);
 
-  const goToSlide = (slideIndex: number) => {
+  const goToSlide = (slideIndex: number, usingInterval: boolean) => {
     if (slideIndex !== currentSlide) {
       setCurrentSlide(slideIndex);
     }
@@ -41,12 +44,41 @@ export default function ContentGalleryMobile({ contents }: Props) {
 
     currentTranslate.current = scrollLeft;
 
-    sliderRef.current.scrollLeft = currentTranslate.current;
+    if (!usingInterval) {
+      sliderRef.current.scrollLeft = scrollLeft;
+      return;
+    }
+
+    // scroll to currentTranslate by interval
+    if (scrollInterval.current) {
+      clearInterval(scrollInterval.current);
+      scrollInterval.current = null;
+    }
+
+    scrollInterval.current = setInterval(() => {
+      if (!sliderRef.current) {
+        return;
+      }
+
+      if (Math.abs(sliderRef.current.scrollLeft - currentTranslate.current) <= SCROLL_SPEED) {
+        sliderRef.current.scrollLeft = currentTranslate.current;
+
+        if (scrollInterval.current) {
+          clearInterval(scrollInterval.current);
+          scrollInterval.current = null;
+        }
+        return;
+      }
+
+      if (sliderRef.current.scrollLeft > currentTranslate.current) {
+        sliderRef.current.scrollLeft -= SCROLL_SPEED;
+      } else {
+        sliderRef.current.scrollLeft += SCROLL_SPEED;
+      }
+    }, 1);
   };
 
-  const handleMouseDown = (event: TouchEvent | MouseEvent) => {
-    deactivatePlayer();
-
+  const handleTouchStart = (event: TouchEvent) => {
     if (!sliderRef.current) {
       return;
     }
@@ -55,17 +87,18 @@ export default function ContentGalleryMobile({ contents }: Props) {
       return;
     }
 
-    if (!(event.target as HTMLElement).classList.contains('slider-draggable')) {
-      return;
+    if (scrollInterval.current) {
+      clearInterval(scrollInterval.current);
+      scrollInterval.current = null;
     }
 
-    const x = 'touches' in event ? event.touches[0].clientX : event.clientX;
+    deactivatePlayer();
 
     isDragging.current = true;
-    startX.current = x;
+    startX.current = event.touches[0].clientX;
   };
 
-  const handleMouseMove = (event: TouchEvent | MouseEvent) => {
+  const handleTouchMove = (event: TouchEvent) => {
     if (!sliderRef.current) {
       return;
     }
@@ -74,13 +107,11 @@ export default function ContentGalleryMobile({ contents }: Props) {
       return;
     }
 
-    const x = 'touches' in event ? event.touches[0].clientX : event.clientX;
-
-    const distance = x - startX.current;
+    const distance = event.touches[0].clientX - startX.current;
     sliderRef.current.scrollLeft = currentTranslate.current - distance;
   };
 
-  const handleMouseUp = () => {
+  const handleTouchEnd = () => {
     if (!sliderRef.current) {
       return;
     }
@@ -88,6 +119,8 @@ export default function ContentGalleryMobile({ contents }: Props) {
     if (!isDragging.current) {
       return;
     }
+
+    deactivatePlayer();
 
     let toSlide = currentSlide;
 
@@ -104,44 +137,39 @@ export default function ContentGalleryMobile({ contents }: Props) {
       }
     }
 
-    goToSlide(toSlide);
-
     isDragging.current = false;
+
+    goToSlide(toSlide, true);
   };
 
   useEffect(() => {
-    goToSlide(0);
+    goToSlide(0, false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div className='flex flex-nowrap'>
-      <div
-        ref={sliderRef}
-        className='flex rtl h-fit mx-auto overflow-x-hidden'
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-      >
-        <div className='slider-draggable min-w-[40px]' />
-        <div className='slider-draggable min-w-[67.632vw]' />
+      <div ref={sliderRef} className='flex rtl h-fit mx-auto overflow-x-hidden' onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
+        <div className='min-w-[40px]' onTouchStart={handleTouchStart} />
+        <div className='min-w-[67.632vw]' onTouchStart={handleTouchStart} />
         {contents.map((content, index) => (
           <Fragment key={content.index}>
-            <div className='slider-draggable min-w-[40px]' />
+            <div className='min-w-[40px]' onTouchStart={handleTouchStart} />
             <div className='relative w-[67.632vw] h-fit'>
               <div className='w-[67.632vw] h-fit z-1'>
                 <ContentCardMobile content={content} />
               </div>
               <div
-                className='slider-draggable absolute w-[67.632vw] h-full top-0 right-0 z-2'
+                className='absolute w-[67.632vw] h-full top-0 right-0 z-2'
                 style={{ visibility: currentSlide === index ? 'hidden' : 'visible' }}
+                onTouchStart={handleTouchStart}
               />
             </div>
           </Fragment>
         ))}
-        <div className='slider-draggable min-w-[40px]' />
-        <div className='slider-draggable min-w-[67.632vw]' />
-        <div className='slider-draggable min-w-[40px]' />
+        <div className='min-w-[40px]' onTouchStart={handleTouchStart} />
+        <div className='min-w-[67.632vw]' onTouchStart={handleTouchStart} />
+        <div className='min-w-[40px]' onTouchStart={handleTouchStart} />
       </div>
     </div>
   );

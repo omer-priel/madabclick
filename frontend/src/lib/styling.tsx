@@ -12,8 +12,10 @@ export function multiFontText(text: string): ReactNode[] {
   let lastPart = '';
   let lastIsAssistant = false;
 
+  let charKey = 0;
+
   // change font of 0123456789|?!# to font-assistant
-  text.split('').forEach((char, index) => {
+  text.split('').forEach((char) => {
     const isAssistant = /^\d$/.test(char) || '|?!#'.includes(char);
     if (isAssistant === lastIsAssistant) {
       lastPart += char;
@@ -23,12 +25,14 @@ export function multiFontText(text: string): ReactNode[] {
     } else {
       if (lastIsAssistant) {
         parts.push(
-          <span key={index} className='font-assistant'>
+          <span key={charKey} className='font-assistant'>
             {lastPart}
           </span>
         );
+        charKey += 1;
       } else {
-        parts.push(<Fragment key={index}>{lastPart}</Fragment>);
+        parts.push(<Fragment key={charKey}>{lastPart}</Fragment>);
+        charKey += 1;
       }
       lastPart = char;
       lastIsAssistant = isAssistant;
@@ -38,12 +42,12 @@ export function multiFontText(text: string): ReactNode[] {
   if (lastPart.length > 0) {
     if (lastIsAssistant) {
       parts.push(
-        <span key={lastPart.length} className='font-assistant'>
+        <span key={charKey} className='font-assistant'>
           {lastPart}
         </span>
       );
     } else {
-      parts.push(<Fragment key={lastPart.length}>{lastPart}</Fragment>);
+      parts.push(<Fragment key={charKey}>{lastPart}</Fragment>);
     }
   }
 

@@ -160,8 +160,11 @@ flowchart TB
 | Name                           | Description                             |
 |--------------------------------|-----------------------------------------|
 | APP_REVALIDATE                 | Time in seconds of rebuild the App Page |
+| APP_STORAGE                    | Path for the storage directory          |
 | GOOGLE_API_KEY                 | Google API Key for Google Sheets API    |
 | GOOGLE_SPREADSHEET_ID_CONTENTS | Google Spreadsheet ID of contents sheet |
+| MONGO_URI                      | Mongo URI                               |
+| MONGO_DB_NAME                  | Mongo Database Name                     |
 
 In local developemt. Create '.env' file in frontent that will contain the Environment Variables.
 
