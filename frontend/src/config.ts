@@ -1,5 +1,6 @@
 export interface ServerConfig {
   APP_REVALIDATE: number;
+  APP_STORAGE: string;
 
   MONGO_URI: string;
   MONGO_DB_NAME: string;
@@ -11,6 +12,7 @@ export interface ServerConfig {
 export function getConfig(): ServerConfig {
   return {
     APP_REVALIDATE: process.env.APP_REVALIDATE ? parseInt(process.env.APP_REVALIDATE) : 7200,
+    APP_STORAGE: process.env.APP_STORAGE || 'storage',
 
     MONGO_URI: process.env.MONGO_URI || '',
     MONGO_DB_NAME: 'madabclick',

@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
 import Image from 'next/image';
 import YouTube from 'react-youtube';
 
@@ -23,6 +25,8 @@ export default function YouTubeVideo({ playerId, content, width, height, innerCl
   const activatePlayer = useStore((state) => state.activatePlayer);
   const deactivatePlayer = useStore((state) => state.deactivatePlayer);
 
+  const [origin, setOrigin] = useState<string>('');
+
   const onActive = () => {
     activatePlayer(playerId);
   };
@@ -31,7 +35,11 @@ export default function YouTubeVideo({ playerId, content, width, height, innerCl
     deactivatePlayer();
   };
 
-  if (!content.youtube) {
+  useEffect(() => {
+    setOrigin(window.location.origin);
+  }, []);
+
+  if (!content.youtube || !origin) {
     return <></>;
   }
 
@@ -40,7 +48,7 @@ export default function YouTubeVideo({ playerId, content, width, height, innerCl
     width,
     height,
     enablejsapi: 1,
-    origin: null,
+    origin: origin,
     modestbranding: 1,
   };
 

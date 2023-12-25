@@ -20,3 +20,5 @@ infra/keys
 # frontend
 frontend/out
 frontend/build
+
+frontend/storage

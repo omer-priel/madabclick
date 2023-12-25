@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 import { NextIntlClientProvider } from 'next-intl';
-import { Assistant, Poppins } from 'next/font/google';
+import localFont from 'next/font/local';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
@@ -13,17 +13,142 @@ import { findLanguage } from '@/translation';
 
 import '@/styles/globals.css';
 
-const poppinsFont = Poppins({
-  subsets: ['latin'],
+const poppinsFont = localFont({
+  src: [
+    {
+      path: '../fonts/Poppins/Poppins-Thin.woff2',
+      weight: '100',
+      style: 'normal',
+    },
+    {
+      path: '../fonts/Poppins/Poppins-ThinItalic.woff2',
+      weight: '100',
+      style: 'italic',
+    },
+    {
+      path: '../fonts/Poppins/Poppins-ExtraLight.woff2',
+      weight: '200',
+      style: 'normal',
+    },
+    {
+      path: '../fonts/Poppins/Poppins-ExtraLightItalic.woff2',
+      weight: '200',
+      style: 'italic',
+    },
+    {
+      path: '../fonts/Poppins/Poppins-Light.woff2',
+      weight: '300',
+      style: 'normal',
+    },
+    {
+      path: '../fonts/Poppins/Poppins-LightItalic.woff2',
+      weight: '300',
+      style: 'italic',
+    },
+    {
+      path: '../fonts/Poppins/Poppins-Regular.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../fonts/Poppins/Poppins-Italic.woff2',
+      weight: '400',
+      style: 'italic',
+    },
+    {
+      path: '../fonts/Poppins/Poppins-Medium.woff2',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: '../fonts/Poppins/Poppins-MediumItalic.woff2',
+      weight: '500',
+      style: 'italic',
+    },
+    {
+      path: '../fonts/Poppins/Poppins-SemiBold.woff2',
+      weight: '600',
+      style: 'normal',
+    },
+    {
+      path: '../fonts/Poppins/Poppins-SemiBoldItalic.woff2',
+      weight: '600',
+      style: 'italic',
+    },
+    {
+      path: '../fonts/Poppins/Poppins-Bold.woff2',
+      weight: '700',
+      style: 'normal',
+    },
+    {
+      path: '../fonts/Poppins/Poppins-BoldItalic.woff2',
+      weight: '700',
+      style: 'italic',
+    },
+    {
+      path: '../fonts/Poppins/Poppins-ExtraBold.woff2',
+      weight: '800',
+      style: 'normal',
+    },
+    {
+      path: '../fonts/Poppins/Poppins-ExtraBoldItalic.woff2',
+      weight: '800',
+      style: 'italic',
+    },
+    {
+      path: '../fonts/Poppins/Poppins-Black.woff2',
+      weight: '900',
+      style: 'normal',
+    },
+    {
+      path: '../fonts/Poppins/Poppins-BlackItalic.woff2',
+      weight: '900',
+      style: 'italic',
+    },
+  ],
   display: 'swap',
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
   variable: '--font-poppins',
 });
 
-const assistantFont = Assistant({
-  subsets: ['latin'],
+const assistantFont = localFont({
+  src: [
+    {
+      path: '../fonts/Assistant/static/Assistant-ExtraLight.woff2',
+      weight: '200',
+      style: 'normal',
+    },
+    {
+      path: '../fonts/Assistant/static/Assistant-Light.woff2',
+      weight: '300',
+      style: 'normal',
+    },
+    {
+      path: '../fonts/Assistant/static/Assistant-Regular.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../fonts/Assistant/static/Assistant-Medium.woff2',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: '../fonts/Assistant/static/Assistant-SemiBold.woff2',
+      weight: '600',
+      style: 'normal',
+    },
+    {
+      path: '../fonts/Assistant/static/Assistant-Bold.woff2',
+      weight: '700',
+      style: 'normal',
+    },
+    {
+      path: '../fonts/Assistant/static/Assistant-ExtraBold.woff2',
+      weight: '800',
+      style: 'normal',
+    },
+  ],
   display: 'swap',
-  weight: ['200', '300', '400', '500', '600', '700', '800'],
   variable: '--font-assistant',
 });
 
@@ -60,7 +185,7 @@ export default async function RootLayout({ children, params: { locale } }: Props
 
   if (device === 'whatsapp') {
     return (
-      <html lang={language.locale} dir={language.dir}>
+      <html lang={language.locale} dir={language.dir} suppressHydrationWarning>
         <head>
           <title>מדע בקליק</title>
           <meta name='description' content='תוכן לילדים סקרנים' />
@@ -84,7 +209,7 @@ export default async function RootLayout({ children, params: { locale } }: Props
   }
 
   return (
-    <html lang={language.locale} dir={language.dir}>
+    <html lang={language.locale} dir={language.dir} suppressHydrationWarning>
       <head>
         <title>מדע בקליק</title>
         <meta name='description' content='תוכן לילדים סקרנים' />
@@ -102,17 +227,19 @@ export default async function RootLayout({ children, params: { locale } }: Props
         <meta name='msapplication-navbutton-color' content='#00b2ca' />
         <meta name='apple-mobile-web-app-status-bar-style' content='#00b2ca' />
       </head>
-      <body
-        className={cn(
-          'm-0 leading-normal ltr:text-right rtl:text-left min-h-screen bg-background font-poppins antialiased',
-          assistantFont.variable,
-          poppinsFont.variable
-        )}
-      >
-        <StoreInitializer pathname={pathname ? pathname : ''} device={device} language={language} />
-        <NextIntlClientProvider locale={language.locale} messages={messages}>
-          {children}
-        </NextIntlClientProvider>
+      <body style={{ margin: '0px' }}>
+        <div
+          className={cn(
+            'm-0 leading-normal ltr:text-right rtl:text-left min-h-screen bg-background font-poppins antialiased',
+            assistantFont.variable,
+            poppinsFont.variable
+          )}
+        >
+          <StoreInitializer pathname={pathname ? pathname : ''} device={device} language={language} />
+          <NextIntlClientProvider locale={language.locale} messages={messages}>
+            {children}
+          </NextIntlClientProvider>
+        </div>
       </body>
     </html>
   );
