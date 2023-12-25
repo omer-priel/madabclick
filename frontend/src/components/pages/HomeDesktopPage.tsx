@@ -1,7 +1,12 @@
 'use client';
 
+import * as React from 'react';
+
+import { discovery_v1 } from 'googleapis';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
+import Link from 'next/link';
+
 
 import Footer from '@/components/blocks/Footer';
 import Header from '@/components/blocks/Header';
@@ -10,7 +15,9 @@ import Section1 from '@/components/blocks/Section1';
 import SectionContents from '@/components/blocks/SectionContents';
 
 import { ContentsSchema } from '@/lib/api/schemas';
+
 import cat1Icon from '@/public/cat-1.svg';
+import cat2Icon from '@/public/cat-2.svg';
 import cat4Icon from '@/public/cat-4.svg';
 import lampIcon from '@/public/lamp.svg';
 import startPart1Icon from '@/public/start-part-1.svg';
@@ -22,7 +29,6 @@ interface Props {
 
 export default function HomeDesktopPage({ data }: Props) {
   const t = useTranslations();
-
   return (
     <div
       className='relative w-full mx-auto overflow-x-hidden overflow-y-hidden bg-whitesmoke text-base text-black
@@ -62,9 +68,18 @@ export default function HomeDesktopPage({ data }: Props) {
               >
                 {t('section-2-body')}
               </div>
+              {/*NEED to add here a link to AboutUsPage.tsx*/ }
+              <div className='w-[732px] top-[71px]
+            text-black text-[20px]/[30px] font-normal'>
+                <Link href="/AboutUsPage">
+                  {t('section-2-link')}
+                </Link>
+              </div>
             </div>
           </div>
         </div>
+
+
         <div className='w-full mt-[108.67px]'>
           <div className='w-[1203px] h-[1px] mx-auto bg-black' />
           {!!data.recommendedContent && (
@@ -121,11 +136,16 @@ export default function HomeDesktopPage({ data }: Props) {
                 {t('section-2-share-label')}
               </a>
             </div>
+            <div className='flex flex-col items-stretch'>
+
+
+
+            </div>
           </div>
         </div>
+        <SectionContents data={data} />
+        <Footer />
       </div>
-      <SectionContents data={data} />
-      <Footer />
     </div>
   );
 }
