@@ -15,22 +15,26 @@ const CardAboutUsWithoutBackground: React.FC<CardProps> = ({
   imageSrc,
 }) => {
   return (
-    <div className='flex flex-row items-end w-full max-md:w-[46%] ml-5 max-md:ml-0'>
-      <div className='flex flex-col mt-2 mb-4 items-end'>
-        <div className='text-black text-right text-base uppercase'>{littleTitle}</div>
-        <div className='text-black font-bold text-xl text-right uppercase mt-4'>{title}</div>
-        <div className='flex items-end'>
-          <Image
-            loading='lazy'
-            src={imageSrc}
-            alt={title} // Provide a meaningful alt text
-            className='aspect-[0.97] object-contain object-center w-[184px] overflow-hidden shrink-0 max-w-full mt-16 max-md:mt-10'
-            width={184}
-            height={199}
-          />
-          <div style={{ backgroundColor: 'black', height: '2px', width: '514px', marginLeft: '10px' }}></div>
-        </div>
-        <div className='text-black text-right text-base uppercase mt-4'>{description}</div>
+    <div className='flex flex-col  items-center w-full max-md:w-[46%]'>
+      <div style={{position:'relative',top:'115px'}}>
+      <div className='text-black text-base uppercase text-right mt-40'> {/* Center the text */}
+        {littleTitle}
+      </div>
+      <div className='text-black font-bold text-3xl uppercase text-right'> {/* Center the text */}
+        {title}
+      </div>
+      </div>
+      <div className='flex items-center justify-center -ml-40 '> {/* Center the image and line */}
+        <div style={{ backgroundColor: 'black', height: '2px', width: '219px', position: 'relative', right: '50px',top:'1px', }}className='mt-14 '></div>
+        <Image
+          loading='lazy'
+          src={imageSrc}
+          alt={title}
+          className='aspect-[0.97] object-contain object-center w-[184px] h-[184px] ' // Adjust width and height if needed
+        />
+      </div>
+      <div className='text-black text-base uppercase mt-4 text-center'> {/* Center the text */}
+        {description}
       </div>
     </div>
   );

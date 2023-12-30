@@ -10,9 +10,9 @@ interface CardProps {
 
 const CardAboutUs: React.FC<CardProps> = ({ littleTitle, title, description, imageSrc }) => {
   return (
-    <div className='flex flex-col items-stretch w-[42%] max-md:w-full max-md:ml-0  mx-auto relative'>
+    <div className='flex flex-col h-[45vh] w-[55vh] items-stretch   max-md:ml-0  mx-auto relative'>
       <div
-        className='shadow-sm bg-cyan-500 bg-opacity-20 flex grow flex-col justify-center items-center w-full px-16 py-12 rounded-3xl border-2 border-solid border-teal-400 max-md:max-w-full max-md:px-5'
+        className='shadow-sm bg-cyan-500 bg-opacity-20 flex grow flex-col justify-center items-center w-full   rounded-3xl border-2 border-solid border-teal-400 max-md:max-w-full max-md:px-5'
       >
         <div className='flex w-[400px] max-w-full flex-col mt-2 mb-4 items-end '>
           <div className='text-black text-right text-base uppercase w-full'>{littleTitle}</div>
