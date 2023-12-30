@@ -18,7 +18,10 @@ import cat5 from '@/public/cat-5About.svg';
 export default function AboutUsPage() {
   const t = useTranslations();
   return (
-    <div className='relative w-full mx-full overflow-x-hidden overflow-y-hidden bg-whitesmoke text-base text-black rtl:text-right ltr:text-left justify-end'>
+    <div
+      className='relative w-full mx-full overflow-x-hidden overflow-y-hidden bg-whitesmoke text-base
+    text-black rtl:text-right ltr:text-left justify-end'
+    >
       <Header />
       <Section1 />
       <div className='flex w-full justify-center items-center'>

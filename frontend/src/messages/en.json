@@ -17,35 +17,34 @@
   "section-2-body": "The 'Science in a Click' website was established during the difficult days of the swords Of Iron War, which highlighted the importance of having a platform for curious children, in this period and beyond. Here, you will find easy and fun video clips of scientific content that are both enjoyable and enriching. This initiative was founded by a group of young Ascola Alumni Network members, who loved watching scientific videos throughout their childhood, which prompted them to devote efforts to compiling selected video clips for you, the future generation of scientists. These video clips do not replace the official educational curriculum, but rather add another fun and interesting aspect to the traditional education experience.",
   "section-2-link": "About the team",
 
-  "section-2-about-little-title":"Let's meet",
+  "section-2-about-little-title": "Let's meet",
   "section-2-about-title": "Our Team",
   "section-2-about-body": "The 'Science in a Click' website was established during the difficult days of the Sords Of Iron War, which highlighted the importance of having a platform for curious children, in this period and beyond. Here, you will find easy and fun video clips of scientific content that are both enjoyable and enriching. This initiative was founded by a group of young Ascola Alumni Network members, who loved watching scientific videos throughout their childhood, which prompted them to devote efforts to compiling selected video clips for you, the future generation of scientists. These video clips do not replace the official educational curriculum, but rather add another fun and interesting aspect to the traditional education experience.",
-  
-  "section-2-project-manager-little":"Project manager",
-  "section-2-project-manager":" Noam Krupnik",
-  "section-2-project-manager-description":"A student of computer science and mathematics in the Technion's excellent program, and participates in research in both faculties. Before studying at the Technion, I worked in software development in a technology unit in the army and in various hi-tech companies. Musician as a hobby, and always surprised by how much music and science are related to each other. A graduate of the Odyssey program and a member of the school network.",
-  
-  "section-2-hebrew-content-manager-little":"Hebrew and English content manager",
-  "section-2-hebrew-content-manager":"Michal Hornik",
-  "section-2-hebrew-content-manager-description":"Today I am studying for a master's degree in physics at ABG studying for a teaching certificate at Kay College and teaching science. Ever since I can remember I have loved learning about interesting science. A graduate of the Odyssey program and a member of the Escola network",
-  
-  "section-2-arabic-content-manager-little":"Arabic content manager",
-  "section-2-arabic-content-manager":"Haya Habib",
-  "section-2-arabic-content-manager-description":"Medical student at Tel Aviv University. Always mesmerized by the complexity of the human body and curious to explore it. I participated in a study that dealt with the development of an innovative method to treat cancer using nanotechnology. I am also a pianist, and the combination of the worlds inspires me and creates a fascinating harmony in my life. A graduate of the Odyssey program and a member of the school network.  ",
-  
-  "section-2-software-manager-little":"Software manager",
-  "section-2-software-manager":"Omer Friel ",
-  "section-2-software-manager-description":"Full Stack developer as a freelancer for business. I studied software development in high school and have been a software developer ever since. It's a wonderful feeling to see someone else enjoy something you built.",
-  
-  "section-2-product-design-manager-little":"Product designer",
-  "section-2-product-design-manager":"Adi Sharon",
-  "section-2-product-design-manager-description":"Graduated product designer Shankar, mother to Ariel and Noam and a drummer in her spare time. She has always been fascinated by space research. I believe that the sky is not the limit and look forward to the day when humanity reaches Mars.",
 
-  "section-2-analytics-manager-little":"Analytics manager",
-  "section-2-analytics-manager":"Yahav Nir",
-  "section-2-analytics-manager-description":" A computer science student at the Open University, aspires to become a software developer, a field that combines my love for challenges and learning. In his free time, he enjoys exploring different subjects such as music, photography and nature.",
+  "section-2-project-manager-little": "Project manager",
+  "section-2-project-manager": " Noam Krupnik",
+  "section-2-project-manager-description": "A student of computer science and mathematics in the Technion's excellent program, and participates in research in both faculties. Before studying at the Technion, I worked in software development in a technology unit in the army and in various hi-tech companies. Musician as a hobby, and always surprised by how much music and science are related to each other. A graduate of the Odyssey program and a member of the school network.",
 
- 
+  "section-2-hebrew-content-manager-little": "Hebrew and English content manager",
+  "section-2-hebrew-content-manager": "Michal Hornik",
+  "section-2-hebrew-content-manager-description": "Today I am studying for a master's degree in physics at ABG studying for a teaching certificate at Kay College and teaching science. Ever since I can remember I have loved learning about interesting science. A graduate of the Odyssey program and a member of the Escola network",
+
+  "section-2-arabic-content-manager-little": "Arabic content manager",
+  "section-2-arabic-content-manager": "Haya Habib",
+  "section-2-arabic-content-manager-description": "Medical student at Tel Aviv University. Always mesmerized by the complexity of the human body and curious to explore it. I participated in a study that dealt with the development of an innovative method to treat cancer using nanotechnology. I am also a pianist, and the combination of the worlds inspires me and creates a fascinating harmony in my life. A graduate of the Odyssey program and a member of the school network.  ",
+
+  "section-2-software-manager-little": "Software manager",
+  "section-2-software-manager": "Omer Friel ",
+  "section-2-software-manager-description": "Full Stack developer as a freelancer for business. I studied software development in high school and have been a software developer ever since. It's a wonderful feeling to see someone else enjoy something you built.",
+
+  "section-2-product-design-manager-little": "Product designer",
+  "section-2-product-design-manager": "Adi Sharon",
+  "section-2-product-design-manager-description": "Graduated product designer Shankar, mother to Ariel and Noam and a drummer in her spare time. She has always been fascinated by space research. I believe that the sky is not the limit and look forward to the day when humanity reaches Mars.",
+
+  "section-2-analytics-manager-little": "Analytics manager",
+  "section-2-analytics-manager": "Yahav Nir",
+  "section-2-analytics-manager-description": " A computer science student at the Open University, aspires to become a software developer, a field that combines my love for challenges and learning. In his free time, he enjoys exploring different subjects such as music, photography and nature.",
+
   "section-2-recommended-label": "The staff's recommendation",
 
   "section-2-share-body": "Do you know some other interesting videos ? Please share with us",
