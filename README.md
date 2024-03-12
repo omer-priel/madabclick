@@ -202,7 +202,7 @@ bash scripts/start.sh
 
 The website will open on <http://localhost:3000/>
 
-## Development CI/CD
+## CI: Formatters and Linters
 
 Run the following commands in the terminal for run the formatters and linters:
 
