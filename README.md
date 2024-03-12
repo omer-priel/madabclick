@@ -1,11 +1,20 @@
-# quality-content-for-children
+# madabclick
 
 Science In A Click \
 Quality content for children \
 
-* Website: <https://main.d2agpnuowxjy03.amplifyapp.com>
-* GitHub: <https://github.com/omer-priel/quality-content-for-children>
+* Website: <https://madabclick.madaney.net/he/>
+* GitHub: <https://github.com/omer-priel/madabclick>
 * Google Drive: <https://drive.google.com/drive/folders/1Jg3n8xkLEtAfkz5vPlV0N0s7QNT2TxU0>
+
+## Technologies
+
+* NextJS (React)
+* TypeScript
+* TailwindCSS
+* Docker
+* AWS
+* Terraform
 
 ## Deployment
 
@@ -154,6 +163,7 @@ flowchart TB
   ContainersA & ContainersB --> GoogleAPI[Google API] 
 ```
 
+Today it runs in render.com totally free
 
 ## Environment Variables
 
@@ -176,6 +186,7 @@ ssh-keygen -t rsa -b 4096 -f infra/keys/frontend
 ## Requirements
 
 * nvm
+* terraform (optional)
 
 ## Install
 
