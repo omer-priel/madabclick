@@ -224,7 +224,3 @@ bash scripts/fix-lint.sh
 ## Production
 
 The production website will be build each time that the main branch is updated
-
-# Authors
-
-* Omer Priel
