@@ -16,8 +16,8 @@ interface Props {
 
 export default function Header({ className }: Props) {
   const pathname = useStore.getState().pathname;
-
   const language = useStore.getState().language;
+
   const t = useTranslations();
 
   return (
@@ -37,7 +37,9 @@ export default function Header({ className }: Props) {
         </div>
       </div>
       <div className='absolute w-[207px] h-[72px] right-[calc(50%_-_103px)] top-[39px]'>
-        <Image alt='' src={fullLogoIcon} width='207' height='72' />
+        <a href={`/${language.locale}/`}>
+          <Image alt='' src={fullLogoIcon} width='207' height='72' />
+        </a>
       </div>
     </div>
   );

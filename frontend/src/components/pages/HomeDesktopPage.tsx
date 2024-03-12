@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import Footer from '@/components/blocks/Footer';
 import Header from '@/components/blocks/Header';
@@ -15,6 +16,7 @@ import cat4Icon from '@/public/cat-4.svg';
 import lampIcon from '@/public/lamp.svg';
 import startPart1Icon from '@/public/start-part-1.svg';
 import startPart2Icon from '@/public/start-part-2.svg';
+import { useStore } from '@/store';
 
 interface Props {
   data: ContentsSchema;
@@ -22,6 +24,8 @@ interface Props {
 
 export default function HomeDesktopPage({ data }: Props) {
   const t = useTranslations();
+
+  const language = useStore((state) => state.language);
 
   return (
     <div
@@ -62,9 +66,16 @@ export default function HomeDesktopPage({ data }: Props) {
               >
                 {t('section-2-body')}
               </div>
+              <div
+                className='w-[732px] top-[71px]
+            text-black text-[20px]/[30px] font-normal'
+              >
+                <Link href={`/${language.locale}/about-us/`}>{t('section-2-link')}</Link>
+              </div>
             </div>
           </div>
         </div>
+
         <div className='w-full mt-[108.67px]'>
           <div className='w-[1203px] h-[1px] mx-auto bg-black' />
           {!!data.recommendedContent && (
@@ -121,6 +132,7 @@ export default function HomeDesktopPage({ data }: Props) {
                 {t('section-2-share-label')}
               </a>
             </div>
+            <div className='flex flex-col items-stretch'></div>
           </div>
         </div>
       </div>
