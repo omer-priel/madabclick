@@ -11,3 +11,5 @@ services:
   frontend:
     image: frontend/frontend:latest
     build: ./frontend
+    ports:
+      - "8080:8080"

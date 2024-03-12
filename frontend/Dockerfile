@@ -10,6 +10,6 @@ RUN yarn run next-lint
 RUN yarn run prettier-lint
 RUN yarn build
 
-EXPOSE 80
+EXPOSE 8080
 
-CMD ["node_modules/next/dist/bin/next", "start", "--port", "80"]
+ENTRYPOINT ["node_modules/next/dist/bin/next", "start", "--port", "8080"]
