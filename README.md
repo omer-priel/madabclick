@@ -194,7 +194,7 @@ ssh-keygen -t rsa -b 4096 -f infra/keys/frontend
 For install this project run the following commands in the terminal:
 
 ```bash
-nvm install 16.0.0
+nvm install 20.9.0
 
 nvm use
 
