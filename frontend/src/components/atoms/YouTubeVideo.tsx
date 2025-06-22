@@ -98,7 +98,8 @@ export default function YouTubeVideo({ playerId, content, width, height, innerCl
           title={content.title}
           videoId={content.youtube.id}
           opts={{ playerVars }}
-          onReady={(e) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          onReady={(e: any) => {
             const x = e.target.getIframe().getBoundingClientRect().x;
             if (-1 * document.body.clientWidth < x && x < document.body.clientWidth) {
               e.target.playVideo();
@@ -107,7 +108,8 @@ export default function YouTubeVideo({ playerId, content, width, height, innerCl
           onEnd={() => {
             onClose();
           }}
-          onStateChange={(e) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          onStateChange={(e: any) => {
             const lastActive = getAppStore().activeYouTubeContent;
             if (lastActive && lastActive.playerId != playerId) {
               lastActive.player.pauseVideo();
